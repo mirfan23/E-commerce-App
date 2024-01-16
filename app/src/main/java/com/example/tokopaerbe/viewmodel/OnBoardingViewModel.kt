@@ -30,11 +30,11 @@ class OnBoardingViewModel: ViewModel() {
         _navigateToLogin.value = true
     }
     fun onNextClicked(){
-        val currentTabIndex = tabLayout.selectedTabPosition
-        val nextTabIndex = currentTabIndex +1
-        if (nextTabIndex < onboardingAdapter.itemCount) {
-            viewPager.currentItem = nextTabIndex
-        }
+//        val currentTabIndex = tabLayout.selectedTabPosition
+//        val nextTabIndex = currentTabIndex +1
+//        if (nextTabIndex < onboardingAdapter.itemCount) {
+//            viewPager.currentItem = nextTabIndex
+//        }
     }
 
     fun onNavigationToRegisterComplete() {
