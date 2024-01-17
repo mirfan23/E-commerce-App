@@ -29,13 +29,6 @@ class OnBoardingViewModel: ViewModel() {
     fun onSkipClicked() {
         _navigateToLogin.value = true
     }
-    fun onNextClicked(){
-        val currentTabIndex = tabLayout.selectedTabPosition
-        val nextTabIndex = currentTabIndex +1
-        if (nextTabIndex < onboardingAdapter.itemCount) {
-            viewPager.currentItem = nextTabIndex
-        }
-    }
 
     fun onNavigationToRegisterComplete() {
         _navigateToRegister.value = false
