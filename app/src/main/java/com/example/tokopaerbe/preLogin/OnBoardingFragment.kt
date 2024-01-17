@@ -1,5 +1,6 @@
-package com.example.tokopaerbe
+package com.example.tokopaerbe.preLogin
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.tokopaerbe.OnboardingListener
+import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.OnboardingAdapter
 import com.example.tokopaerbe.auth.LoginFragment
 import com.example.tokopaerbe.auth.RegisterFragment
@@ -20,6 +23,7 @@ class OnBoardingFragment : Fragment() {
     private lateinit var _binding: FragmentOnBoardingBinding
     private val binding get() = _binding
     private lateinit var viewModel: OnBoardingViewModel
+    private var onboardingListener: OnboardingListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,10 +51,11 @@ class OnBoardingFragment : Fragment() {
             }
         })
 
-        binding.buttonJoin.setOnClickListener(){
+        binding.buttonJoin.setOnClickListener{
             viewModel.onJoinNowClicked()
+            onboardingListener?.markOnboardingComplete()
         }
-        binding.buttonNext.setOnClickListener() {
+        binding.buttonNext.setOnClickListener{
             val currentTabIndex = tabLayout.selectedTabPosition
             val nextTabIndex = currentTabIndex +1
             if (nextTabIndex < onboardingAdapter.itemCount) {
@@ -59,6 +64,7 @@ class OnBoardingFragment : Fragment() {
         }
         binding.buttonSkip.setOnClickListener() {
             viewModel.onSkipClicked()
+            onboardingListener?.markOnboardingComplete()
         }
 
         viewModel.navigateToRegister.observe(viewLifecycleOwner) {shouldNavigate ->
@@ -88,5 +94,19 @@ class OnBoardingFragment : Fragment() {
                 viewModel.onNavigationToLoginComplete()
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnboardingListener) {
+            onboardingListener = context
+        } else {
+            throw ClassCastException("$context must implemented OnBoardingListenter")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onboardingListener = null
     }
 }
