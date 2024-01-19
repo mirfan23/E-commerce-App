@@ -9,4 +9,5 @@
     <color name="neutral">#605D64</color>
     <color name="neutral_variant">#605D66</color>
     <color name="divider">#CAC4D0</color>
+    <color name="shimmer_background">#DDDDDDDD</color>
 </resources>
