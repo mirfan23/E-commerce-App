@@ -1,20 +1,22 @@
 package com.example.tokopaerbe.preLogin
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
-import com.example.tokopaerbe.MainActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.auth.LoginFragment
 import com.example.tokopaerbe.databinding.FragmentSplashScreenBinding
+import com.example.tokopaerbe.helper.Helper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @SuppressLint("CustomSplashScreen")
@@ -32,10 +34,14 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rotateVIew()
+        animation()
+        lifecycleScope.launch {
+            delay(1000)
+            navigate()
+        }
     }
 
-    private fun rotateVIew() {
+    private fun animation() {
         val yellowAnimator = ObjectAnimator.ofFloat(
             binding.splashScreenYellow,
             View.ROTATION,
@@ -64,12 +70,12 @@ class SplashScreenFragment : Fragment() {
         val yellowAnimatorTrans2 = ObjectAnimator.ofFloat(
             binding.splashScreenYellow,
             View.TRANSLATION_Y,
-            0f, -70f
+            0f, -90f
         )
         val greenAnimator = ObjectAnimator.ofFloat(
             binding.splashScreenGreen,
             View.TRANSLATION_Y,
-            0f, -150f
+            0f, -170f
         )
 
         val animatorSet = AnimatorSet()
@@ -84,24 +90,22 @@ class SplashScreenFragment : Fragment() {
         )
         animatorSet.duration = 1000
         animatorSet.start()
-
-        animatorSet.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                navigateToNextFragment()
-            }
-        })
     }
 
-    private fun navigateToNextFragment() {
-        val fragmentManager = requireActivity().supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        val sharedPreference = (activity as MainActivity).getSharedPreference()
-        val isOnBoardingShown = sharedPreference.getBoolean("onboarding_completed", false)
-        val nextFragment = if (isOnBoardingShown) LoginFragment() else OnBoardingFragment()
-//        val nextFragment = OnBoardingFragment()
-        fragmentTransaction.replace(R.id.fragment_container, nextFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+    private fun navigate() {
+        val skip = context?.let { Helper.getObstatus(it, "skip") }
+
+        if (skip == true) {
+            Handler(Looper.getMainLooper()).postDelayed(
+                { findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment) },
+                1000
+            )
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed(
+                { findNavController().navigate(R.id.action_splashScreenFragment_to_onBoardingFragment) },
+                1000
+            )
+        }
     }
+
 }

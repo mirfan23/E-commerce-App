@@ -8,13 +8,15 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_home"
-        android:layout_width="306dp"
-        android:layout_height="282dp"
+        android:layout_width="300dp"
+        android:layout_height="270dp"
         android:layout_marginStart="82dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="1dp"
+        android:layout_centerHorizontal="true"
         app:lottie_rawRes="@raw/dashboard_animation"
-        app:lottie_autoPlay="true"/>
+        app:lottie_autoPlay="true"
+        app:lottie_repeatCount="1000"
+        app:lottie_repeatMode="restart"/>
 
     <Button
         android:id="@+id/button_logout"
@@ -25,70 +27,78 @@
         android:layout_marginTop="50dp"
         android:text="Logout"/>
 
+
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="EN"
-        android:textSize="14sp"
-        android:letterSpacing="0.02"
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="420dp"
         android:layout_marginStart="130dp"
-        />
+        android:layout_marginTop="426dp"
+        android:letterSpacing="0.02"
+        android:text="EN"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="487dp"
+        android:layout_marginEnd="-1dp"
+        android:letterSpacing="0.02"
+        android:text="Light"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="421dp"
+        android:layout_marginEnd="101dp"
+        android:letterSpacing="0.02"
+        android:text="ID"
+        android:textSize="14sp" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/switch_language"
-        android:layout_width="52dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="155dp"
+        android:layout_width="72dp"
+        android:layout_height="28dp"
         android:layout_below="@id/button_logout"
-        android:gravity="center_vertical|center_horizontal"
-        />
-
-    <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="ID"
-        android:textSize="14sp"
-        android:letterSpacing="0.02"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="420dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="120dp"
-        />
-
-    <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="Light"
-        android:textSize="14sp"
-        android:letterSpacing="0.02"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="480dp"
-        android:layout_marginStart="117dp"
-        />
-
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="154dp"
+        android:gravity="center_vertical|center_horizontal" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/switch_theme"
-        android:layout_width="52dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="155dp"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
         android:layout_below="@id/switch_language"
-        android:gravity="center_vertical|center_horizontal"/>
+        android:layout_alignEnd="@+id/switch_language"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="0dp"
+        android:checked="true"
+        android:gravity="center_vertical|center_horizontal" />
 
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="Dark"
-        android:textSize="14sp"
-        android:letterSpacing="0.02"
+        android:layout_width="55dp"
+        android:layout_height="19dp"
+        android:layout_alignStart="@+id/textView"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="480dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="120dp"
-        />
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="486dp"
+        android:layout_marginEnd="78dp"
+        android:letterSpacing="0.02"
+        android:text="Dark"
+        android:textSize="14sp" />
 
 </RelativeLayout>

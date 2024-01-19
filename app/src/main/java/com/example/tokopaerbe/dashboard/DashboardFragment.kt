@@ -10,16 +10,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentDashboardBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
-    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDashboardBinding.inflate(layoutInflater, container, false)
         return binding.root

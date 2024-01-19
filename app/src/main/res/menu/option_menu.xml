@@ -11,5 +11,10 @@
         android:icon="@drawable/ic_cart"
         android:title="@string/menu_cart_title"
         app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/menu_menu"
+            android:icon="@drawable/ic_menu"
+            android:title="Menu"
+            app:showAsAction="ifRoom"/>
     </group>
 </menu>

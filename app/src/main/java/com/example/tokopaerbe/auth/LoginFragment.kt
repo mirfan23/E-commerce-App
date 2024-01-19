@@ -11,8 +11,7 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.TextWatcherConfigure
 import com.example.tokopaerbe.dashboard.DashboardFragment
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
-import com.google.android.material.textfield.TextInputLayout
-import java.util.regex.Pattern
+import com.example.tokopaerbe.helper.SnK
 
 
 class LoginFragment : Fragment() {
@@ -23,9 +22,13 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
-
-        setOnClickListener()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListener()
+        tColor()
     }
 
     private fun setOnClickListener() {
@@ -91,11 +94,12 @@ class LoginFragment : Fragment() {
         binding.passwordtextInputLayout.isErrorEnabled = false
         println("Password valid")
     }
-
-
-
-    companion object {
-
+    fun tColor() {
+        val sk = binding.syaratKetentuan
+        sk.text = SnK.applyCustomTextColo(
+            requireContext(),
+            "Dengan masuk disini, kamu menyetujui Syarat & Ketentuan \n serta Kebijakan Privasi TokoPhincon"
+        )
     }
 
 }
