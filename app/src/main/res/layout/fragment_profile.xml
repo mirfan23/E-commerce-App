@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.ProfileFragment">
+    tools:context=".ui.auth.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,11 +18,12 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="@style/headline"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:title="Profil"
                 app:titleCentered="true"
-                tools:ignore="MissingConstraints">
+                tools:ignore="MissingConstraints"
+                tools:title="@string/profil">
 
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -35,33 +36,35 @@
             android:background="@color/divider"
             app:layout_constraintTop_toBottomOf="@id/appbar" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/cardView"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="28dp"
-            app:cardBackgroundColor="@color/primaryColor"
+            android:background="@color/primaryColor"
             app:cardCornerRadius="75dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar" />
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ConerSize50percent" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_person_outlined_white"
             android:translationZ="90dp"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="@+id/cardView"
-            app:layout_constraintTop_toTopOf="@+id/cardView" />
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            tools:src="@drawable/ic_person_outlined_white" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/namaTextInput"
-            android:layout_width="324dp"
+            android:layout_width="match_parent"
             android:layout_height="67dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
@@ -72,7 +75,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nama"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="@string/nama"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,9 +86,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="36dp"
             android:background="@drawable/button_purple"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_medium"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Selesai"
+            android:text="@string/selesai"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -97,11 +101,11 @@
             android:id="@+id/syarat_ketentuan"
             android:layout_width="0dp"
             android:layout_height="34dp"
+            android:clickable="true"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical|center_horizontal"
             android:lineHeight="16sp"
             android:lineSpacingExtra="-2sp"
-            android:text="@string/term_condition"
             android:textColor="#49454F"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +113,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_finish"
-            app:layout_constraintVertical_bias="0.165" />
+            app:layout_constraintVertical_bias="0.165"
+            tools:text="@string/term_condition" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

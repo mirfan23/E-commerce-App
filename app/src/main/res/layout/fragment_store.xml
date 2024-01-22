@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.StoreFragment">
+    tools:context=".ui.dashboard.StoreFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,39 +13,71 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:hint="search">
+            tools:hint="@string/search">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_search"
+                android:fontFamily="@font/poppins_regular"
                 android:drawablePadding="10dp"
                 android:shadowRadius="50" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.example.tokopaerbe.ErrorCustomView
-            android:id="@+id/error_view"
-            android:layout_width="302dp"
-            android:layout_height="531dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="4dp"
-            android:visibility="invisible"
-            app:layout_constraintTop_toBottomOf="@+id/search_bar"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/filter_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:layout_below="@id/search_bar">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter"
+                android:fontFamily="@font/poppins_medium"
+                app:chipIcon="@drawable/ic_filter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/btn_change_view"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checkedIcon="@drawable/ic_grid"
+                app:checkedIconEnabled="true"
+                app:chipBackgroundColor="@android:color/transparent"
+                app:chipIcon="@drawable/ic_list"
+                app:chipIconEnabled="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_grid_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/search_bar"
+            android:layout_below="@id/filter_container"
+            android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="10dp"
             tools:listitem="@layout/store_card_view" />
     </RelativeLayout>
+
+    <com.example.tokopaerbe.helper.ErrorCustomView
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="4dp"
+        android:visibility="invisible" />
 
 </FrameLayout>

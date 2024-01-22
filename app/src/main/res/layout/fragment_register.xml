@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.RegisterFragment">
+    tools:context=".ui.auth.RegisterFragment"
+    tools:layout_editor_absoluteX="-1dp"
+    tools:layout_editor_absoluteY="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,29 +20,29 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="@style/headline"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:title="Daftar"
+                app:title="@string/daftar"
                 app:titleCentered="true"
                 tools:ignore="MissingConstraints">
 
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider"
-            app:layout_constraintTop_toBottomOf="@id/appbar" />
+            app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
             android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:helperTextEnabled="true"
             app:helperText="Contoh: test@gmail.com"
+            app:helperTextEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
@@ -50,6 +52,7 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -59,8 +62,8 @@
             android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            app:helperText="@string/minimal_karakter"
             app:helperTextEnabled="true"
-            app:helperText="Minimal 8 karakter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/emailTextInputLayout"
@@ -70,31 +73,31 @@
                 android:id="@+id/passowrdEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="@string/password"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button_register"
             android:layout_width="340dp"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_purple"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Daftar"
+            android:fontFamily="@font/poppins_medium"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />
+            app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout"
+            tools:text="@string/daftar" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="28dp"
-            android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/another"
@@ -108,13 +111,14 @@
             android:layout_marginLeft="115dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="115dp"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/another"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_register" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
@@ -129,27 +133,29 @@
 
         <Button
             android:id="@+id/button_login"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="340dp"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="16dp"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_medium"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Masuk"
             android:textAppearance="@style/another"
             android:textColor="@color/primaryColor"
             android:textSize="16sp"
-            style="@style/Widget.Material3.Button.OutlinedButton"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/another" />
+            app:layout_constraintTop_toBottomOf="@+id/another"
+            tools:text="@string/masuk" />
 
         <TextView
             android:id="@+id/syarat_ketentuan"
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
+            android:clickable="true"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical|center_horizontal"
             android:lineHeight="16sp"

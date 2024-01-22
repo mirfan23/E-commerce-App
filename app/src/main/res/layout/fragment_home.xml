@@ -4,101 +4,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.HomeFragment">
+    tools:context=".ui.dashboard.HomeFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_home"
         android:layout_width="300dp"
         android:layout_height="270dp"
-        android:layout_marginStart="82dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        app:lottie_rawRes="@raw/dashboard_animation"
+        android:layout_marginStart="82dp"
         app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/dashboard_animation"
         app:lottie_repeatCount="1000"
-        app:lottie_repeatMode="restart"/>
+        app:lottie_repeatMode="restart" />
 
     <Button
         android:id="@+id/button_logout"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@id/lottie_home"
+        android:layout_centerInParent="true"
         android:layout_marginStart="135dp"
         android:layout_marginTop="50dp"
-        android:text="Logout"/>
+        android:fontFamily="@font/poppins_medium"
+        tools:text="@string/logout" />
 
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/switch_language_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="426dp"
-        android:letterSpacing="0.02"
-        android:text="EN"
-        android:textSize="14sp" />
+        android:layout_below="@+id/button_logout">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_EN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/switch_language"
+            android:fontFamily="@font/poppins_regular"
+            android:letterSpacing="0.02"
+            android:text="@string/en"
+            android:textSize="14sp" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="20dp" />
+
+        <TextView
+            android:id="@+id/tv_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/switch_language"
+            android:fontFamily="@font/poppins_regular"
+            android:letterSpacing="0.02"
+            android:text="@string/id"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/switch_theme_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="117dp"
-        android:layout_marginTop="487dp"
-        android:layout_marginEnd="-1dp"
-        android:letterSpacing="0.02"
-        android:text="Light"
-        android:textSize="14sp" />
+        android:layout_below="@+id/switch_language_container"
+        tools:ignore="NotSibling">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="421dp"
-        android:layout_marginEnd="101dp"
-        android:letterSpacing="0.02"
-        android:text="ID"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/switch_theme"
+            android:fontFamily="@font/poppins_regular"
+            android:letterSpacing="0.02"
+            tools:text="@string/light"
+            android:textSize="14sp" />
 
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_language"
-        android:layout_width="72dp"
-        android:layout_height="28dp"
-        android:layout_below="@id/button_logout"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="167dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="154dp"
-        android:gravity="center_vertical|center_horizontal" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="20dp"
+            android:checked="true" />
 
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switch_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:layout_below="@id/switch_language"
-        android:layout_alignEnd="@+id/switch_language"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="0dp"
-        android:checked="true"
-        android:gravity="center_vertical|center_horizontal" />
-
-    <TextView
-        android:layout_width="55dp"
-        android:layout_height="19dp"
-        android:layout_alignStart="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="486dp"
-        android:layout_marginEnd="78dp"
-        android:letterSpacing="0.02"
-        android:text="Dark"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_dark"
+            android:layout_width="55dp"
+            android:layout_height="19dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/switch_theme"
+            android:fontFamily="@font/poppins_regular"
+            android:letterSpacing="0.02"
+            tools:text="@string/dark"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
 </RelativeLayout>
