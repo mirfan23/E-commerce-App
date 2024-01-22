@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/splash_screen_green"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
             android:src="@drawable/rounded_green"
@@ -27,7 +27,7 @@
 
         <ImageView
             android:id="@+id/splash_screen_red"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
             android:src="@drawable/rounded_red"
@@ -40,7 +40,7 @@
 
         <ImageView
             android:id="@+id/splash_screen_yellow"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
             android:src="@drawable/rounded_yellow"

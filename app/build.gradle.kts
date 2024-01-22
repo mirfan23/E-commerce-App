@@ -62,14 +62,19 @@ dependencies {
     //retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
 //    coroutines
-//    implementation("com.google.android.libraries.sdkcoroutines:sdkcoroutines:1.0.0")
-//    implementation("androidx.room:room-coroutines:2.1.0-alpha04")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
 
     //livedata
     implementation("android.arch.lifecycle:livedata:1.1.1")
     implementation("android.arch.lifecycle:livedata-core:1.1.1")
+
+    //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
@@ -81,12 +86,23 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt ("com.github.bumptech.glide:compiler:4.4.0")
 
+// Swipe Refresh Layout
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+// Shimmer Effect
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
     //Gson
     implementation ("com.google.code.gson:gson:2.10.1")
 
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+
+    // ktx lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     //room
 //    implementation("androidx.room:room-runtime:2.6.1")

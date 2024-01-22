@@ -37,9 +37,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,14 +52,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
+                android:fontFamily="@font/poppins_regular"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordtextInputLayout"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="16dp"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +72,7 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
                 android:hint="@string/password"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -108,6 +112,7 @@
             android:layout_marginRight="115dp"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/another2"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_login" />
@@ -143,14 +148,14 @@
             app:layout_constraintTop_toBottomOf="@+id/another" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/syarat_ketentuan"
+            android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical|center_horizontal"
             android:lineHeight="16sp"
             android:lineSpacingExtra="-2sp"
-            android:text="@string/term_condition"
             android:textColor="#49454F"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

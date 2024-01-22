@@ -1,15 +1,15 @@
 package com.example.tokopaerbe.auth
 
 import android.os.Bundle
-import android.util.Patterns
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
+import com.example.tokopaerbe.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
+import com.example.tokopaerbe.helper.SnK
 
 
 class RegisterFragment : Fragment() {
@@ -19,7 +19,7 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -27,38 +27,56 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
+        tColor()
     }
 
     private fun setOnClickListener() {
         binding.let {
             it.buttonLogin.setOnClickListener {
-                navigateToFragment(LoginFragment())
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
             }
             it.buttonRegister.setOnClickListener {
-                navigateToFragment(ProfileFragment())
+                findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
             }
+            it.passowrdEditText.addTextChangedListener(TextWatcherConfigure(1) {
+                    password -> isValidPassword(password)
+            })
 
         }
     }
-    private fun navigateToFragment(fragment: Fragment) {
-        val fragmentManager = requireActivity().supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.commit()
-    }
-
-    private fun validateEmail(email: String) {
-        val emailPattern = Patterns.EMAIL_ADDRESS
-
-        if (emailPattern.matcher(email).matches() || email.length <= 2) {
-            binding.emailTextInputLayout.isErrorEnabled = false
-        } else {
-            binding.emailTextInputLayout.error = "email tidak valid"
+    private fun isValidPassword(password: String): Boolean {
+        val minLength = 8
+        if (password.length < minLength) {
+            showError("Password Minimal $minLength")
+            return true
         }
+        if (password.none { it.isUpperCase() }) {
+            showError("Password setidaknya terdapat satu huruf kapital")
+            return false
+        }
+        if (password.none { !it.isLetterOrDigit() }) {
+            showError("Password harus mengandung setidaknya satu karakter khusus")
+            return false
+        }
+        clearError()
+        return true
+    }
+
+    private fun showError(errorMessage: String) {
+        binding.passwordTextInputLayout.isErrorEnabled = true
+        binding.passwordTextInputLayout.error = errorMessage
+    }
+
+    private fun clearError() {
+        binding.passwordTextInputLayout.isErrorEnabled = false
     }
 
 
-
-    companion object {
+    fun tColor() {
+        val sk = binding.syaratKetentuan
+        sk.text = SnK.applyCustomTextColo(
+            requireContext(),
+            "Dengan masuk disini, kamu menyetujui Syarat & Ketentuan \n serta Kebijakan Privasi TokoPhincon"
+        )
     }
 }

@@ -94,6 +94,7 @@
             app:layout_constraintTop_toBottomOf="@+id/namaTextInput" />
 
         <TextView
+            android:id="@+id/syarat_ketentuan"
             android:layout_width="0dp"
             android:layout_height="34dp"
             android:fontFamily="@font/poppins_regular"
