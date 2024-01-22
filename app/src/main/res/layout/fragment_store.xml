@@ -37,9 +37,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginTop="4dp"
             android:visibility="invisible"
-            app:layout_constraintTop_toBottomOf="@+id/search_bar">
-
-        </com.example.tokopaerbe.ErrorCustomView>
+            app:layout_constraintTop_toBottomOf="@+id/search_bar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_grid_item"

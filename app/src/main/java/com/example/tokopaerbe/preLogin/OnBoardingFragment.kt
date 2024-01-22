@@ -35,7 +35,7 @@ class OnBoardingFragment : Fragment() {
 
         val tabLayout = binding.tabLayout
         TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
-        context?.let { Helper.putObstatus(it, "skip", true) }
+        context?.let { Helper.putObstatus(it, SKIP_VALUE, true) }
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.buttonNext.isVisible = position != onboardingAdapter.itemCount - 1
@@ -55,6 +55,10 @@ class OnBoardingFragment : Fragment() {
         binding.buttonSkip.setOnClickListener {
             findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
         }
+    }
+
+    companion object {
+        private const val SKIP_VALUE = "skip"
     }
 }
 

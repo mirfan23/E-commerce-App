@@ -45,7 +45,6 @@ class RegisterFragment : Fragment() {
         }
     }
     private fun isValidPassword(password: String): Boolean {
-        println("irfan : $password")
         val minLength = 8
         if (password.length < minLength) {
             showError("Password Minimal $minLength")
@@ -66,12 +65,10 @@ class RegisterFragment : Fragment() {
     private fun showError(errorMessage: String) {
         binding.passwordTextInputLayout.isErrorEnabled = true
         binding.passwordTextInputLayout.error = errorMessage
-        println("Error: $errorMessage")
     }
 
     private fun clearError() {
         binding.passwordTextInputLayout.isErrorEnabled = false
-        println("Password valid")
     }
 
 
