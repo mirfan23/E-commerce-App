@@ -3,6 +3,7 @@ package com.example.tokopaerbe.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokopaerbe.data.DummyGrid
@@ -16,6 +17,7 @@ class WishlistListAdapter(
 
     inner class WishlistListHolder(val binding: WishlistCardListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        val listImage: ImageView = binding.imgThumbnail
         val listTitle: TextView = binding.tvItemName
         val listPrice: TextView = binding.tvPrice
         val listUser: TextView = binding.tvUploader
@@ -28,9 +30,10 @@ class WishlistListAdapter(
     }
 
     override fun onBindViewHolder(holder: WishlistListAdapter.WishlistListHolder, position: Int) {
-        holder.listTitle.text = listView[position].gridTitle
-        holder.listPrice.text = listView[position].gridPrice
-        holder.listUser.text = listView[position].gridUser
+        holder.listImage.setImageResource(listView[position].imageRes)
+        holder.listTitle.text = listView[position].title
+        holder.listPrice.text = listView[position].price
+        holder.listUser.text = listView[position].user
     }
 
     override fun getItemCount(): Int {

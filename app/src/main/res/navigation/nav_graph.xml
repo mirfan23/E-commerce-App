@@ -19,9 +19,6 @@
         <action
             android:id="@+id/action_homeFragment_to_transactionFragment"
             app:destination="@id/transactionFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_loginFragment2"
-            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
         android:id="@+id/storeFragment"
@@ -68,9 +65,4 @@
             android:id="@+id/action_transactionFragment_to_wishlistFragment2"
             app:destination="@id/wishlistFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/loginFragment2"
-        android:name="com.example.tokopaerbe.ui.auth.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
 </navigation>

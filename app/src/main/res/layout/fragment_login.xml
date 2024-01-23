@@ -21,7 +21,7 @@
                 style="@style/headline"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:title="@string/masuk"
+                app:title="@string/login"
                 app:titleCentered="true"
                 tools:ignore="MissingConstraints">
 
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="@string/email"
+                tools:hint="@string/email"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,18 +74,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="@string/password"
+                tools:hint="@string/password"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button_login"
             android:layout_width="340dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_purple"
             android:fontFamily="@font/poppins_medium"
-            tools:text="@string/masuk"
+            tools:text="@string/login"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -113,7 +113,7 @@
             android:layout_marginRight="115dp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_horizontal|center_vertical"
-            android:text="@string/another2"
+            tools:text="@string/another2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_login" />
@@ -133,13 +133,13 @@
             android:id="@+id/button_register"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="340dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="16dp"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center_horizontal|center_vertical"
-            tools:text="@string/daftar"
+            tools:text="@string/register"
             android:textAppearance="@style/another"
             android:textColor="@color/primaryColor"
             android:textSize="16sp"
@@ -158,9 +158,11 @@
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical|center_horizontal"
             android:lineHeight="16sp"
+            android:layout_marginHorizontal="10dp"
             android:lineSpacingExtra="-2sp"
             android:textColor="#49454F"
             android:textSize="12sp"
+            tools:hint="@string/term_condition_login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

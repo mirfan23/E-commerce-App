@@ -3,11 +3,14 @@ package com.example.tokopaerbe
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
 import com.example.tokopaerbe.helper.Helper
+import com.example.tokopaerbe.ui.dashboard.HomeFragment.Companion.LANGUAGE_EN
+import com.example.tokopaerbe.ui.dashboard.HomeFragment.Companion.LANGUAGE_IN
+import com.example.tokopaerbe.ui.dashboard.HomeFragment.Companion.LANGUAGE_KEY
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

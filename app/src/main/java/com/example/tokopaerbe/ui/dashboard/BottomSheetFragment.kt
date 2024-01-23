@@ -20,11 +20,18 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.filter_bottom_sheet, container, false)
+        return inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
+        binding.tvFilter.text = getString(R.string.filter)
+        binding.order.text = getString(R.string.sort)
+        binding.category.text = getString(R.string.category)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -3,7 +3,6 @@ package com.example.tokopaerbe.helper
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ClickableSpan
@@ -14,16 +13,18 @@ import com.example.tokopaerbe.R
 
 class SnK {
     companion object {
-        fun applyCustomTextColor(context: Context, fullText: String): SpannableString {
+        fun applyCustomTextColor(locale: String, context: Context, fullText: String): SpannableString {
             val spannableString = SpannableStringBuilder(fullText)
 
-            val startGreen = fullText.indexOf("Syarat & Ketentuan")
-            val endGreen = startGreen + "Syarat & Ketentuan".length
+            val tncText = if (locale == "in") "Syarat & Ketentuan" else "Terms & Conditions"
+            val startTnc = fullText.indexOf(tncText)
+            val endtnc = startTnc + tncText.length
 
-            val startBlue = fullText.indexOf("Kebijakan Privasi")
-            val endBlue = startBlue + "Kebijakan Privasi".length
+            val policyText = if (locale== "in") "Kebijakan Privasi" else "Privacy Policy"
+            val startPolicy = fullText.indexOf(policyText)
+            val endPolicy = startPolicy + policyText.length
 
-            val customGreenColor = ContextCompat.getColor(context, R.color.primaryColor)
+            val customColor = ContextCompat.getColor(context, R.color.primaryColor)
 
             val greenClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
@@ -37,29 +38,28 @@ class SnK {
                     openUrl(context, "https://www.bing.com")
                 }
             }
-            spannableString.setSpan(greenClickableSpan, startGreen, endGreen, 0)
-            spannableString.setSpan(blueClickableSpan, startBlue, endBlue, 0)
+            spannableString.setSpan(greenClickableSpan, startTnc, endtnc, 0)
+            spannableString.setSpan(blueClickableSpan, startPolicy, endPolicy, 0)
 
             spannableString.setSpan(
-                ForegroundColorSpan(customGreenColor),
-                startGreen,
-                endGreen,
+                ForegroundColorSpan(customColor),
+                startTnc,
+                endtnc,
                 0
             )
             spannableString.setSpan(
-                ForegroundColorSpan(customGreenColor),
-                startBlue,
-                endBlue,
+                ForegroundColorSpan(customColor),
+                startPolicy,
+                endPolicy,
                 0
             )
 
             return SpannableString(spannableString)
 
         }
+
         private fun openUrl(context: Context, url: String) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             context.startActivity(intent)}
     }
-
-
 }

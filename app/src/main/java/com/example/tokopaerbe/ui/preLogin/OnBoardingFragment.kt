@@ -55,6 +55,14 @@ class OnBoardingFragment : Fragment() {
         binding.buttonSkip.setOnClickListener {
             findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
         }
+
+        initView()
+    }
+
+    private fun initView() {
+        binding.buttonJoin.text = getString(R.string.join_now)
+        binding.buttonSkip.text = getString(R.string.skip)
+        binding.buttonNext.text = getString(R.string.next)
     }
 
     companion object {

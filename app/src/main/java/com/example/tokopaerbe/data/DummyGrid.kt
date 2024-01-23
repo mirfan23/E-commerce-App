@@ -1,7 +1,8 @@
 package com.example.tokopaerbe.data
 
 data class DummyGrid (
-    var gridTitle: String,
-    var gridPrice: String,
-    var gridUser: String,
+    var imageRes: Int,
+    var title: String,
+    var price: String,
+    var user: String,
 )

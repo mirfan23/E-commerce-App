@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentDashboardBinding
@@ -30,5 +31,14 @@ class DashboardFragment : Fragment() {
         navController = navHostFragment.navController
 
         binding.bottomNavbar.setupWithNavController(navController)
+        initView()
+    }
+
+    private fun initView() {
+        binding.toolbar.title = getString(R.string.username)
+    }
+
+    fun logOutHandler() {
+        findNavController().navigate(R.id.action_dashboardFragment_to_loginFragment)
     }
 }
