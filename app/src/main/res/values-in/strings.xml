@@ -9,7 +9,8 @@
     <string name="menu_notification_title">Notifikasi</string>
     <string name="another">atau masuk dengan</string>
     <string name="another2">atau daftar dengan</string>
-    <string name="term_condition"><![CDATA[Dengan daftar disini, kamu menyetujui Syarat & Ketentuan serta Kebijakan Privasi TokoPhincon.]]></string>
+    <string name="term_condition_register"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
+    <string name="term_condition_login"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
     <string name="email">Email</string>
     <string name="password">Kata Sandi</string>
     <string name="filter">Filter</string>

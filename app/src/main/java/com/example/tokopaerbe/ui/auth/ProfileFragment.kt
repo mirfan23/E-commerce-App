@@ -30,12 +30,10 @@ class ProfileFragment : Fragment() {
     }
     fun tColor() {
         val sk = binding.syaratKetentuan
-        sk.text = context?.let {
-            SnK.applyCustomTextColor(
-                it,
-                "Dengan masuk disini, kamu menyetujui Syarat & Ketentuan \n serta Kebijakan Privasi TokoPhincon"
-            )
-        }
+        sk.text = SnK.applyCustomTextColor(
+            requireContext(),
+            resources.getString(R.string.term_condition_register)
+        )
         sk.movementMethod = LinkMovementMethod.getInstance()
     }
 }

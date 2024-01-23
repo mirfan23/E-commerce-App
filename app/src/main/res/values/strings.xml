@@ -8,7 +8,8 @@
     <string name="menu_notification_title">Notfication</string>
     <string name="another">or Log In with</string>
     <string name="another2">or Regsiter with</string>
-    <string name="term_condition"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
+    <string name="term_condition_register"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
+    <string name="term_condition_login"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="filter">Filter</string>
