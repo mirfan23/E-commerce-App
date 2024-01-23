@@ -25,5 +25,12 @@ class Helper {
         fun getThemeStatus(context: Context, key: String): Boolean {
             return getSharedPreferences(context).getBoolean(key, false)
         }
+
+        fun putLanguageStatus(context: Context, key: String, value: Boolean) {
+            getSharedPreferences(context).edit().putBoolean(key, value).apply()
+        }
+        fun getLanguageStatus(context: Context, key: String): Boolean {
+            return getSharedPreferences(context).getBoolean(key, false)
+        }
     }
 }

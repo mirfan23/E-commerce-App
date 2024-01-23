@@ -1,14 +1,38 @@
 <resources>
     <string name="app_name">Toko Paerbe</string>
+    <string name="language">EN</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_image">user image</string>
     <string name="username">John Doe</string>
     <string name="menu_cart_title">Cart</string>
     <string name="menu_notification_title">Notfication</string>
-    <string name="another">atau masuk dengan</string>
-    <string name="another2">atau daftar dengan</string>
-    <string name="term_condition">Dengan daftar disini, kamu menyetujui Syarat dan Ketentuan serta Kebijakan Privasi TokoPhincon.</string>
+    <string name="another">or Log In with</string>
+    <string name="another2">or Regsiter with</string>
+    <string name="term_condition_register"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
+    <string name="term_condition_login"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-
+    <string name="filter">Filter</string>
+    <string name="item_name">Lenovo Legion 7 16 I7 11800 \n 16GB 1TB SSD RTX3070 8GB</string>
+    <string name="daftar">Register</string>
+    <string name="minimal_karakter">Minimum 8 characters.</string>
+    <string name="masuk">Log In</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="selanjutnya">Next</string>
+    <string name="lewati">Skip</string>
+    <string name="gabung_sekarang">Join Now</string>
+    <string name="profil">Profil</string>
+    <string name="nama">Name</string>
+    <string name="logout">Log Out</string>
+    <string name="en">EN</string>
+    <string name="id">ID</string>
+    <string name="selesai">Finish</string>
+    <string name="menu">Menu</string>
+    <string name="home">Home</string>
+    <string name="store">Store</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="transaction">Transaction</string>
+    <string name="keranjang">+ Cart</string>
+    <string name="search">Search</string>
 </resources>

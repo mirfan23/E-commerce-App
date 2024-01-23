@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.tokopaerbe.dashboard.HomeFragment"
+        android:name="com.example.tokopaerbe.ui.dashboard.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,10 +19,13 @@
         <action
             android:id="@+id/action_homeFragment_to_transactionFragment"
             app:destination="@id/transactionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
         android:id="@+id/storeFragment"
-        android:name="com.example.tokopaerbe.dashboard.StoreFragment"
+        android:name="com.example.tokopaerbe.ui.dashboard.StoreFragment"
         android:label="fragment_store"
         tools:layout="@layout/fragment_store" >
         <action
@@ -37,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
-        android:name="com.example.tokopaerbe.dashboard.WishlistFragment"
+        android:name="com.example.tokopaerbe.ui.dashboard.WishlistFragment"
         android:label="fragment_wishlist"
         tools:layout="@layout/fragment_wishlist" >
         <action
@@ -52,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/transactionFragment"
-        android:name="com.example.tokopaerbe.dashboard.TransactionFragment"
+        android:name="com.example.tokopaerbe.ui.dashboard.TransactionFragment"
         android:label="fragment_transaction"
         tools:layout="@layout/fragment_transaction" >
         <action
@@ -65,4 +68,9 @@
             android:id="@+id/action_transactionFragment_to_wishlistFragment2"
             app:destination="@id/wishlistFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.tokopaerbe.ui.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

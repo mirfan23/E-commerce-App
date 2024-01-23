@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".auth.LoginFragment">
+    tools:context=".ui.auth.LoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,9 +18,10 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="@style/headline"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:title="Masuk"
+                app:title="@string/masuk"
                 app:titleCentered="true"
                 tools:ignore="MissingConstraints">
 
@@ -39,8 +40,8 @@
             android:id="@+id/emailTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +52,8 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
                 android:fontFamily="@font/poppins_regular"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,8 +61,8 @@
             android:id="@+id/passwordtextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,8 +84,8 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_purple"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Masuk"
+            android:fontFamily="@font/poppins_medium"
+            tools:text="@string/masuk"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -110,9 +111,9 @@
             android:layout_marginLeft="115dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="115dp"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/another2"
-            android:fontFamily="@font/poppins_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_login" />
@@ -130,15 +131,15 @@
 
         <Button
             android:id="@+id/button_register"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="340dp"
             android:layout_height="40dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="16dp"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_medium"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Daftar"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            tools:text="@string/daftar"
             android:textAppearance="@style/another"
             android:textColor="@color/primaryColor"
             android:textSize="16sp"
@@ -152,6 +153,8 @@
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical|center_horizontal"
             android:lineHeight="16sp"
@@ -167,7 +170,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </FrameLayout>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_item"
+        android:layout_width="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_thumbnail"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/thumbnail_store"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.377" />
+
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="409dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toEndOf="@id/img_thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/img_thumbnail"
+            tools:Text="Lenovo Legion 7 16 I7 11800 16GB 1TB SSD RTX3070 8GB"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toEndOf="@id/img_thumbnail"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_name"
+            app:layout_constraintBottom_toTopOf="@id/uploader"
+            tools:Text="Rp23.499.000"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/uploader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toTopOf="@id/rating"
+            app:layout_constraintStart_toEndOf="@id/img_thumbnail"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_uploader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:Text="ProStoreComputer" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="@id/img_thumbnail"
+            app:layout_constraintStart_toEndOf="@id/img_thumbnail"
+            app:layout_constraintTop_toBottomOf="@id/uploader"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.0 | Terjual 10" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_add_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="135dp">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingStart="6dp"
+            app:cornerRadius="10dp"
+            android:layout_marginEnd="10dp"
+            app:icon="@drawable/ic_delete"
+            app:iconSize="28dp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text=" + Keranjang"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
