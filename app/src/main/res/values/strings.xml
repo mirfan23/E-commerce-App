@@ -42,4 +42,7 @@
     <string name="select_image">Select Image</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="lowest">Lowest</string>
+    <string name="highest">Highest</string>
+    <string name="btn_show_product">Show Product</string>
 </resources>

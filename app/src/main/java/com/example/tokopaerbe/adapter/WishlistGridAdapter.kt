@@ -1,9 +1,11 @@
 package com.example.tokopaerbe.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +13,7 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.data.DummyGrid
 import com.example.tokopaerbe.databinding.StoreCardViewBinding
 import com.example.tokopaerbe.databinding.WishlistCardGridBinding
+import com.google.android.material.button.MaterialButton
 
 class WishlistGridAdapter(
     private val gridView: ArrayList<DummyGrid>,
@@ -24,6 +27,7 @@ class WishlistGridAdapter(
         val gridTitle: TextView = binding.tvItemName
         val gridPrice: TextView = binding.tvPrice
         val gridUser: TextView = binding.tvUploader
+        val btnCart: MaterialButton = binding.btnAddCart
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishGridViewHolder {
@@ -37,6 +41,11 @@ class WishlistGridAdapter(
         holder.gridTitle.text = gridView[position].title
         holder.gridPrice.text = gridView[position].price
         holder.gridUser.text = gridView[position].user
+
+        holder.gridTitle.ellipsize = TextUtils.TruncateAt.END
+
+        val button = context.getString(R.string.cart)
+        holder.btnCart.text = button
     }
 
     override fun getItemCount(): Int {

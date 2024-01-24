@@ -32,7 +32,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initView() {
-        binding.toolbar.title = getString(R.string.profile)
+        binding.toolbar.title = getString(R.string.register)
         binding.emailEditText.hint = getString(R.string.email)
         binding.emailTextInputLayout.helperText = getString(R.string.example_email)
         binding.passowrdEditText.hint = getString(R.string.password)

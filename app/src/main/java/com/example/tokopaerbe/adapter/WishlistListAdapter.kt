@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tokopaerbe.R
 import com.example.tokopaerbe.data.DummyGrid
 import com.example.tokopaerbe.databinding.WishlistCardListBinding
+import com.google.android.material.button.MaterialButton
 
 class WishlistListAdapter(
     private val listView: ArrayList<DummyGrid>,
@@ -21,6 +23,7 @@ class WishlistListAdapter(
         val listTitle: TextView = binding.tvItemName
         val listPrice: TextView = binding.tvPrice
         val listUser: TextView = binding.tvUploader
+        val btnCart: MaterialButton = binding.btnAddCart
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishlistListHolder {
@@ -34,6 +37,9 @@ class WishlistListAdapter(
         holder.listTitle.text = listView[position].title
         holder.listPrice.text = listView[position].price
         holder.listUser.text = listView[position].user
+
+        val button = context.getString(R.string.cart)
+        holder.btnCart.text = button
     }
 
     override fun getItemCount(): Int {
