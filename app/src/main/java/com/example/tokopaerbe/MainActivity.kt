@@ -3,11 +3,9 @@ package com.example.tokopaerbe
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.NavController
 import com.example.tokopaerbe.helper.Helper
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

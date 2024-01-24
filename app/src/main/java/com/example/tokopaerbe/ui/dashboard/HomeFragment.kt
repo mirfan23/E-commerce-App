@@ -1,19 +1,16 @@
 package com.example.tokopaerbe.ui.dashboard
 
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentHomeBinding
 import com.example.tokopaerbe.helper.Helper
-import com.example.tokopaerbe.helper.Helper.Companion.getSharedPreferences
 import com.example.tokopaerbe.helper.checkIf
 
 class HomeFragment : Fragment() {
@@ -23,7 +20,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
         return binding.root
@@ -31,9 +27,16 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonLogout.setOnClickListener{
-            findNavController().navigate(R.id.action_homeFragment_to_loginFragment2)
+
+        initView()
+
+        binding.buttonLogout.setOnClickListener {
+            Toast.makeText(context, "Gak Ketemu", Toast.LENGTH_SHORT).show()
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container_dashboard)
+                ?.findNavController()?.navigate(R.id.action_dashboardFragment_to_loginFragment)
+
         }
+
 
         val themeChecker = Helper.getThemeStatus(requireContext(), "dark")
         binding.switchTheme.checkIf(themeChecker)
@@ -44,11 +47,23 @@ class HomeFragment : Fragment() {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     Helper.putThemeStatus(requireContext(), "dark", true)
                 }
+
                 false -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     Helper.putThemeStatus(requireContext(), "dark", false)
                 }
             }
         }
+    }
+    private fun initView() {
+        binding.buttonLogout.text = getString(R.string.logout)
+        binding.tvLight.text = getString(R.string.light)
+        binding.tvDark.text = getString(R.string.dark)
+    }
+
+    companion object {
+        const val LANGUAGE_KEY = "LANGUAGE_KEY"
+        const val LANGUAGE_IN = "in"
+        const val LANGUAGE_EN = "en"
     }
 }

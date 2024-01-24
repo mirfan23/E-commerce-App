@@ -12,6 +12,7 @@
         android:layout_height="64dp">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -19,7 +20,7 @@
             app:navigationIcon="@drawable/leading_icon"
             app:menu="@menu/option_menu"
             style="@style/headline"
-            app:title="@string/username">
+            tools:title="@string/username">
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

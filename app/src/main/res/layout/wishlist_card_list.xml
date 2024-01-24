@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    style="@style/Widget.Material3.CardView.Outlined"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,9 +15,9 @@
         <ImageView
             android:id="@+id/img_thumbnail"
             android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_height="95dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/thumbnail_store"
+            tools:src="@drawable/thumbnail_store"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -118,7 +119,7 @@
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="270dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:fontFamily="@font/poppins_medium"
             android:text=" + Keranjang"
             android:textSize="16sp" />

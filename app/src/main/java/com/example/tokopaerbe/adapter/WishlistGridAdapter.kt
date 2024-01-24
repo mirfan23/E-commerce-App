@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokopaerbe.R
@@ -19,6 +20,7 @@ class WishlistGridAdapter(
 
     class WishGridViewHolder(val binding: WishlistCardGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        val gridImage: ImageView = binding.imgThumbnail
         val gridTitle: TextView = binding.tvItemName
         val gridPrice: TextView = binding.tvPrice
         val gridUser: TextView = binding.tvUploader
@@ -30,10 +32,11 @@ class WishlistGridAdapter(
         return WishGridViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: WishlistGridAdapter.WishGridViewHolder, position: Int) {
-        holder.gridTitle.text = gridView[position].gridTitle
-        holder.gridPrice.text = gridView[position].gridPrice
-        holder.gridUser.text = gridView[position].gridUser
+    override fun onBindViewHolder(holder: WishGridViewHolder, position: Int) {
+        holder.gridImage.setImageResource(gridView[position].imageRes)
+        holder.gridTitle.text = gridView[position].title
+        holder.gridPrice.text = gridView[position].price
+        holder.gridUser.text = gridView[position].user
     }
 
     override fun getItemCount(): Int {

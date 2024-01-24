@@ -7,11 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.helper.TextWatcherConfigure
-import com.example.tokopaerbe.ui.dashboard.DashboardFragment
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
 import com.example.tokopaerbe.helper.SnK
 
@@ -31,6 +29,16 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
         tColor()
+        initView()
+    }
+
+    private fun initView() {
+        binding.toolbar.title = getString(R.string.login)
+        binding.buttonLogin.text = getString(R.string.login)
+        binding.another.text = getString(R.string.another2)
+        binding.buttonRegister.text = getString(R.string.register)
+        binding.emailEditText.hint = getString(R.string.email)
+        binding.passwordEditText.hint = getString(R.string.password)
     }
 
     private fun setOnClickListener() {
@@ -82,21 +90,18 @@ class LoginFragment : Fragment() {
     private fun showError(errorMessage: String) {
         binding.passwordtextInputLayout.isErrorEnabled = true
         binding.passwordtextInputLayout.error = errorMessage
-        println("Error: $errorMessage")
     }
 
     private fun clearError() {
         binding.passwordtextInputLayout.isErrorEnabled = false
-        println("Password valid")
     }
     fun tColor() {
         val sk = binding.syaratKetentuan
-        sk.text = SnK.applyCustomTextColor(
-            requireContext(),
-            resources.getString(R.string.term_condition_login)
-        )
+        val fullText = getString(R.string.term_condition_login)
+        val defaultLocale = resources.configuration.locales[0].language
+        println("")
+        sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it,fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
     }
-
 }
 

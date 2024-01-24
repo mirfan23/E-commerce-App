@@ -51,15 +51,15 @@ class WishlistFragment : Fragment() {
 
         recyclerView.adapter = wishlistListAdapter
 
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
 
         gridList.addAll(listView)
 
@@ -68,14 +68,6 @@ class WishlistFragment : Fragment() {
         val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
 
         recyclerView.addItemDecoration(SpaceItemDecoration(spaceInPixels))
-
-        button.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                switchToListView()
-            } else {
-                switchToGridView()
-            }
-        }
 
         button.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -91,7 +83,7 @@ class WishlistFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = wishlistGridAdapter
         }
-        button.isChecked = false
+        button.isChecked = true
     }
 
     private fun switchToListView() {
@@ -100,6 +92,6 @@ class WishlistFragment : Fragment() {
             adapter = wishlistListAdapter
         }
 
-        button.isChecked= true
+        button.isChecked= false
     }
 }

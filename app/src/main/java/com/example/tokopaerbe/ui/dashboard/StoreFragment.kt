@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatToggleButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +40,8 @@ class StoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        inintView()
+
         if (true) {
             binding.errorView.visibleIf(false)
             binding.errorView.setErrorMessage(
@@ -65,15 +66,15 @@ class StoreFragment : Fragment() {
 
         recyclerView.adapter = gridViewAdapter
 
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
-        gridList.add(DummyGrid("Laptop Baru", "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
 
         listView.addAll(gridList)
 
@@ -95,6 +96,11 @@ class StoreFragment : Fragment() {
             val modal = BottomSheetFragment()
             childFragmentManager.let { modal.show(it, BottomSheetFragment.TAG) }
         }
+    }
+
+    private fun inintView() {
+        binding.btnFilter.text = getString(R.string.filter)
+        binding.searchBar.hint = getString(R.string.search)
     }
 
     private fun switchToGridView() {

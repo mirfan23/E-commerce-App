@@ -28,6 +28,19 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
         tColor()
+        initView()
+    }
+
+    private fun initView() {
+        binding.toolbar.title = getString(R.string.profile)
+        binding.emailEditText.hint = getString(R.string.email)
+        binding.emailTextInputLayout.helperText = getString(R.string.example_email)
+        binding.passowrdEditText.hint = getString(R.string.password)
+        binding.passwordTextInputLayout.helperText = getString(R.string.minimum_character)
+        binding.buttonRegister.text = getString(R.string.register)
+        binding.another.text = getString(R.string.another)
+        binding.buttonLogin.text = getString(R.string.login)
+
     }
 
     private fun setOnClickListener() {
@@ -74,10 +87,9 @@ class RegisterFragment : Fragment() {
 
     fun tColor() {
         val sk = binding.syaratKetentuan
-        sk.text = SnK.applyCustomTextColor(
-            requireContext(),
-            resources.getString(R.string.term_condition_register)
-        )
+        val fullText = getString(R.string.term_condition_login)
+        val defaultLocale = resources.configuration.locales[0].language
+        sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
     }
 }
