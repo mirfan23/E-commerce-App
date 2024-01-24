@@ -60,4 +60,10 @@ class HomeFragment : Fragment() {
         binding.tvLight.text = getString(R.string.light)
         binding.tvDark.text = getString(R.string.dark)
     }
+
+    companion object {
+        const val LANGUAGE_KEY = "LANGUAGE_KEY"
+        const val LANGUAGE_IN = "in"
+        const val LANGUAGE_EN = "en"
+    }
 }

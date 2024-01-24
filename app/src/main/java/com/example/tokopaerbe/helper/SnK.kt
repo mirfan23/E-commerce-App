@@ -10,17 +10,18 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.tokopaerbe.R
+import com.example.tokopaerbe.ui.dashboard.HomeFragment.Companion.LANGUAGE_IN
 
 class SnK {
     companion object {
         fun applyCustomTextColor(locale: String, context: Context, fullText: String): SpannableString {
             val spannableString = SpannableStringBuilder(fullText)
 
-            val tncText = if (locale == "in") "Syarat & Ketentuan" else "Terms & Conditions"
+            val tncText = if (locale == LANGUAGE_IN) "Syarat & Ketentuan" else "Terms & Conditions"
             val startTnc = fullText.indexOf(tncText)
             val endtnc = startTnc + tncText.length
 
-            val policyText = if (locale== "in") "Kebijakan Privasi" else "Privacy Policy"
+            val policyText = if (locale== LANGUAGE_IN) "Kebijakan Privasi" else "Privacy Policy"
             val startPolicy = fullText.indexOf(policyText)
             val endPolicy = startPolicy + policyText.length
 
