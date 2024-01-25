@@ -6,15 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
+import com.example.tokopaerbe.core.remote.service.RegisterRequest
 import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
 import com.example.tokopaerbe.helper.SnK
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import com.example.tokopaerbe.viewmodel.ViewModelFactory
 
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
+    private val viewModel by viewModels<PreLoginViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +36,9 @@ class RegisterFragment : Fragment() {
         setOnClickListener()
         tColor()
         initView()
+        initObserver()
     }
+
 
     private fun initView() {
         binding.toolbar.title = getString(R.string.register)
@@ -55,7 +64,12 @@ class RegisterFragment : Fragment() {
              * Button for Register to Profile
              */
             it.buttonRegister.setOnClickListener {
-                findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                val request = RegisterRequest(
+                    email = binding.emailEditText.text.toString().trim(),
+                    firebaseToken = "",
+                    password = binding.passowrdEditText.text.toString().trim()
+                )
+                viewModel.fetchRegister(request)
             }
             /**
              * Button for Password Check
@@ -66,20 +80,28 @@ class RegisterFragment : Fragment() {
 
         }
     }
+
+
+    private fun initObserver() = with(viewModel) {
+        response.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+        }
+    }
+
     private fun isValidPassword(password: String): Boolean {
         val minLength = 8
         if (password.length < minLength) {
             showError("Password Minimal $minLength")
             return true
         }
-        if (password.none { it.isUpperCase() }) {
-            showError("Password setidaknya terdapat satu huruf kapital")
-            return false
-        }
-        if (password.none { !it.isLetterOrDigit() }) {
-            showError("Password harus mengandung setidaknya satu karakter khusus")
-            return false
-        }
+//        if (password.none { it.isUpperCase() }) {
+//            showError("Password setidaknya terdapat satu huruf kapital")
+//            return false
+//        }
+//        if (password.none { !it.isLetterOrDigit() }) {
+//            showError("Password harus mengandung setidaknya satu karakter khusus")
+//            return false
+//        }
         clearError()
         return true
     }

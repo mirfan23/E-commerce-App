@@ -1,7 +1,7 @@
 package com.example.core.remote.service
 
 import android.content.Context
-import com.airbnb.lottie.BuildConfig
+import androidx.viewbinding.BuildConfig
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import okhttp3.OkHttpClient
@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiService {
     const val API_KEY = "6f8856ed-9189-488f-9011-0ff4b6c08edc"
+    const val BASE_URL = "http://192.168.55.106:5000/   "
     fun getApiService(context: Context): ApiEndPoint {
         val loggingInterceptor = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -28,7 +29,7 @@ object ApiService {
             .addInterceptor(chuckerInterceptor)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.124.126:5000")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

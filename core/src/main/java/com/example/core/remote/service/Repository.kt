@@ -17,6 +17,7 @@ class Repository(private val api: ApiEndPoint) {
             val response = api.fetchRegister(request)
             emit(ApiState.Success(response))
         } catch (e: Exception) {
+            println("APA SIH : ${e.message}")
             when {
                 e is HttpException -> {
                     ApiState.Error(e.code(), e.message())

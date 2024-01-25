@@ -6,7 +6,7 @@ plugins {
 //    id("com.google.gms.google-services")
 }
 
-apply(from="../shared_depedencies.gradle.kts")
+apply(from="../shared_dependencies.gradle")
 
 android {
     namespace = "com.example.tokopaerbe"
@@ -54,9 +54,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    //navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.3.5")
+
 
     //lottie
     implementation ("com.airbnb.android:lottie:3.6.1")
@@ -64,23 +62,8 @@ dependencies {
     //recycleView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
-    //retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
-
-    //chucker
-    debugImplementation("com.github.chuckerteam.chucker:library:3.5.2")
-
-    //coroutines
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
-
-    //livedata
-    implementation("android.arch.lifecycle:livedata:1.1.1")
-    implementation("android.arch.lifecycle:livedata-core:1.1.1")
+    //coil
+    implementation("io.coil-kt:coil:2.5.0")
 
     //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
@@ -99,26 +82,6 @@ dependencies {
 
     //Shimmer Effect
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
-
-    //Gson
-    implementation ("com.google.code.gson:gson:2.10.1")
-
-    //Data Store
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
-
-
-
-    //room
-//    implementation("androidx.room:room-runtime:2.6.1")
-//    implementation("androidx.room:room-ktx:2.6.1")
-//    kapt("androidx.room:room-compiler:2.6.1")
-
-    //firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-//    implementation("com.google.firebase:firebase-analytics")
-//    implementation("com.google.firebase:firebase-auth")
-//    implementation("com.google.firebase:firebase-firestore")
 
     //testing
     testImplementation("junit:junit:4.13.2")
