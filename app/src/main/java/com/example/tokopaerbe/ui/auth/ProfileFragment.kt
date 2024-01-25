@@ -29,6 +29,14 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentProfileBinding
+import com.example.tokopaerbe.helper.Constant.ALERT_MESSAGE
+import com.example.tokopaerbe.helper.Constant.ALERT_TITLE
+import com.example.tokopaerbe.helper.Constant.CAMERA_PERMISSION_REQUEST_CODE
+import com.example.tokopaerbe.helper.Constant.DATE_FORMAT
+import com.example.tokopaerbe.helper.Constant.EXTRAS_DATA
+import com.example.tokopaerbe.helper.Constant.INTENT_TYPE
+import com.example.tokopaerbe.helper.Constant.MIME_TYPE
+import com.example.tokopaerbe.helper.Constant.READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.example.tokopaerbe.helper.Helper
 import com.example.tokopaerbe.helper.SnK
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -62,10 +70,10 @@ class ProfileFragment : Fragment() {
         }
 
         tColor()
-        iniView()
+        initView()
     }
 
-    private fun iniView() {
+    private fun initView() {
         binding.toolbar.title = getString(R.string.profile)
         binding.nameTextInput.hint = getString(R.string.name)
         binding.buttonFinish.text = getString(R.string.finish)
@@ -283,16 +291,5 @@ class ProfileFragment : Fragment() {
         val defaultLocale = resources.configuration.locales[0].language
         sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-    companion object {
-        const val CAMERA_PERMISSION_REQUEST_CODE = 100
-        const val READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 101
-        const val INTENT_TYPE = "image/*"
-        const val ALERT_TITLE = "Permission Required"
-        const val ALERT_MESSAGE = "This permission is required to access media images."
-        const val EXTRAS_DATA = "data"
-        const val DATE_FORMAT = "yyyyMMdd_HHmm ss"
-        const val MIME_TYPE = "image/jpeg"
     }
 }

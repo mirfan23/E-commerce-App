@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.OnboardingAdapter
 import com.example.tokopaerbe.databinding.FragmentOnBoardingBinding
+import com.example.tokopaerbe.helper.Constant.SKIP_VALUE
 import com.example.tokopaerbe.helper.Helper
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -55,7 +56,6 @@ class OnBoardingFragment : Fragment() {
         binding.buttonSkip.setOnClickListener {
             findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
         }
-
         initView()
     }
 
@@ -65,8 +65,6 @@ class OnBoardingFragment : Fragment() {
         binding.buttonNext.text = getString(R.string.next)
     }
 
-    companion object {
-        private const val SKIP_VALUE = "skip"
-    }
+
 }
 

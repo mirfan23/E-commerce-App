@@ -10,7 +10,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.ui.dashboard.HomeFragment.Companion.LANGUAGE_IN
+import com.example.tokopaerbe.helper.Constant.LANGUAGE_IN
 
 class SnK {
     companion object {

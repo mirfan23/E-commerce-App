@@ -14,6 +14,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentSplashScreenBinding
+import com.example.tokopaerbe.helper.Constant.ANIMATION_DELAY
+import com.example.tokopaerbe.helper.Constant.ANIMATION_START
+import com.example.tokopaerbe.helper.Constant.GREEN_TRANSLATION_Y
+import com.example.tokopaerbe.helper.Constant.RED_ROTATION
+import com.example.tokopaerbe.helper.Constant.RED_TRANSLATION_X
+import com.example.tokopaerbe.helper.Constant.RED_TRANSLATION_Y
+import com.example.tokopaerbe.helper.Constant.SKIP_KEY
+import com.example.tokopaerbe.helper.Constant.YELLOW_ROTATION
+import com.example.tokopaerbe.helper.Constant.YELLOW_TRANSLATION_X
+import com.example.tokopaerbe.helper.Constant.YELLOW_TRANSLATION_Y
 import com.example.tokopaerbe.helper.Helper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -70,18 +80,5 @@ class SplashScreenFragment : Fragment() {
                 ANIMATION_DELAY
             )
         }
-    }
-
-    companion object {
-        private const val SKIP_KEY = "skip"
-        private const val ANIMATION_DELAY = 1000L
-        private const val ANIMATION_START = 0f
-        private const val RED_ROTATION = 25f
-        private const val RED_TRANSLATION_X = 75f
-        private const val RED_TRANSLATION_Y = -70f
-        private const val YELLOW_ROTATION = -25f
-        private const val YELLOW_TRANSLATION_X = -75f
-        private const val YELLOW_TRANSLATION_Y = -90f
-        private const val GREEN_TRANSLATION_Y = -170f
     }
 }

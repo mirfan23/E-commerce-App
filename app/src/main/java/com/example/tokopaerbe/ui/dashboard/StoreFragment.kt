@@ -40,7 +40,7 @@ class StoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        inintView()
+        initView()
 
         if (true) {
             binding.errorView.visibleIf(false)
@@ -98,7 +98,7 @@ class StoreFragment : Fragment() {
         }
     }
 
-    private fun inintView() {
+    private fun initView() {
         binding.btnFilter.text = getString(R.string.filter)
         binding.searchBar.hint = getString(R.string.search)
     }

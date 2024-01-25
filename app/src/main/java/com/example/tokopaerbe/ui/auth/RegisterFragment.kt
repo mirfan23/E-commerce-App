@@ -45,12 +45,21 @@ class RegisterFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.let {
+            /**
+             * Button for Register to Login
+             */
             it.buttonLogin.setOnClickListener {
                 findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
             }
+            /**
+             * Button for Register to Profile
+             */
             it.buttonRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
             }
+            /**
+             * Button for Password Check
+             */
             it.passowrdEditText.addTextChangedListener(TextWatcherConfigure(1) {
                     password -> isValidPassword(password)
             })

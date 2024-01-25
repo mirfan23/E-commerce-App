@@ -11,8 +11,13 @@ import androidx.core.os.LocaleListCompat
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentHomeBinding
+import com.example.tokopaerbe.helper.Constant.LANGUAGE_EN
+import com.example.tokopaerbe.helper.Constant.LANGUAGE_IN
+import com.example.tokopaerbe.helper.Constant.LANGUAGE_KEY
+import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.Helper
 import com.example.tokopaerbe.helper.checkIf
+import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -29,13 +34,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initView()
-
-        binding.buttonLogout.setOnClickListener {}
-
         val themeChecker = Helper.getThemeStatus(requireContext(), "dark")
         binding.switchTheme.checkIf(themeChecker)
+        initView()
+        initListener()
+    }
 
+    private fun initListener() {
+        /**
+         * Button Switch Theme for Change Theme
+         */
         binding.switchTheme.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 true -> {
@@ -49,7 +57,9 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
+        /**
+         * Button Switch Language for Change Language
+         */
         binding.switchLanguage.setOnCheckedChangeListener { _, isChecked ->
             val lang: String
             when (isChecked) {
@@ -71,6 +81,12 @@ class HomeFragment : Fragment() {
             }
             context?.let { Helper.putLanguageStatus(it, lang, LANGUAGE_KEY) }
         }
+        /**
+         * Button Log Out
+          */
+        binding.buttonLogout.setOnClickListener {
+            context?.let { it1 -> CustomSnackbar.showSnackBar(it1, binding.root, "ini Snack Bar") }
+        }
     }
 
     private fun initView() {
@@ -79,9 +95,4 @@ class HomeFragment : Fragment() {
         binding.tvDark.text = getString(R.string.dark)
     }
 
-    companion object {
-        const val LANGUAGE_KEY = "language_key"
-        const val LANGUAGE_IN = "in"
-        const val LANGUAGE_EN = "en"
-    }
 }
