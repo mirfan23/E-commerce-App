@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.WishlistFragment">
+    tools:context=".view.dashboard.WishlistFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="-1sp"
-                tools:text="3 barang"
+                tools:text="@string/items"
                 android:textAppearance="@style/name"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

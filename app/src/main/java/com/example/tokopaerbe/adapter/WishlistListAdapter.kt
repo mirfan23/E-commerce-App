@@ -1,18 +1,19 @@
 package com.example.tokopaerbe.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.data.DummyGrid
+import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.WishlistCardListBinding
 import com.google.android.material.button.MaterialButton
 
 class WishlistListAdapter(
-    private val listView: ArrayList<DummyGrid>,
+    private val listView: ArrayList<com.example.core.remote.data.DummyGrid>,
     private val context: Context
 ) :
     RecyclerView.Adapter<WishlistListAdapter.WishlistListHolder>() {
@@ -37,6 +38,8 @@ class WishlistListAdapter(
         holder.listTitle.text = listView[position].title
         holder.listPrice.text = listView[position].price
         holder.listUser.text = listView[position].user
+
+        holder.listTitle.ellipsize = TextUtils.TruncateAt.END
 
         val button = context.getString(R.string.cart)
         holder.btnCart.text = button

@@ -2,8 +2,11 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id("kotlin-parcelize")
 //    id("com.google.gms.google-services")
 }
+
+apply(from="../shared_depedencies.gradle.kts")
 
 android {
     namespace = "com.example.tokopaerbe"
@@ -44,6 +47,8 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -65,9 +70,12 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
-//    coroutines
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    //chucker
+    debugImplementation("com.github.chuckerteam.chucker:library:3.5.2")
+
+    //coroutines
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
 
     //livedata
@@ -86,10 +94,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt ("com.github.bumptech.glide:compiler:4.4.0")
 
-// Swipe Refresh Layout
+    //Swipe Refresh Layout
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-// Shimmer Effect
+    //Shimmer Effect
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
 
     //Gson
@@ -99,19 +107,12 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
-    // ktx lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
 
     //room
 //    implementation("androidx.room:room-runtime:2.6.1")
 //    implementation("androidx.room:room-ktx:2.6.1")
 //    kapt("androidx.room:room-compiler:2.6.1")
-
-    //chucker
-    debugImplementation ("com.github.chuckerteam.chucker:library:4.0.0")
-    releaseImplementation ("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
     //firebase
 //    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
