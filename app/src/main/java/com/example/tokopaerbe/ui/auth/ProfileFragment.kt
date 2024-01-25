@@ -138,7 +138,7 @@ class ProfileFragment : Fragment() {
                 Manifest.permission.READ_MEDIA_IMAGES
             ) == PackageManager.PERMISSION_GRANTED -> {
                 val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
+                intent.type = INTENT_TYPE
                 galleryLauncher.launch(intent)
             }
 
@@ -156,7 +156,7 @@ class ProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
+                intent.type = INTENT_TYPE
                 galleryLauncher.launch(intent)
             } else {
                 Toast.makeText(
@@ -169,8 +169,8 @@ class ProfileFragment : Fragment() {
 
     private fun showPermissionExplanationDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Permission Required")
-            .setMessage("This permission is required to access media images.")
+            .setTitle(ALERT_TITLE)
+            .setMessage(ALERT_MESSAGE)
             .setPositiveButton("Grant") { _, _ ->
                 // Request the permission
                 requestPermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
@@ -190,7 +190,7 @@ class ProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                val imageBitMap = data?.extras?.get("data") as? Bitmap
+                val imageBitMap = data?.extras?.get(EXTRAS_DATA) as? Bitmap
                 binding.imageContainer.setImageBitmap(imageBitMap)
                 binding.imageContainer.scaleType = ImageView.ScaleType.CENTER_CROP
 
@@ -211,7 +211,6 @@ class ProfileFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        Log.d(TAG, "permission itulah ya")
         when (requestCode) {
             CAMERA_PERMISSION_REQUEST_CODE -> {
                 handlePermissionResult(grantResults) {
@@ -244,7 +243,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun saveImageToInternalStorage(context: Context, bitmap: Bitmap): Boolean {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmm ss", Locale.getDefault()).format(Date())
+        val timeStamp = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date())
         val displayName = "image_$timeStamp.jpg"
 
         val directory = Environment.DIRECTORY_PICTURES
@@ -252,7 +251,7 @@ class ProfileFragment : Fragment() {
         // Buat value yang akan di masukkan ke dalam detail gambar
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.MIME_TYPE, MIME_TYPE)
             put(MediaStore.Images.Media.RELATIVE_PATH, directory)
         }
 
@@ -289,5 +288,11 @@ class ProfileFragment : Fragment() {
     companion object {
         const val CAMERA_PERMISSION_REQUEST_CODE = 100
         const val READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 101
+        const val INTENT_TYPE = "image/*"
+        const val ALERT_TITLE = "Permission Required"
+        const val ALERT_MESSAGE = "This permission is required to access media images."
+        const val EXTRAS_DATA = "data"
+        const val DATE_FORMAT = "yyyyMMdd_HHmm ss"
+        const val MIME_TYPE = "image/jpeg"
     }
 }

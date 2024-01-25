@@ -31,12 +31,7 @@ class HomeFragment : Fragment() {
 
         initView()
 
-        binding.buttonLogout.setOnClickListener {
-            Toast.makeText(context, "Gak Ketemu", Toast.LENGTH_SHORT).show()
-//            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container_dashboard)
-//                ?.findNavController()?.navigate(R.id.action_dashboardFragment_to_loginFragment)
-        }
-
+        binding.buttonLogout.setOnClickListener {}
 
         val themeChecker = Helper.getThemeStatus(requireContext(), "dark")
         binding.switchTheme.checkIf(themeChecker)
