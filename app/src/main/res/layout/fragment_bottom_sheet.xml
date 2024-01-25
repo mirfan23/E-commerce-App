@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.dashboard.BottomSheetFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,19 +15,14 @@
             android:layout_width="20dp"
             android:layout_height="2dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/darker_gray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/modal">
+            android:layout_below="@+id/modal">
 
             <TextView
                 android:id="@+id/tv_filter"
@@ -35,45 +30,47 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:fontFamily="@font/poppins_bold"
-                tools:text="@string/filter"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/filter" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reset"
                 style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/reset"
+                android:textColor="@color/primaryColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/reset"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/filter"
             android:layout_marginStart="24dp"
             android:fontFamily="@font/poppins_semi_bold"
-            tools:text="@string/sort"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/chip_group_order"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter" />
+            app:layout_constraintTop_toBottomOf="@+id/filter"
+            tools:text="@string/sort" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/order"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order"
             app:singleLine="false">
 
             <com.google.android.material.chip.Chip
@@ -118,24 +115,19 @@
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/chip_group_order"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_semi_bold"
-            android:text="@string/category"
-            app:layout_constraintBottom_toTopOf="@+id/chip_group_category"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chip_group_order" />
+            android:text="@string/category" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/category"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/category"
             app:singleLine="false">
 
             <com.google.android.material.chip.Chip
@@ -176,6 +168,66 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chip_group_category"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="Harga" />
+
+        <LinearLayout
+            android:id="@+id/price_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginStart="16dp"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_lowest_price"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                tools:hint="@string/lowest"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_highest_price"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                tools:hint="@string/highest"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_show_product"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="10dp"
+            tools:Text="@string/btn_show_product" />
+
+    </RelativeLayout>
 
 </FrameLayout>

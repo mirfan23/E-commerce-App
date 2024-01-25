@@ -32,6 +32,10 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvFilter.text = getString(R.string.filter)
         binding.order.text = getString(R.string.sort)
         binding.category.text = getString(R.string.category)
+        binding.inputLowestPrice.hint = getString(R.string.lowest)
+        binding.inputHighestPrice.hint = getString(R.string.highest)
+        binding.btnShowProduct.text = getString(R.string.btn_show_product)
+        binding.btnReset.text = getString(R.string.reset)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

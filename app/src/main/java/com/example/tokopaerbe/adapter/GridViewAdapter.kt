@@ -1,6 +1,7 @@
 package com.example.tokopaerbe.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -29,6 +30,8 @@ class GridViewAdapter(private val gridList: ArrayList<DummyGrid>, private val co
         holder.gridTitle.text = gridList[position].title
         holder.gridPrice.text = gridList[position].price
         holder.gridUser.text = gridList[position].user
+
+        holder.gridTitle.ellipsize = TextUtils.TruncateAt.END
     }
 
     override fun getItemCount(): Int {

@@ -43,4 +43,7 @@
     <string name="select_image">Pilih Gambar</string>
     <string name="camera">Kamera</string>
     <string name="gallery">Galeri</string>
+    <string name="lowest">Terendah</string>
+    <string name="highest">Tertinggi</string>
+    <string name="btn_show_product">Tampilkan Produk</string>
 </resources>

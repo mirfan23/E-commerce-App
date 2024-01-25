@@ -12,12 +12,10 @@ class SpaceItemDecoration(private  val space: Int): RecyclerView.ItemDecoration(
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.left = space
-        outRect.right = space
-        outRect.bottom = space
-
-        if(parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = space
+        val itemSize = state.itemCount
+        when  {
+            itemSize % 2 == 0 -> {outRect.right = space}
         }
+        outRect.bottom = space
     }
 }

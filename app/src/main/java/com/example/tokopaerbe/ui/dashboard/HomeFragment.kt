@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentHomeBinding
@@ -30,13 +31,7 @@ class HomeFragment : Fragment() {
 
         initView()
 
-        binding.buttonLogout.setOnClickListener {
-            Toast.makeText(context, "Gak Ketemu", Toast.LENGTH_SHORT).show()
-            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container_dashboard)
-                ?.findNavController()?.navigate(R.id.action_dashboardFragment_to_loginFragment)
-
-        }
-
+        binding.buttonLogout.setOnClickListener {}
 
         val themeChecker = Helper.getThemeStatus(requireContext(), "dark")
         binding.switchTheme.checkIf(themeChecker)
@@ -45,16 +40,39 @@ class HomeFragment : Fragment() {
             when (checkedId) {
                 true -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    Helper.putThemeStatus(requireContext(), "dark", true)
+                    context?.let { Helper.putThemeStatus(it, "dark", true) }
                 }
 
                 false -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    Helper.putThemeStatus(requireContext(), "dark", false)
+                    context?.let { Helper.putThemeStatus(it, "dark", false) }
                 }
             }
         }
+
+        binding.switchLanguage.setOnCheckedChangeListener { _, isChecked ->
+            val lang: String
+            when (isChecked) {
+                true -> {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(LANGUAGE_IN)
+                    )
+                    lang = LANGUAGE_IN
+                }
+
+                false -> {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(
+                            LANGUAGE_EN
+                        )
+                    )
+                    lang = LANGUAGE_EN
+                }
+            }
+            context?.let { Helper.putLanguageStatus(it, lang, LANGUAGE_KEY) }
+        }
     }
+
     private fun initView() {
         binding.buttonLogout.text = getString(R.string.logout)
         binding.tvLight.text = getString(R.string.light)
@@ -62,7 +80,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        const val LANGUAGE_KEY = "LANGUAGE_KEY"
+        const val LANGUAGE_KEY = "language_key"
         const val LANGUAGE_IN = "in"
         const val LANGUAGE_EN = "en"
     }
