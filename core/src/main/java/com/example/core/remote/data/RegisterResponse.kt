@@ -20,7 +20,7 @@ data class RegisterResponse(
     @Parcelize
     data class RegisterData(
         @SerializedName("accessToken")
-        val accessToken: String ="",
+        val accessToken: String = "",
         @SerializedName("expiresAt")
         val expiresAt: Int = 0,
         @SerializedName("refreshToken")

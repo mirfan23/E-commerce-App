@@ -19,7 +19,7 @@ interface ApiEndPoint {
     suspend fun fetchRegister(@Body request: RegisterRequest): RegisterResponse
 
     @POST("login")
-    suspend fun fetchRegister(@Body request: LoginRequest): LoginResponse
+    suspend fun fetchLogin(@Body request: LoginRequest): LoginResponse
 
     @POST("refresh")
     suspend fun fetchRefresh(@Body request: RefreshTokenRequest) : RefreshTokenResponse

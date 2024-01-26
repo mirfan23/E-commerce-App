@@ -10,24 +10,24 @@ import android.os.Parcelable
 @Parcelize
 data class LoginResponse(
     @SerializedName("code")
-    val code: Int,
+    val code: Int = 0,
     @SerializedName("data")
-    val data: LoginData,
+    val data: LoginData = LoginData(),
     @SerializedName("message")
-    val message: String
+    val message: String = ""
 ) : Parcelable {
     @Keep
     @Parcelize
     data class LoginData(
         @SerializedName("accessToken")
-        val accessToken: String,
+        val accessToken: String = "",
         @SerializedName("expiresAt")
-        val expiresAt: Int,
+        val expiresAt: Int = 0,
         @SerializedName("refreshToken")
-        val refreshToken: String,
+        val refreshToken: String = "",
         @SerializedName("userImage")
-        val userImage: String,
+        val userImage: String = "",
         @SerializedName("userName")
-        val userName: String
+        val userName: String = ""
     ) : Parcelable
 }

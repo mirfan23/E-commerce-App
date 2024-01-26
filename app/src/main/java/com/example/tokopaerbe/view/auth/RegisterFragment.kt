@@ -94,14 +94,17 @@ class RegisterFragment : Fragment() {
             showError("Password Minimal $minLength")
             return true
         }
-//        if (password.none { it.isUpperCase() }) {
-//            showError("Password setidaknya terdapat satu huruf kapital")
-//            return false
-//        }
-//        if (password.none { !it.isLetterOrDigit() }) {
-//            showError("Password harus mengandung setidaknya satu karakter khusus")
-//            return false
-//        }
+        /** akan dipakai kembali
+         * if (password.none { it.isUpperCase() }) {
+         *             showError("Password setidaknya terdapat satu huruf kapital")
+         *             return false
+         *         }
+         *         if (password.none { !it.isLetterOrDigit() }) {
+         *             showError("Password harus mengandung setidaknya satu karakter khusus")
+         *             return false
+         *         }
+         */
+
         clearError()
         return true
     }
