@@ -45,4 +45,5 @@
     <string name="lowest">Lowest</string>
     <string name="highest">Highest</string>
     <string name="btn_show_product">Show Product</string>
+    <string name="items">items</string>
 </resources>

@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.data.DummyGrid
+import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.StoreCardViewBinding
 import com.example.tokopaerbe.databinding.WishlistCardGridBinding
 import com.google.android.material.button.MaterialButton

@@ -46,4 +46,5 @@
     <string name="lowest">Terendah</string>
     <string name="highest">Tertinggi</string>
     <string name="btn_show_product">Tampilkan Produk</string>
+    <string name="items">barang</string>
 </resources>

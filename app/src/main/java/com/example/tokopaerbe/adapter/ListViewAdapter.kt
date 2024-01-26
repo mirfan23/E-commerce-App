@@ -1,12 +1,13 @@
 package com.example.tokopaerbe.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tokopaerbe.data.DummyGrid
+import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.StoreCardListViewBinding
 
 class ListViewAdapter(private val listView: ArrayList<DummyGrid>, private val context: Context) :
@@ -30,6 +31,8 @@ class ListViewAdapter(private val listView: ArrayList<DummyGrid>, private val co
         holder.listTitle.text = listView[position].title
         holder.listPrice.text = listView[position].price
         holder.listUser.text = listView[position].user
+
+        holder.listTitle.ellipsize = TextUtils.TruncateAt.END
     }
 
     override fun getItemCount(): Int {

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tokopaerbe.data.DummyGrid
+import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.StoreCardViewBinding
 
 class GridViewAdapter(private val gridList: ArrayList<DummyGrid>, private val context: Context) :
