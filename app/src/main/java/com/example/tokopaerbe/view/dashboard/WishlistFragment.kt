@@ -51,78 +51,21 @@ class WishlistFragment : Fragment() {
 
         recyclerView.adapter = wishlistListAdapter
 
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        listView.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
 
         gridList.addAll(listView)
 

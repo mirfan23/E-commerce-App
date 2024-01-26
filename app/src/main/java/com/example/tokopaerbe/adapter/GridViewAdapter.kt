@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.StoreCardViewBinding
 
-class GridViewAdapter(private val gridList: ArrayList<com.example.core.remote.data.DummyGrid>, private val context: Context) :
+class GridViewAdapter(private val gridList: ArrayList<DummyGrid>, private val context: Context) :
     RecyclerView.Adapter<GridViewAdapter.GridViewHolder>() {
     inner class GridViewHolder(val binding: StoreCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val gridImage: ImageView = binding.imgThumbnail

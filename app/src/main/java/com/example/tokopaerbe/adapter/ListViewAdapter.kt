@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.StoreCardListViewBinding
 
-class ListViewAdapter(private val listView: ArrayList<com.example.core.remote.data.DummyGrid>, private val context: Context) :
+class ListViewAdapter(private val listView: ArrayList<DummyGrid>, private val context: Context) :
     RecyclerView.Adapter<ListViewAdapter.ListViewHolder>() {
     inner class ListViewHolder(val binding: StoreCardListViewBinding) :
         RecyclerView.ViewHolder(binding.root) {

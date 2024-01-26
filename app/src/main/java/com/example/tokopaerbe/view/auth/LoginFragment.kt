@@ -13,7 +13,6 @@ import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
 import com.example.tokopaerbe.helper.SnK
 
-
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding

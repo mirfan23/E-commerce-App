@@ -16,7 +16,6 @@ class PreLoginViewModel(private val repo: Repository) : ViewModel() {
     val response : LiveData<RegisterResponse> = _response
 
     fun fetchRegister(request: RegisterRequest) {
-        println("AYO LAH")
         viewModelScope.launch {
             repo.fetchRegister(request).collectLatest { state ->
                 when (state) {

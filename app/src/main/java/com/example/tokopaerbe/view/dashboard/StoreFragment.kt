@@ -22,11 +22,10 @@ class StoreFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var gridViewAdapter: GridViewAdapter
     private lateinit var listViewAdapter: ListViewAdapter
-    private lateinit var gridList: ArrayList<com.example.core.remote.data.DummyGrid>
-    private lateinit var listView: ArrayList<com.example.core.remote.data.DummyGrid>
+    private lateinit var gridList: ArrayList<DummyGrid>
+    private lateinit var listView: ArrayList<DummyGrid>
     private lateinit var buttonView: Chip
     private lateinit var buttonFilter: Chip
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,82 +61,25 @@ class StoreFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
 
         gridViewAdapter = GridViewAdapter(gridList, requireContext())
-        listViewAdapter = ListViewAdapter(listView ,requireContext())
+        listViewAdapter = ListViewAdapter(listView, requireContext())
 
         recyclerView.adapter = gridViewAdapter
 
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
-        gridList.add(
-            com.example.core.remote.data.DummyGrid(
-                R.drawable.thumbnail_store,
-                getString(R.string.item_name),
-                "Rp. 20.000.000",
-                "User"
-            )
-        )
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
+        gridList.add(DummyGrid(R.drawable.thumbnail_store,getString(R.string.item_name), "Rp. 20.000.000", "User"))
 
         listView.addAll(gridList)
 
@@ -155,7 +97,7 @@ class StoreFragment : Fragment() {
             }
         }
 
-        buttonFilter.setOnClickListener{
+        buttonFilter.setOnClickListener {
             val modal = BottomSheetFragment()
             childFragmentManager.let { modal.show(it, BottomSheetFragment.TAG) }
         }
@@ -180,6 +122,6 @@ class StoreFragment : Fragment() {
             adapter = listViewAdapter
         }
 
-        buttonView.isChecked= true
+        buttonView.isChecked = true
     }
 }

@@ -16,7 +16,7 @@ import com.example.tokopaerbe.databinding.WishlistCardGridBinding
 import com.google.android.material.button.MaterialButton
 
 class WishlistGridAdapter(
-    private val gridView: ArrayList<com.example.core.remote.data.DummyGrid>,
+    private val gridView: ArrayList<DummyGrid>,
     private val context: Context
 ) :
     RecyclerView.Adapter<WishlistGridAdapter.WishGridViewHolder>() {

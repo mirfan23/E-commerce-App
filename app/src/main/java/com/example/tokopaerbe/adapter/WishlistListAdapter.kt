@@ -13,7 +13,7 @@ import com.example.tokopaerbe.databinding.WishlistCardListBinding
 import com.google.android.material.button.MaterialButton
 
 class WishlistListAdapter(
-    private val listView: ArrayList<com.example.core.remote.data.DummyGrid>,
+    private val listView: ArrayList<DummyGrid>,
     private val context: Context
 ) :
     RecyclerView.Adapter<WishlistListAdapter.WishlistListHolder>() {

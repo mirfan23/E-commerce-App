@@ -1,22 +1,18 @@
 package com.example.tokopaerbe.helper
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.CustomToastBinding
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.ANIMATION_MODE_FADE
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 
 

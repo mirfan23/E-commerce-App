@@ -40,9 +40,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initListener() {
-        /**
-         * Button Switch Theme for Change Theme
-         */
+        //Button Switch Theme for Change Theme
         binding.switchTheme.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 true -> {
@@ -56,9 +54,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        /**
-         * Button Switch Language for Change Language
-         */
+        //Button Switch Language for Change Language
         binding.switchLanguage.setOnCheckedChangeListener { _, isChecked ->
             val lang: String
             when (isChecked) {
@@ -80,9 +76,7 @@ class HomeFragment : Fragment() {
             }
             context?.let { Helper.putLanguageStatus(it, lang, LANGUAGE_KEY) }
         }
-        /**
-         * Button Log Out
-          */
+        //Button Log Out
         binding.buttonLogout.setOnClickListener {
             context?.let { it1 -> CustomSnackbar.showSnackBar(it1, binding.root, "ini Snack Bar") }
         }
