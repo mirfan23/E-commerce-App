@@ -32,6 +32,7 @@ import com.example.tokopaerbe.helper.Constant.DATE_FORMAT
 import com.example.tokopaerbe.helper.Constant.EXTRAS_DATA
 import com.example.tokopaerbe.helper.Constant.INTENT_TYPE
 import com.example.tokopaerbe.helper.Constant.MIME_TYPE
+import com.example.tokopaerbe.helper.Constant.NEGATIVE_BUTTON_TEXT
 import com.example.tokopaerbe.helper.Constant.READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.example.tokopaerbe.helper.SnK
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -61,8 +62,7 @@ class ProfileFragment : Fragment() {
         profileImage.setOnClickListener {
             showAlertDialog()
         }
-
-        tColor()
+        syaratKetentuan()
         initView()
     }
 
@@ -117,7 +117,7 @@ class ProfileFragment : Fragment() {
                 } == PackageManager.PERMISSION_GRANTED
             ) {
                 val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
+                intent.type = INTENT_TYPE
                 galleryLauncher.launch(intent)
             } else {
                 activity?.let {
@@ -162,7 +162,7 @@ class ProfileFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Permission denied. Cannot proceed.",
+                    NEGATIVE_BUTTON_TEXT,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -179,7 +179,7 @@ class ProfileFragment : Fragment() {
             .setNegativeButton("Deny") { _, _ ->
                 Toast.makeText(
                     requireContext(),
-                    "Permission denied. Cannot proceed.",
+                    NEGATIVE_BUTTON_TEXT,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -237,7 +237,7 @@ class ProfileFragment : Fragment() {
         } else {
             Toast.makeText(
                 requireContext(),
-                "Permission denied. Cannot proceed.",
+                NEGATIVE_BUTTON_TEXT,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -278,7 +278,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun tColor() {
+    fun syaratKetentuan() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language

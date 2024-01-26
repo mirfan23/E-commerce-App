@@ -1,5 +1,7 @@
 package com.example.core.remote.service
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.example.core.remote.data.ApiState
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.LoginResponse
@@ -23,11 +25,9 @@ class Repository(private val api: ApiEndPoint) {
                 e is HttpException -> {
                     ApiState.Error(e.code(), e.message())
                 }
-
                 e is IOException -> {
                     ApiState.Error(600, "No Connection")
                 }
-
                 else -> {
                     ApiState.Error(500, "")
                 }
@@ -43,15 +43,13 @@ class Repository(private val api: ApiEndPoint) {
         } catch (e: Exception) {
             when {
                 e is HttpException -> {
-                    ApiState.Error(e.code(), e.message())
+                    emit (ApiState.Error(e.code(), e.message()))
                 }
-
                 e is IOException -> {
-                    ApiState.Error(600, "No Connection")
+                    emit (ApiState.Error(600, "No Connection"))
                 }
-
                 else -> {
-                    ApiState.Error(500, "")
+                    emit (ApiState.Error(500, ""))
                 }
             }
         }

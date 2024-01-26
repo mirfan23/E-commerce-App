@@ -7,15 +7,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.core.remote.data.ApiState
+import com.example.core.remote.data.LoginRequest
+import com.example.core.remote.data.LoginResponse
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
+import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import com.example.tokopaerbe.viewmodel.ViewModelFactory
 
 class LoginFragment : Fragment() {
-
     private lateinit var binding: FragmentLoginBinding
+    private val viewModel by viewModels<PreLoginViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +39,7 @@ class LoginFragment : Fragment() {
         setOnClickListener()
         tColor()
         initView()
+        initObserver()
     }
 
     private fun initView() {
@@ -42,18 +53,33 @@ class LoginFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.let {
-            it.buttonLogin.setOnClickListener{
-                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+            it.buttonLogin.setOnClickListener {
+                val request = LoginRequest(
+                    email = binding.emailEditText.text.toString().trim(),
+                    password = binding.passwordEditText.text.toString().trim(),
+                    firebaseToken = ""
+                )
+                viewModel.fetchLogin(request)
             }
             it.buttonRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
-            it.emailEditText.addTextChangedListener(TextWatcherConfigure(1) {
-                    email -> validateEmail(email)
+            it.emailEditText.addTextChangedListener(TextWatcherConfigure(1) { email ->
+                validateEmail(email)
             })
-            it.passwordEditText.addTextChangedListener(TextWatcherConfigure(1) {
-                    password -> isValidPassword(password)
+            it.passwordEditText.addTextChangedListener(TextWatcherConfigure(1) { password ->
+                isValidPassword(password)
             })
+        }
+    }
+
+    private fun initObserver() = with(viewModel) {
+        viewModel.responseLogin.observe(viewLifecycleOwner) { loginResponse ->
+            if (loginResponse.code == 200) {
+                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+            } else {
+                context?.let { CustomSnackbar.showSnackBar(it, binding.root, "Gagal cuy") }
+            }
         }
     }
 
@@ -63,25 +89,27 @@ class LoginFragment : Fragment() {
         if (emailPattern.matcher(email).matches() || email.length <= 2) {
             binding.emailTextInputLayout.isErrorEnabled = false
         } else {
-            binding.emailTextInputLayout.error = "email tidak valid"
+            binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
         }
     }
 
     private fun isValidPassword(password: String): Boolean {
-        println("irfan : $password")
         val minLength = 8
         if (password.length < minLength) {
             showError("Password Minimal $minLength")
             return true
         }
-        if (password.none { it.isUpperCase() }) {
-            showError("Password setidaknya terdapat satu huruf kapital")
-            return false
-        }
-        if (password.none { !it.isLetterOrDigit() }) {
-            showError("Password harus mengandung setidaknya satu karakter khusus")
-            return false
-        }
+        /**
+         * akan digunakan kembali
+         */
+//        if (password.none { it.isUpperCase() }) {
+//            showError("Password setidaknya terdapat satu huruf kapital")
+//            return false
+//        }
+//        if (password.none { !it.isLetterOrDigit() }) {
+//            showError("Password harus mengandung setidaknya satu karakter khusus")
+//            return false
+//        }
         clearError()
         return true
     }
@@ -94,12 +122,13 @@ class LoginFragment : Fragment() {
     private fun clearError() {
         binding.passwordtextInputLayout.isErrorEnabled = false
     }
+
     fun tColor() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language
         println("")
-        sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it,fullText) }
+        sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
     }
 }

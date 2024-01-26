@@ -2,6 +2,7 @@ package com.example.tokopaerbe.view.auth
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.core.remote.service.RegisterRequest
 import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
+import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.example.tokopaerbe.viewmodel.ViewModelFactory
@@ -63,29 +65,49 @@ class RegisterFragment : Fragment() {
             /**
              * Button for Register to Profile
              */
+
             it.buttonRegister.setOnClickListener {
-                val request = RegisterRequest(
-                    email = binding.emailEditText.text.toString().trim(),
-                    firebaseToken = "",
-                    password = binding.passowrdEditText.text.toString().trim()
-                )
-                viewModel.fetchRegister(request)
+                val  email = binding.emailEditText.text.toString().trim()
+                val password = binding.passowrdEditText.text.toString().trim()
+
+                if (isValidEmail(email) && isValidPassword(password)){
+                    val request = RegisterRequest(
+                        email = email,
+                        password = password,
+                        firebaseToken = ""
+                    )
+                    viewModel.fetchRegister(request)
+                } else {
+                    context?.let { it1 -> CustomSnackbar.showSnackBar(it1, binding.root, "Tolong Isi Email dan Passowrd") }
+                }
+
             }
             /**
              * Button for Password Check
              */
-            it.passowrdEditText.addTextChangedListener(TextWatcherConfigure(1) {
-                    password -> isValidPassword(password)
-            })
+//            it.passowrdEditText.addTextChangedListener(TextWatcherConfigure(1) { password ->
+//                isValidPassword(password)
+//            })
 
         }
     }
-
 
     private fun initObserver() = with(viewModel) {
         response.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
         }
+    }
+
+    private fun isValidEmail(email: String) : Boolean {
+        val emailPattern = Patterns.EMAIL_ADDRESS
+
+        if (emailPattern.matcher(email).matches() || email.length <= 2) {
+            binding.emailTextInputLayout.isErrorEnabled = false
+        } else {
+            binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
+        }
+
+        return true
     }
 
     private fun isValidPassword(password: String): Boolean {

@@ -51,13 +51,9 @@ dependencies {
     //chucker
     debugImplementation("com.github.chuckerteam.chucker:library:3.5.2")
 
-
-
     //livedata
     implementation("android.arch.lifecycle:livedata:1.1.1")
     implementation("android.arch.lifecycle:livedata-core:1.1.1")
-
-
 
     //Gson
     implementation ("com.google.code.gson:gson:2.10.1")
@@ -65,7 +61,6 @@ dependencies {
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
-
 
     //room
     implementation("androidx.room:room-runtime:2.6.1")

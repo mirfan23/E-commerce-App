@@ -17,7 +17,6 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
         }
     }
 
-
     companion object {
         @Volatile
         private var instance : ViewModelFactory? = null
