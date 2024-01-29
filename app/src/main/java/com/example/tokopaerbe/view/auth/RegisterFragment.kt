@@ -7,23 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.core.remote.service.RegisterRequest
-import com.example.tokopaerbe.helper.TextWatcherConfigure
+import com.example.core.remote.data.RegisterRequest
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
-import com.example.tokopaerbe.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
-    private val viewModel by viewModels<PreLoginViewModel> {
-        ViewModelFactory.getInstance(requireContext())
-    }
+    private val viewModel: PreLoginViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +39,6 @@ class RegisterFragment : Fragment() {
         initView()
         initObserver()
     }
-
 
     private fun initView() {
         binding.toolbar.title = getString(R.string.register)
@@ -67,18 +65,29 @@ class RegisterFragment : Fragment() {
              */
 
             it.buttonRegister.setOnClickListener {
-                val  email = binding.emailEditText.text.toString().trim()
+                val email = binding.emailEditText.text.toString().trim()
                 val password = binding.passowrdEditText.text.toString().trim()
 
-                if (isValidEmail(email) && isValidPassword(password)){
+                if (isValidEmail(email) && isValidPassword(password)) {
                     val request = RegisterRequest(
                         email = email,
                         password = password,
                         firebaseToken = ""
                     )
                     viewModel.fetchRegister(request)
+
+//                    val email = binding.emailEditText.text.toString().trim()
+//                    val password = binding.passowrdEditText.text.toString().trim()
+//                    val firebaseToken = ""
+//                    viewModel.fetchRegister(email, firebaseToken, password)
                 } else {
-                    context?.let { it1 -> CustomSnackbar.showSnackBar(it1, binding.root, "Tolong Isi Email dan Passowrd") }
+                    context?.let { it1 ->
+                        CustomSnackbar.showSnackBar(
+                            it1,
+                            binding.root,
+                            "Tolong Isi Email dan Passowrd"
+                        )
+                    }
                 }
 
             }
@@ -93,12 +102,14 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initObserver() = with(viewModel) {
-        response.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+        lifecycleScope.launch {
+            response.collectLatest {
+                findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+            }
         }
     }
 
-    private fun isValidEmail(email: String) : Boolean {
+    private fun isValidEmail(email: String): Boolean {
         val emailPattern = Patterns.EMAIL_ADDRESS
 
         if (emailPattern.matcher(email).matches() || email.length <= 2) {

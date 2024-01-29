@@ -1,5 +1,4 @@
-package com.example.tokopaerbe.core.remote.service
-
+package com.example.core.remote.data
 
 import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
@@ -10,9 +9,9 @@ import android.os.Parcelable
 @Parcelize
 data class RegisterRequest(
     @SerializedName("email")
-    val email: String?,
+    val email: String? = null,
     @SerializedName("firebaseToken")
-    val firebaseToken: String?,
+    val firebaseToken: String? = null,
     @SerializedName("password")
-    val password: String?
+    val password: String? = null
 ) : Parcelable

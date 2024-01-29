@@ -10,18 +10,18 @@ import android.os.Parcelable
 @Parcelize
 data class ProfileResponse(
     @SerializedName("code")
-    val code: Int,
+    val code: Int = 0,
     @SerializedName("data")
-    val data: ProfileData,
+    val data: ProfileData = ProfileData(),
     @SerializedName("message")
-    val message: String
+    val message: String = ""
 ) : Parcelable {
     @Keep
     @Parcelize
     data class ProfileData(
         @SerializedName("userImage")
-        val userImage: String,
+        val userImage: String = "",
         @SerializedName("userName")
-        val userName: String
+        val userName: String = ""
     ) : Parcelable
 }

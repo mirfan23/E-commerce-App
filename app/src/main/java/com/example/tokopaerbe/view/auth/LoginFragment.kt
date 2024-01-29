@@ -7,24 +7,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.core.remote.data.ApiState
+import com.example.core.domain.model.UiState
+import com.example.core.domain.repository.AuthRepository
+import com.example.core.domain.usecase.AuthUseCase
 import com.example.core.remote.data.LoginRequest
-import com.example.core.remote.data.LoginResponse
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
-import com.example.tokopaerbe.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private val viewModel by viewModels<PreLoginViewModel> {
-        ViewModelFactory.getInstance(requireContext())
-    }
+     lateinit var authUseCase: AuthUseCase
+    lateinit var repository: AuthRepository
+    private val viewModel: PreLoginViewModel by viewModel()
+//    {
+//        ViewModelFactory(repository, authUseCase)
+//    }
+
+//    private val viewModel by viewModels<PreLoginViewModel> {
+//        ViewModelFactory.getInstance(requireContext())
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +70,11 @@ class LoginFragment : Fragment() {
                     firebaseToken = ""
                 )
                 viewModel.fetchLogin(request)
+
+//                val email = binding.emailEditText.text.toString().trim()
+//                val password = binding.passwordEditText.text.toString().trim()
+//                val firebaseToken = ""
+//                viewModel.fetchLogin()
             }
             it.buttonRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -73,12 +88,42 @@ class LoginFragment : Fragment() {
         }
     }
 
+//    private fun initObserver() = with(viewModel) {
+//        viewModel.responseLogin.observe(viewLifecycleOwner) { loginResponse ->
+//            if (loginResponse.code == 200) {
+//                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+//            } else {
+//                context?.let { CustomSnackbar.showSnackBar(it, binding.root, "Gagal cuy") }
+//            }
+//        }
+//    }
+
     private fun initObserver() = with(viewModel) {
-        viewModel.responseLogin.observe(viewLifecycleOwner) { loginResponse ->
-            if (loginResponse.code == 200) {
-                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-            } else {
-                context?.let { CustomSnackbar.showSnackBar(it, binding.root, "Gagal cuy") }
+        lifecycleScope.launch {
+            responseLogin.collectLatest { loginState ->
+                when (loginState) {
+                    is UiState.Success -> {
+                        val loginResponse = loginState.data
+                        if (loginResponse.userName == "") {
+                            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                        } else {
+                            context?.let {
+                                CustomSnackbar.showSnackBar(
+                                    it,
+                                    binding.root,
+                                    "Gagal Login"
+                                )
+                            }
+                        }
+                    }
+
+                    is UiState.Error -> {
+                        val errorMessage = "error: ${loginState.error}"
+                        context?.let { CustomSnackbar.showSnackBar(it, binding.root, errorMessage) }
+                    }
+
+                    else -> {}
+                }
             }
         }
     }
