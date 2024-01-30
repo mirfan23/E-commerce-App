@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.core.domain.model.UiState
 import com.example.tokopaerbe.R
 import com.example.core.remote.data.RegisterRequest
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
@@ -75,11 +76,6 @@ class RegisterFragment : Fragment() {
                         firebaseToken = ""
                     )
                     viewModel.fetchRegister(request)
-
-//                    val email = binding.emailEditText.text.toString().trim()
-//                    val password = binding.passowrdEditText.text.toString().trim()
-//                    val firebaseToken = ""
-//                    viewModel.fetchRegister(email, firebaseToken, password)
                 } else {
                     context?.let { it1 ->
                         CustomSnackbar.showSnackBar(
@@ -93,6 +89,7 @@ class RegisterFragment : Fragment() {
             }
             /**
              * Button for Password Check
+             * akan digunakan kembali
              */
 //            it.passowrdEditText.addTextChangedListener(TextWatcherConfigure(1) { password ->
 //                isValidPassword(password)
@@ -103,8 +100,17 @@ class RegisterFragment : Fragment() {
 
     private fun initObserver() = with(viewModel) {
         lifecycleScope.launch {
-            response.collectLatest {
-                findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                response.collectLatest {registerState ->
+                    when (registerState) {
+                        is UiState.Success -> {
+                            findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                        }
+                        is UiState.Error -> {
+                            val errorMessage = "error: ${registerState.error}"
+                            context?.let { CustomSnackbar.showSnackBar(it, binding.root, errorMessage) }
+                        }
+                        else -> {}
+                }
             }
         }
     }

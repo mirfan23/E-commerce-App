@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PreLoginViewModel(private val authInteractor: AuthInteractor) :
+class PreLoginViewModel(private val useCase: AuthUseCase) :
     ViewModel() {
 
     private val _response: MutableStateFlow<UiState<DataToken>> = MutableStateFlow(UiState.Empty)
@@ -24,19 +24,18 @@ class PreLoginViewModel(private val authInteractor: AuthInteractor) :
         MutableStateFlow(UiState.Empty)
     val responseLogin = _responseLogin.asStateFlow()
 
-    fun fetchRegister(request: RegisterRequest) {
+    fun fetchRegister(requestRegister: RegisterRequest) {
         viewModelScope.launch {
             _response.asMutableStateFLow {
-                authInteractor.register(request = request)
+                useCase.register(request = requestRegister)
             }
-            println("Gagal disini")
         }
     }
 
-    fun fetchLogin(request: LoginRequest) {
+    fun fetchLogin(requestLogin: LoginRequest) {
         viewModelScope.launch {
             _responseLogin.asMutableStateFLow {
-                authInteractor.login(request = request)
+                useCase.login(request = requestLogin)
             }
         }
     }

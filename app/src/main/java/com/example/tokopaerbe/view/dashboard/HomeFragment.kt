@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
                     lang = LANGUAGE_EN
                 }
             }
-            context?.let { viewModel.putLanguageStatus(LANGUAGE_KEY) }
+            context?.let { viewModel.putLanguageStatus(lang) }
         }
         //Button Log Out
         binding.buttonLogout.setOnClickListener {

@@ -25,16 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-     lateinit var authUseCase: AuthUseCase
-    lateinit var repository: AuthRepository
     private val viewModel: PreLoginViewModel by viewModel()
-//    {
-//        ViewModelFactory(repository, authUseCase)
-//    }
-
-//    private val viewModel by viewModels<PreLoginViewModel> {
-//        ViewModelFactory.getInstance(requireContext())
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,11 +61,6 @@ class LoginFragment : Fragment() {
                     firebaseToken = ""
                 )
                 viewModel.fetchLogin(request)
-
-//                val email = binding.emailEditText.text.toString().trim()
-//                val password = binding.passwordEditText.text.toString().trim()
-//                val firebaseToken = ""
-//                viewModel.fetchLogin()
             }
             it.buttonRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -88,23 +74,13 @@ class LoginFragment : Fragment() {
         }
     }
 
-//    private fun initObserver() = with(viewModel) {
-//        viewModel.responseLogin.observe(viewLifecycleOwner) { loginResponse ->
-//            if (loginResponse.code == 200) {
-//                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-//            } else {
-//                context?.let { CustomSnackbar.showSnackBar(it, binding.root, "Gagal cuy") }
-//            }
-//        }
-//    }
-
     private fun initObserver() = with(viewModel) {
         lifecycleScope.launch {
             responseLogin.collectLatest { loginState ->
                 when (loginState) {
                     is UiState.Success -> {
                         val loginResponse = loginState.data
-                        if (loginResponse.userName == "") {
+                        if (loginResponse.accessToken.isNotEmpty()) {
                             findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                         } else {
                             context?.let {

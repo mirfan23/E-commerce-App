@@ -55,7 +55,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFinish.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
         }
 
         val profileImage = binding.imageContainer
