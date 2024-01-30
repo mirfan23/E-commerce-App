@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.core.domain.model.UiState
-import com.example.core.domain.repository.AuthRepository
-import com.example.core.domain.usecase.AuthUseCase
 import com.example.core.remote.data.LoginRequest
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.helper.TextWatcherConfigure
@@ -55,12 +53,17 @@ class LoginFragment : Fragment() {
     private fun setOnClickListener() {
         binding.let {
             it.buttonLogin.setOnClickListener {
-                val request = LoginRequest(
-                    email = binding.emailEditText.text.toString().trim(),
-                    password = binding.passwordEditText.text.toString().trim(),
-                    firebaseToken = ""
-                )
-                viewModel.fetchLogin(request)
+                val email = binding.emailEditText.text.toString().trim()
+                val password = binding.passwordEditText.text.toString().trim()
+
+                if (validateEmail(email) && isValidPassword(password)) {
+                    val request = LoginRequest(
+                        email = email,
+                        password = password,
+                        firebaseToken = ""
+                    )
+                    viewModel.fetchLogin(request)
+                }
             }
             it.buttonRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -104,7 +107,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun validateEmail(email: String) {
+    private fun validateEmail(email: String): Boolean {
         val emailPattern = Patterns.EMAIL_ADDRESS
 
         if (emailPattern.matcher(email).matches() || email.length <= 2) {
@@ -112,6 +115,7 @@ class LoginFragment : Fragment() {
         } else {
             binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
         }
+        return true
     }
 
     private fun isValidPassword(password: String): Boolean {

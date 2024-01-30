@@ -5,9 +5,6 @@ import android.content.SharedPreferences
 
 interface SharedPreferencesHelper {
 
-    fun getSharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE)
-    }
     fun putThemeStatus(value: Boolean)
     fun getThemeStatus(): Boolean
     fun putLanguageStatus(value: String)

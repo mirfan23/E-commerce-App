@@ -6,7 +6,7 @@ import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RefreshTokenRequest
 import com.example.core.remote.data.RefreshTokenResponse
 import com.example.core.remote.data.RegisterResponse
-import com.example.core.remote.datasource.RemoteDataSource
+import com.example.core.remote.RemoteDataSource
 import com.example.core.utils.safeDataCall
 import com.example.core.remote.data.RegisterRequest
 import okhttp3.MultipartBody

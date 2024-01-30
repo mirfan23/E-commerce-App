@@ -15,7 +15,6 @@ object DataMapper {
         expiresAt = data.expiresAt,
         refreshToken = data.refreshToken,
         userName = data.userName,
-        userImage = data.userImage
     )
 
     fun RegisterResponse.toUIData() = DataToken(

@@ -100,16 +100,18 @@ class RegisterFragment : Fragment() {
 
     private fun initObserver() = with(viewModel) {
         lifecycleScope.launch {
-                response.collectLatest {registerState ->
-                    when (registerState) {
-                        is UiState.Success -> {
-                            findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
-                        }
-                        is UiState.Error -> {
-                            val errorMessage = "error: ${registerState.error}"
-                            context?.let { CustomSnackbar.showSnackBar(it, binding.root, errorMessage) }
-                        }
-                        else -> {}
+            response.collectLatest { registerState ->
+                when (registerState) {
+                    is UiState.Success -> {
+                        findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                    }
+
+                    is UiState.Error -> {
+                        val errorMessage = "error: ${registerState.error}"
+                        context?.let { CustomSnackbar.showSnackBar(it, binding.root, errorMessage) }
+                    }
+
+                    else -> {}
                 }
             }
         }

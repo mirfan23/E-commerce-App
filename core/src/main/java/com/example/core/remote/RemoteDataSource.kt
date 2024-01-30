@@ -1,4 +1,4 @@
-package com.example.core.remote.datasource
+package com.example.core.remote
 
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.LoginResponse

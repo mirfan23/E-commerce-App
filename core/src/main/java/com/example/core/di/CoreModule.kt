@@ -1,7 +1,6 @@
 package com.example.core.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.catnip.core.base.BaseModules
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core.domain.repository.AuthRepository
@@ -13,7 +12,7 @@ import com.example.core.local.preferences.SharedPreferenceImpl
 import com.example.core.local.preferences.SharedPreferenceImpl.Companion.PREFS_NAME
 import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.client.NetworkClient
-import com.example.core.remote.datasource.RemoteDataSource
+import com.example.core.remote.RemoteDataSource
 import com.example.core.remote.interceptor.AuthInterceptor
 import com.example.core.remote.interceptor.SessionInterceptor
 import com.example.core.remote.interceptor.TokenInterceptor
@@ -32,10 +31,10 @@ object CoreModule : BaseModules {
     }
 
     val networkModule = module {
+        single { ChuckerInterceptor.Builder(androidContext()).build() }
         single { AuthInterceptor(get()) }
         single { SessionInterceptor(get()) }
         single { TokenInterceptor(get(), get()) }
-        single { ChuckerInterceptor.Builder(androidContext()).build() }
         single { NetworkClient(get(), get(), get(), get()) }
         single<ApiEndPoint> { get<NetworkClient>().create() }
     }
