@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.model.UiState
+import com.example.core.domain.usecase.AuthInteractor
 import com.example.core.domain.usecase.AuthUseCase
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.RegisterRequest
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PreLoginViewModel(private val authUseCase: AuthUseCase) :
+class PreLoginViewModel(private val authInteractor: AuthInteractor) :
     ViewModel() {
 
     private val _response: MutableStateFlow<UiState<DataToken>> = MutableStateFlow(UiState.Empty)
@@ -26,15 +27,16 @@ class PreLoginViewModel(private val authUseCase: AuthUseCase) :
     fun fetchRegister(request: RegisterRequest) {
         viewModelScope.launch {
             _response.asMutableStateFLow {
-                authUseCase.register(request = request)
+                authInteractor.register(request = request)
             }
+            println("Gagal disini")
         }
     }
 
     fun fetchLogin(request: LoginRequest) {
         viewModelScope.launch {
             _responseLogin.asMutableStateFLow {
-                authUseCase.login(request = request)
+                authInteractor.login(request = request)
             }
         }
     }

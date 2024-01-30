@@ -19,6 +19,6 @@ interface AuthRepository {
         image: MultipartBody.Part
     ): ProfileResponse
 
-    fun getOnBoardingState(): Boolean
-    fun saveOnBoardingState(state: Boolean)
+//    fun getOnBoardingState(): Boolean
+//    fun saveOnBoardingState(state: Boolean)
 }

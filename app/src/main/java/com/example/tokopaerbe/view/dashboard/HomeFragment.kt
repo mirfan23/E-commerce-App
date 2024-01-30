@@ -13,11 +13,13 @@ import com.example.tokopaerbe.helper.Constant.LANGUAGE_EN
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_IN
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_KEY
 import com.example.tokopaerbe.helper.CustomSnackbar
-import com.example.tokopaerbe.helper.Helper
 import com.example.tokopaerbe.helper.checkIf
+import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private val viewModel: SharedPreferencesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +33,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val themeChecker = Helper.getThemeStatus(requireContext(), "dark")
-        val isLanguageIN = context?.let { Helper.getLanguageStatus(it, LANGUAGE_KEY) }
+        val themeChecker = viewModel.getThemeStatus()
+        val isLanguageIN = context?.let { viewModel.getLanguageStatus() }
         binding.switchTheme.checkIf(themeChecker)
         binding.switchLanguage.checkIf(isLanguageIN == LANGUAGE_IN)
         initView()
@@ -45,12 +47,12 @@ class HomeFragment : Fragment() {
             when (checkedId) {
                 true -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    context?.let { Helper.putThemeStatus(it, "dark", true) }
+                    context?.let { viewModel.putThemeStatus(true) }
                 }
 
                 false -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    context?.let { Helper.putThemeStatus(it, "dark", false) }
+                    context?.let { viewModel.putThemeStatus(false) }
                 }
             }
         }
@@ -74,7 +76,7 @@ class HomeFragment : Fragment() {
                     lang = LANGUAGE_EN
                 }
             }
-            context?.let { Helper.putLanguageStatus(it, lang, LANGUAGE_KEY) }
+            context?.let { viewModel.putLanguageStatus(LANGUAGE_KEY) }
         }
         //Button Log Out
         binding.buttonLogout.setOnClickListener {

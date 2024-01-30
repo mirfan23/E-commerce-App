@@ -12,12 +12,14 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.OnboardingAdapter
 import com.example.tokopaerbe.databinding.FragmentOnBoardingBinding
 import com.example.tokopaerbe.helper.Constant.SKIP_VALUE
-import com.example.tokopaerbe.helper.Helper
+import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OnBoardingFragment : Fragment() {
     private lateinit var _binding: FragmentOnBoardingBinding
     private val binding get() = _binding
+    private val viewModel: SharedPreferencesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +38,7 @@ class OnBoardingFragment : Fragment() {
 
         val tabLayout = binding.tabLayout
         TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
-        context?.let { Helper.putObstatus(it, SKIP_VALUE, true) }
+        viewModel.putOnBoardingState(true)
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.buttonNext.isVisible = position != onboardingAdapter.itemCount - 1

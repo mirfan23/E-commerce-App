@@ -1,6 +1,7 @@
 package com.example.core.remote.interceptor
 
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.example.core.BuildConfig
 import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.RefreshTokenRequest
 import com.example.core.remote.data.RefreshTokenResponse
@@ -49,7 +50,7 @@ class TokenInterceptor(
             val request = chain
                 .request()
                 .newBuilder()
-                .addHeader("API_KEY", API_KEY)
+                .addHeader("API_KEY", BuildConfig.API_KEY)
                 .build()
             chain.proceed(request)
         }
@@ -60,7 +61,7 @@ class TokenInterceptor(
             .build()
 
         val apiService = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(ApiEndPoint::class.java)

@@ -33,13 +33,13 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource):
         remote.fetchUploadProfile(username, image)
     }
 
-    override fun getOnBoardingState(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun saveOnBoardingState(state: Boolean) {
-        TODO("Not yet implemented")
-    }
+//    override fun getOnBoardingState(): Boolean {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun saveOnBoardingState(state: Boolean) {
+//        TODO("Not yet implemented")
+//    }
 
 
 }

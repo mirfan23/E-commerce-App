@@ -1,9 +1,8 @@
 package com.example.tokopaerbe
 
 import android.app.Application
-import com.example.core.di.coreModule
-import com.example.core.di.networkModule
-import com.example.tokopaerbe.di.viewModelModule
+import com.example.core.di.CoreModule
+import com.example.tokopaerbe.di.AppModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +15,12 @@ class TokoApplication : Application() {
         startKoin {
             androidLogger(level = Level.NONE)
             androidContext(this@TokoApplication)
-            modules(listOf(viewModelModule, coreModule, networkModule))
+            modules(
+                AppModule.getModules()
+            )
+            modules(
+                CoreModule.getModules()
+            )
         }
     }
 }

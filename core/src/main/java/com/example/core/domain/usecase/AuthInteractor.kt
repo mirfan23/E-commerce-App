@@ -4,6 +4,8 @@ import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.repository.AuthRepository
+import com.example.core.local.preferences.SharedPreferenceImpl
+import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.RefreshTokenRequest
 import com.example.core.utils.DataMapper.toUIData
@@ -13,7 +15,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class AuthInteractor(private val repository: AuthRepository):
+class AuthInteractor(private val repository: AuthRepository, private val sharedPreferencesHelper: SharedPreferencesHelper):
     AuthUseCase {
 
     override suspend fun login(request: LoginRequest): DataLogin =
@@ -35,9 +37,4 @@ class AuthInteractor(private val repository: AuthRepository):
         withContext(Dispatchers.IO){
             repository.fetchUploadProfile(username, userImage).toUIData()
         }
-
-//    override fun getOnBoardingState(): Boolean = repository.getOnBoardingState()
-//    override fun saveOnBoardingState(state: Boolean) {
-//        repository.saveOnBoardingState(state)
-//    }
 }
