@@ -2,11 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
-    id("kotlin-parcelize")
 //    id("com.google.gms.google-services")
 }
-
-apply(from="../shared_dependencies.gradle")
 
 android {
     namespace = "com.example.tokopaerbe"
@@ -47,14 +44,11 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
-
+    api(project(":core"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-
-
 
     //lottie
     implementation ("com.airbnb.android:lottie:3.6.1")

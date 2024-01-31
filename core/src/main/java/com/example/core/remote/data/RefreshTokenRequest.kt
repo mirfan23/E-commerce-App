@@ -1,6 +1,5 @@
 package com.example.core.remote.data
 
-
 import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize

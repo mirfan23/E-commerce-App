@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Bundle
@@ -32,9 +33,16 @@ import com.example.tokopaerbe.helper.Constant.DATE_FORMAT
 import com.example.tokopaerbe.helper.Constant.EXTRAS_DATA
 import com.example.tokopaerbe.helper.Constant.INTENT_TYPE
 import com.example.tokopaerbe.helper.Constant.MIME_TYPE
+import com.example.tokopaerbe.helper.Constant.NEGATIVE_BUTTON_TEXT
 import com.example.tokopaerbe.helper.Constant.READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.example.tokopaerbe.helper.SnK
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -42,6 +50,7 @@ import java.util.Locale
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private val viewModel: PreLoginViewModel by viewModel()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,18 +62,33 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFinish.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-        }
+
 
         val profileImage = binding.imageContainer
         profileImage.setOnClickListener {
             showAlertDialog()
         }
-
-        tColor()
+        syaratKetentuan()
         initView()
+        initListener()
     }
+
+    private fun initListener() {
+        binding.buttonFinish.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
+        }
+    }
+
+//    private fun initObserver() = with(viewModel) {
+//        val username = binding.nameEditText.text.toString().trim()
+//        val userImage = (binding.imageContainer.drawable as? BitmapDrawable)?.bitmap
+//
+//        if (username.isNotEmpty() && userImage != null) {
+//            val requestBody = RequestBody.create("multipart/from-data".toMediaTypeOrNull(), username)
+//            val userImagePart = MultipartBody.Part.createFromData
+//        }
+//
+//    }
 
     private fun initView() {
         binding.toolbar.title = getString(R.string.profile)
@@ -117,7 +141,7 @@ class ProfileFragment : Fragment() {
                 } == PackageManager.PERMISSION_GRANTED
             ) {
                 val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
+                intent.type = INTENT_TYPE
                 galleryLauncher.launch(intent)
             } else {
                 activity?.let {
@@ -162,7 +186,7 @@ class ProfileFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Permission denied. Cannot proceed.",
+                    NEGATIVE_BUTTON_TEXT,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -179,7 +203,7 @@ class ProfileFragment : Fragment() {
             .setNegativeButton("Deny") { _, _ ->
                 Toast.makeText(
                     requireContext(),
-                    "Permission denied. Cannot proceed.",
+                    NEGATIVE_BUTTON_TEXT,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -237,7 +261,7 @@ class ProfileFragment : Fragment() {
         } else {
             Toast.makeText(
                 requireContext(),
-                "Permission denied. Cannot proceed.",
+                NEGATIVE_BUTTON_TEXT,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -278,7 +302,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun tColor() {
+    fun syaratKetentuan() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language

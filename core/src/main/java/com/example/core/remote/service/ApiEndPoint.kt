@@ -6,7 +6,7 @@ import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RefreshTokenRequest
 import com.example.core.remote.data.RefreshTokenResponse
 import com.example.core.remote.data.RegisterResponse
-import com.example.tokopaerbe.core.remote.service.RegisterRequest
+import com.example.core.remote.data.RegisterRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -22,7 +22,7 @@ interface ApiEndPoint {
     suspend fun fetchLogin(@Body request: LoginRequest): LoginResponse
 
     @POST("refresh")
-    suspend fun fetchRefresh(@Body request: RefreshTokenRequest) : RefreshTokenResponse
+    suspend fun fetchRefreshToken(@Body request: RefreshTokenRequest) : RefreshTokenResponse
 
     @POST("profile")
     @Multipart

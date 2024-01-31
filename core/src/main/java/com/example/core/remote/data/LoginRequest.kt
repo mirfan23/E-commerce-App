@@ -10,9 +10,9 @@ import android.os.Parcelable
 @Parcelize
 data class LoginRequest(
     @SerializedName("email")
-    val email: String?,
+    val email: String? = null,
     @SerializedName("firebaseToken")
-    val firebaseToken: String?,
+    val firebaseToken: String? = null,
     @SerializedName("password")
-    val password: String?
+    val password: String? = null
 ) : Parcelable

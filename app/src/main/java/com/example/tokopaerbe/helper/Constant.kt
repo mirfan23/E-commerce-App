@@ -10,6 +10,7 @@ object Constant {
     const val EXTRAS_DATA = "data"
     const val DATE_FORMAT = "yyyyMMdd_HHmm ss"
     const val MIME_TYPE = "image/jpeg"
+    const val NEGATIVE_BUTTON_TEXT = "Permission denied. Cannot proceed."
 
     //Onboarding Fragment
     const val SKIP_VALUE = "skip"

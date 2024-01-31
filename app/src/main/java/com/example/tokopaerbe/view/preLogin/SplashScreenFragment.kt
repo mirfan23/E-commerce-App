@@ -24,14 +24,16 @@ import com.example.tokopaerbe.helper.Constant.SKIP_KEY
 import com.example.tokopaerbe.helper.Constant.YELLOW_ROTATION
 import com.example.tokopaerbe.helper.Constant.YELLOW_TRANSLATION_X
 import com.example.tokopaerbe.helper.Constant.YELLOW_TRANSLATION_Y
-import com.example.tokopaerbe.helper.Helper
+import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
     private lateinit var binding: FragmentSplashScreenBinding
+    private val viewModel: SharedPreferencesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +69,7 @@ class SplashScreenFragment : Fragment() {
     }
 
     private fun navigate() {
-        val skip = context?.let { Helper.getObstatus(it, SKIP_KEY) }
+        val skip = context?.let { viewModel.getOnBoardingState() }
 
         if (skip == true) {
             Handler(Looper.getMainLooper()).postDelayed(
