@@ -73,14 +73,6 @@ class LoginFragment :
                             val loginResponse = loginState.data
                             if (loginResponse.accessToken.isNotEmpty()) {
                                 findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                            } else {
-                                context?.let {
-                                    CustomSnackbar.showSnackBar(
-                                        it,
-                                        binding.root,
-                                        "Gagal Login"
-                                    )
-                                }
                             }
                         }
 

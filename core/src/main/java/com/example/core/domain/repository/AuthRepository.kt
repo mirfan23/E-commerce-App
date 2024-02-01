@@ -23,5 +23,6 @@ interface AuthRepository {
 //    suspend fun getOnBoardingState(): Boolean
 //    suspend fun saveOnBoardingState(state: Boolean)
 //    suspend fun getAccessToken(): String
-//    suspend fun saveAccessToken(string: String)
+    fun saveAccessToken(string: String)
+    fun saveRefreshToken(string: String)
 }

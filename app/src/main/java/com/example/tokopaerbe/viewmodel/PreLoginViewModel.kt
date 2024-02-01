@@ -63,4 +63,9 @@ class PreLoginViewModel(private val useCase: AuthUseCase) :
             }
         }
     }
+
+    fun saveSession(dataToken: DataToken) {
+        useCase.saveAccessToken(dataToken.accessToken)
+        useCase.saveRefreshToken(dataToken.refreshToken)
+    }
 }

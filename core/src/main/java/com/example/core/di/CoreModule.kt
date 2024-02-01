@@ -45,7 +45,7 @@ object CoreModule : BaseModules {
     }
 
     val repositoryModule = module {
-        single<AuthRepository> { AuthRepositoryImpl(get()) }
+        single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     }
 
     val useCaseModule = module {

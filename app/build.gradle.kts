@@ -73,6 +73,9 @@ dependencies {
     //Shimmer Effect
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
 
+    //window
+    implementation("androidx.window:window:1.2.0")
+
     //testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

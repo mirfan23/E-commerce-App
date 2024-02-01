@@ -8,4 +8,14 @@ class LocalDataSource(private val sharedPreferencesHelper: SharedPreferencesHelp
     fun saveOnBoardingState(state: Boolean) {
         sharedPreferencesHelper.putOnBoardingState(state)
     }
+
+//    fun getOnBoardingState(): Boolean = sharedPreferencesHelper.getOnBoardingState()
+
+    fun saveRefreshToken(token: String) {
+        sharedPreferencesHelper.putRefreshToken(token)
+    }
+
+    fun saveAccessToken(token: String) {
+        sharedPreferencesHelper.putAccessToken(token)
+    }
 }

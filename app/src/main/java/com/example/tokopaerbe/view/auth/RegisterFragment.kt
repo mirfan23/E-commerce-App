@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.UiState
+import com.example.core.domain.model.oError
+import com.example.core.domain.model.onSuccess
 import com.example.tokopaerbe.R
 import com.example.core.remote.data.RegisterRequest
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
@@ -23,7 +25,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding, PreLoginViewModel>(FragmentRegisterBinding::inflate) {
+class RegisterFragment :
+    BaseFragment<FragmentRegisterBinding, PreLoginViewModel>(FragmentRegisterBinding::inflate) {
     override val viewModel: PreLoginViewModel by viewModel()
     override fun initView() {
         binding.toolbar.title = getString(R.string.register)
@@ -86,26 +89,18 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, PreLoginViewModel
         with(viewModel) {
             lifecycleScope.launch {
                 response.collectLatest { registerState ->
-                    when (registerState) {
-                        is UiState.Success -> {
-                            withContext(Dispatchers.Main){
-                                findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
-                            }
-
+                    registerState.onSuccess { token ->
+                        viewModel.saveSession(token)
+                        findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                    }.oError { error ->
+                        val errorMessage = "error: ${error}"
+                        context?.let {
+                            CustomSnackbar.showSnackBar(
+                                it,
+                                binding.root,
+                                errorMessage
+                            )
                         }
-
-                        is UiState.Error -> {
-                            val errorMessage = "error: ${registerState.error}"
-                            context?.let {
-                                CustomSnackbar.showSnackBar(
-                                    it,
-                                    binding.root,
-                                    errorMessage
-                                )
-                            }
-                        }
-
-                        else -> {}
                     }
                 }
             }

@@ -31,6 +31,13 @@ class AuthInteractor(private val repository: AuthRepository, private val sharedP
             repository.fetchUploadProfile(userName, userImage).toUIData()
         }
 
+    override fun saveAccessToken(string: String) {
+        repository.saveAccessToken(string)
+    }
+
+    override fun saveRefreshToken(string: String) {
+        repository.saveRefreshToken(string)
+    }
 
 
 //    override suspend fun sessionData(): DataSession {

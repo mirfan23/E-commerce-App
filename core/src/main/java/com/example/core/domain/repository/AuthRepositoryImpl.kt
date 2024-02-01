@@ -1,5 +1,6 @@
 package com.example.core.domain.repository
 
+import com.example.core.local.LocalDataSource
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProfileResponse
@@ -10,7 +11,7 @@ import com.example.core.remote.data.RegisterRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class AuthRepositoryImpl(private val remote: RemoteDataSource):
+class AuthRepositoryImpl(private val remote: RemoteDataSource, private val local: LocalDataSource):
     AuthRepository {
     override suspend fun fetchLogin(request: LoginRequest): LoginResponse = safeDataCall {
        remote.fetchLogin(request)
@@ -36,7 +37,7 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource):
 //
 //    }
 //
-//    override suspend fun saveProfileNae(string: String) {
+//    override suspend fun saveProfileName(string: String) {
 //    }
 //
 //    override suspend fun getOnBoardingState(): Boolean {
@@ -48,8 +49,13 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource):
 //    override suspend fun getAccessToken(): String {
 //    }
 //
-//    override suspend fun saveAccessToken(string: String) {
-//    }
+    override fun saveAccessToken(string: String) {
+        local.saveAccessToken(string)
+    }
+
+    override fun saveRefreshToken(string: String) {
+        local.saveRefreshToken(string)
+    }
 
 //    override fun getOnBoardingState(): Boolean {
 //

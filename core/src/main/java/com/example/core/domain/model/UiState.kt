@@ -7,7 +7,7 @@ sealed class UiState<out R> {
     object Empty : UiState<Nothing>()
 }
 
-fun <T> UiState <T>.onSuccess(
+fun <T>UiState <T>.onSuccess(
     execute: (data: T) -> Unit
 ): UiState<T> = apply {
     if (this is UiState.Success) {
@@ -16,7 +16,7 @@ fun <T> UiState <T>.onSuccess(
     }
 }
 
-fun <T> UiState <T>.oError(
+fun <T>UiState <T>.oError(
     execute: (error: Throwable) -> Unit
 ): UiState<T> = apply {
     if (this is UiState.Error) {
@@ -25,7 +25,7 @@ fun <T> UiState <T>.oError(
     }
 }
 
-fun <T> UiState <T>.onLoading(
+fun <T>UiState <T>.onLoading(
     execute: () -> Unit
 ): UiState<T> = apply {
     if (this is UiState.Loading) {

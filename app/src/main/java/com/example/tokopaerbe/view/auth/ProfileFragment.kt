@@ -17,6 +17,7 @@ import android.text.method.LinkMovementMethod
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -57,7 +58,6 @@ class ProfileFragment :
     BaseFragment<FragmentProfileBinding, PreLoginViewModel>(FragmentProfileBinding::inflate) {
     override val viewModel: PreLoginViewModel by viewModel()
 
-    private var imageFile: File? = null
     private var currentImageUri: Uri? = null
 
     override fun initView() {
@@ -75,23 +75,10 @@ class ProfileFragment :
         }
         //button finish
         buttonFinish.setOnClickListener {
-            if (imageFile != null) {
-                imageFile?.let {
-                    println("Value of imageFile: $imageFile")
-                    val multiPart = it.toRequestBody().let { requestBody ->
-                        MultipartBody.Part.createFormData(
-                            "photo",
-                            it.name,
-                            requestBody
-                        )
-                    }
-                    viewModel.fetchProfile(
-                        userName = binding.nameEditText.text.toString().toRequestBody("text/plain".toMediaType()),
-                        userImage = multiPart
-                    )
+            if (currentImageUri != null) {
+                currentImageUri?.let {
+                    sendProfileToApi(binding.nameEditText.text.toString(), currentImageUri)
                 }
-            } else {
-                sendProfileToApi(binding.nameEditText.text.toString(), currentImageUri)
             }
         }
     }
@@ -102,7 +89,6 @@ class ProfileFragment :
                 responseProfile.collectLatest { profileState ->
                     when (profileState) {
                         is UiState.Success -> {
-                            println("SUKSES COY")
                             val profileResponse = profileState.data
                             if (profileResponse.userName.isNotEmpty()) {
                                 findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
@@ -275,16 +261,9 @@ class ProfileFragment :
             binding.imageContainer.scaleType = ImageView.ScaleType.CENTER_CROP
 
             lifecycleScope.launch {
-                imageFile = selectedImageUri?.let { uri ->
-                    context?.let { ctx ->
-                        convertFileFromContentUri(
-                            ctx,
-                            uri
-                        )
-                    }
-                }
-                if (imageFile != null) {
-                    binding.imageContainer.load(imageFile)
+                currentImageUri = selectedImageUri
+                if (currentImageUri != null) {
+                    binding.imageContainer.load(currentImageUri)
                 }
             }
         }
@@ -344,8 +323,7 @@ class ProfileFragment :
         return try {
             uri?.let { contentUri ->
                 val file = File(contentUri.path ?: "")
-                imageFile = file
-                println("Value of imageFile: $imageFile")
+                currentImageUri = contentUri
                 resolver.openOutputStream(contentUri)?.use { outputStream ->
                     // compress and save bitmap
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
@@ -354,7 +332,7 @@ class ProfileFragment :
                         null
                     ) { _, _ -> }
                     true
-                }?: false
+                } ?: false
             } ?: false
         } catch (e: Exception) {
             e.printStackTrace()
@@ -363,20 +341,28 @@ class ProfileFragment :
     }
 
     private fun sendProfileToApi(name: String, imageUri: Uri?) {
+        println("Value of imageFile: ${imageUri.toString()}")
         imageUri?.let { uri ->
             context?.let { ctx ->
                 val imageFile = convertFileFromContentUri(ctx, uri)
                 val requestFile =
-                    imageFile?.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    imageFile?.toRequestBody()
                 val imagePart =
                     requestFile?.let {
                         MultipartBody.Part.createFormData(
-                            "file", imageFile.name,
+                            "userImage", imageFile.name,
                             it
                         )
                     }
 
-                imagePart?.let { viewModel.fetchProfile(name.toRequestBody(), it) }
+
+                imagePart?.let { imagepart ->
+                    viewModel.fetchProfile(
+                        name.toRequestBody("text/plain".toMediaType()),
+                        imagepart
+                    )
+                }
+
             }
         }
     }
