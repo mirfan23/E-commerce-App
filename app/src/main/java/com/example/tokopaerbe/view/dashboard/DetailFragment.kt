@@ -1,20 +1,16 @@
 package com.example.tokopaerbe.view.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
+import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.databinding.FragmentDetailBinding
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailFragment : Fragment() {
-    private lateinit var binding: FragmentDetailBinding
+class DetailFragment : BaseFragment<FragmentDetailBinding, PreLoginViewModel>(FragmentDetailBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
+    override fun initView() {}
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDetailBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+    override fun initListener() {}
+
+    override fun observeData() {}
 }

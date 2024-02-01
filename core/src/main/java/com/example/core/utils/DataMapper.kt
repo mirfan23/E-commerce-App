@@ -38,4 +38,10 @@ object DataMapper {
 //    fun SessionData.toUIData = DataSession(
 //
 //    )
+
+    fun DataLogin.toDataToken() = DataToken(
+        accessToken = accessToken,
+        refreshToken = refreshToken,
+        expiresAt = expiresAt
+    )
 }

@@ -1,16 +1,10 @@
 package com.example.tokopaerbe.view.auth
 
-import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
-import com.example.core.domain.model.UiState
 import com.example.core.domain.model.oError
 import com.example.core.domain.model.onSuccess
 import com.example.tokopaerbe.R
@@ -19,10 +13,8 @@ import com.example.tokopaerbe.databinding.FragmentRegisterBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment :
@@ -68,11 +60,10 @@ class RegisterFragment :
                         CustomSnackbar.showSnackBar(
                             it1,
                             binding.root,
-                            "Tolong Isi Email dan Passowrd"
+                            getString(R.string.register_validation)
                         )
                     }
                 }
-
             }
             /**
              * Button for Password Check
@@ -111,12 +102,12 @@ class RegisterFragment :
         val emailPattern = Patterns.EMAIL_ADDRESS
 
         if (emailPattern.matcher(email).matches() || email.length <= 2) {
-            binding.emailTextInputLayout.isErrorEnabled = false
+            binding.emailTextInputLayout.isErrorEnabled = true
         } else {
             binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
+            return false
         }
-
-        return true
+        return emailPattern.matcher(email).matches()
     }
 
     private fun isValidPassword(password: String): Boolean {

@@ -3,15 +3,12 @@ package com.example.tokopaerbe.view.preLogin
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentSplashScreenBinding
 import com.example.tokopaerbe.helper.Constant.ANIMATION_DELAY
@@ -20,7 +17,6 @@ import com.example.tokopaerbe.helper.Constant.GREEN_TRANSLATION_Y
 import com.example.tokopaerbe.helper.Constant.RED_ROTATION
 import com.example.tokopaerbe.helper.Constant.RED_TRANSLATION_X
 import com.example.tokopaerbe.helper.Constant.RED_TRANSLATION_Y
-import com.example.tokopaerbe.helper.Constant.SKIP_KEY
 import com.example.tokopaerbe.helper.Constant.YELLOW_ROTATION
 import com.example.tokopaerbe.helper.Constant.YELLOW_TRANSLATION_X
 import com.example.tokopaerbe.helper.Constant.YELLOW_TRANSLATION_Y
@@ -29,29 +25,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 @SuppressLint("CustomSplashScreen")
-class SplashScreenFragment : Fragment() {
-    private lateinit var binding: FragmentSplashScreenBinding
-    private val viewModel: SharedPreferencesViewModel by viewModel()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding, SharedPreferencesViewModel>(FragmentSplashScreenBinding::inflate) {
+    override val viewModel: SharedPreferencesViewModel by viewModel()
+    override fun initView() {
         animation()
         lifecycleScope.launch {
             delay(ANIMATION_DELAY)
             navigate()
         }
     }
+
+    override fun initListener() {}
+
+    override fun observeData() {}
 
     private fun animation() {
         val yellowAnimator = ObjectAnimator.ofFloat(binding.splashScreenYellow, View.ROTATION, ANIMATION_START, YELLOW_ROTATION)

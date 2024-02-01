@@ -9,8 +9,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.window.layout.WindowMetricsCalculator
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentDashboardBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.navigationrail.NavigationRailView
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
@@ -30,12 +34,41 @@ class DashboardFragment : Fragment() {
         val navHostFragment =  childFragmentManager.findFragmentById(R.id.fragment_container_dashboard) as NavHostFragment
         navController = navHostFragment.navController
 
-        binding.bottomNavbar.setupWithNavController(navController)
         initView()
+        initListener()
     }
 
     private fun initView() {
         binding.toolbar.title = getString(R.string.username)
+    }
+
+    private fun initListener() = with(binding) {
+        val metrics = activity?.let { activity ->
+            WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(
+                activity
+            )
+        }
+
+        val withDP = metrics?.bounds?.width()?.div(resources.displayMetrics.density)
+
+        if(withDP != null) {
+            when {
+                withDP < 600f -> {
+                    val bottomNav = binding.bottomNavbar as BottomNavigationView
+                    bottomNav.setupWithNavController(navController)
+                }
+
+                withDP < 840f -> {
+                    val bottomNav = binding.bottomNavbar as NavigationRailView
+                    bottomNav.setupWithNavController(navController)
+                }
+
+                else -> {
+                    val bottomNav = binding.bottomNavbar as NavigationView
+                    bottomNav.setupWithNavController(navController)
+                }
+            }
+        }
     }
 
     fun logOutHandler() {

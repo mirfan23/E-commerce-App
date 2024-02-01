@@ -51,7 +51,7 @@
         android:layout_toEndOf="@id/bottom_navbar"
         android:background="@color/neutral" />
 
-    <com.google.android.material.navigationrail.NavigationRailView
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/bottom_navbar"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

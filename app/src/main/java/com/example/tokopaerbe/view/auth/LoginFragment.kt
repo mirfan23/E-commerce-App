@@ -1,17 +1,14 @@
 package com.example.tokopaerbe.view.auth
 
-import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Patterns
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
-import com.example.core.domain.model.UiState
+import com.example.core.domain.model.oError
+import com.example.core.domain.model.onSuccess
 import com.example.core.remote.data.LoginRequest
+import com.example.core.utils.DataMapper.toDataToken
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
@@ -50,6 +47,14 @@ class LoginFragment :
                         firebaseToken = ""
                     )
                     viewModel.fetchLogin(request)
+                } else {
+                    context?.let { it1 ->
+                        CustomSnackbar.showSnackBar(
+                            it1,
+                            binding.root,
+                            getString(R.string.register_validation)
+                        )
+                    }
                 }
             }
             it.buttonRegister.setOnClickListener {
@@ -68,26 +73,18 @@ class LoginFragment :
         with(viewModel) {
             lifecycleScope.launch {
                 responseLogin.collectLatest { loginState ->
-                    when (loginState) {
-                        is UiState.Success -> {
-                            val loginResponse = loginState.data
-                            if (loginResponse.accessToken.isNotEmpty()) {
-                                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                            }
+                    loginState.onSuccess { data ->
+                        viewModel.saveSession(data.toDataToken())
+                        findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                    }.oError { error ->
+                        val errorMessage = "error: ${error}"
+                        context?.let {
+                            CustomSnackbar.showSnackBar(
+                                it,
+                                binding.root,
+                                errorMessage
+                            )
                         }
-
-                        is UiState.Error -> {
-                            val errorMessage = "error: ${loginState.error}"
-                            context?.let {
-                                CustomSnackbar.showSnackBar(
-                                    it,
-                                    binding.root,
-                                    errorMessage
-                                )
-                            }
-                        }
-
-                        else -> {}
                     }
                 }
             }
@@ -102,7 +99,7 @@ class LoginFragment :
         } else {
             binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
         }
-        return true
+        return emailPattern.matcher(email).matches()
     }
 
     private fun isValidPassword(password: String): Boolean {
@@ -139,7 +136,6 @@ class LoginFragment :
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language
-        println("")
         sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
     }
