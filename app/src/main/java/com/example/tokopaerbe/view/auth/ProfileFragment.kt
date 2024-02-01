@@ -105,7 +105,6 @@ class ProfileFragment :
 
                         is UiState.Error -> {
                             val errorMessage = "error: ${profileState.error}"
-                            println("GAGAL COY MAMPUS")
                             context?.let {
                                 CustomSnackbar.showSnackBar(
                                     it,
@@ -113,7 +112,6 @@ class ProfileFragment :
                                     errorMessage
                                 )
                             }
-                            println("HAYO: ${profileState.error}")
                         }
 
                         else -> {}
@@ -341,7 +339,6 @@ class ProfileFragment :
     }
 
     private fun sendProfileToApi(name: String, imageUri: Uri?) {
-        println("Value of imageFile: ${imageUri.toString()}")
         imageUri?.let { uri ->
             context?.let { ctx ->
                 val imageFile = convertFileFromContentUri(ctx, uri)
