@@ -3,8 +3,6 @@ package com.example.core.domain.repository
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProfileResponse
-import com.example.core.remote.data.RefreshTokenRequest
-import com.example.core.remote.data.RefreshTokenResponse
 import com.example.core.remote.data.RegisterResponse
 import com.example.core.remote.RemoteDataSource
 import com.example.core.utils.safeDataCall
@@ -22,23 +20,43 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource):
         remote.fetchRegister(request)
     }
 
-    override suspend fun fetchRefreshToken(request: RefreshTokenRequest): RefreshTokenResponse = safeDataCall {
-        remote.fetchRefreshToken(request)
-    }
 
     override suspend fun fetchUploadProfile(
-        username: RequestBody,
-        image: MultipartBody.Part
+        userName: RequestBody,
+        userImage: MultipartBody.Part
     ): ProfileResponse = safeDataCall{
-        remote.fetchUploadProfile(username, image)
+        remote.fetchUploadProfile(userName, userImage)
     }
 
+    /**
+     * entar kepake
+     */
+
+//    override suspend fun getProfileName(): String {
+//
+//    }
+//
+//    override suspend fun saveProfileNae(string: String) {
+//    }
+//
+//    override suspend fun getOnBoardingState(): Boolean {
+//    }
+//
+//    override suspend fun saveOnBoardingState(state: Boolean) {
+//    }
+//
+//    override suspend fun getAccessToken(): String {
+//    }
+//
+//    override suspend fun saveAccessToken(string: String) {
+//    }
+
 //    override fun getOnBoardingState(): Boolean {
-//        TODO("Not yet implemented")
+//
 //    }
 //
 //    override fun saveOnBoardingState(state: Boolean) {
-//        TODO("Not yet implemented")
+//
 //    }
 
 

@@ -8,22 +8,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.method.LinkMovementMethod
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
+import com.catnip.core.base.BaseFragment
+import com.example.core.domain.model.UiState
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentProfileBinding
 import com.example.tokopaerbe.helper.Constant.ALERT_MESSAGE
@@ -35,66 +34,107 @@ import com.example.tokopaerbe.helper.Constant.INTENT_TYPE
 import com.example.tokopaerbe.helper.Constant.MIME_TYPE
 import com.example.tokopaerbe.helper.Constant.NEGATIVE_BUTTON_TEXT
 import com.example.tokopaerbe.helper.Constant.READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
+import com.example.tokopaerbe.helper.CustomSnackbar
+import com.example.tokopaerbe.helper.MediaHelper.convertFileFromContentUri
+import com.example.tokopaerbe.helper.MediaHelper.toRequestBody
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import okhttp3.MediaType
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
-    private val viewModel: PreLoginViewModel by viewModel()
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+class ProfileFragment :
+    BaseFragment<FragmentProfileBinding, PreLoginViewModel>(FragmentProfileBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private var imageFile: File? = null
+    private var currentImageUri: Uri? = null
 
-
-
-        val profileImage = binding.imageContainer
-        profileImage.setOnClickListener {
-            showAlertDialog()
-        }
-        syaratKetentuan()
-        initView()
-        initListener()
-    }
-
-    private fun initListener() {
-        binding.buttonFinish.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
-        }
-    }
-
-//    private fun initObserver() = with(viewModel) {
-//        val username = binding.nameEditText.text.toString().trim()
-//        val userImage = (binding.imageContainer.drawable as? BitmapDrawable)?.bitmap
-//
-//        if (username.isNotEmpty() && userImage != null) {
-//            val requestBody = RequestBody.create("multipart/from-data".toMediaTypeOrNull(), username)
-//            val userImagePart = MultipartBody.Part.createFromData
-//        }
-//
-//    }
-
-    private fun initView() {
+    override fun initView() {
         binding.toolbar.title = getString(R.string.profile)
         binding.nameTextInput.hint = getString(R.string.name)
         binding.buttonFinish.text = getString(R.string.finish)
         binding.imageContainer.setImageResource(R.drawable.ic_person_outlined_white)
+        termsCo()
+    }
+
+    override fun initListener() = with(binding) {
+        //add image container
+        imageContainer.setOnClickListener {
+            showAlertDialog()
+        }
+        //button finish
+        buttonFinish.setOnClickListener {
+            if (imageFile != null) {
+                imageFile?.let {
+                    println("Value of imageFile: $imageFile")
+                    val multiPart = it.toRequestBody().let { requestBody ->
+                        MultipartBody.Part.createFormData(
+                            "photo",
+                            it.name,
+                            requestBody
+                        )
+                    }
+                    viewModel.fetchProfile(
+                        userName = binding.nameEditText.text.toString().toRequestBody("text/plain".toMediaType()),
+                        userImage = multiPart
+                    )
+                }
+            } else {
+                sendProfileToApi(binding.nameEditText.text.toString(), currentImageUri)
+            }
+        }
+    }
+
+    override fun observeData() {
+        with(viewModel) {
+            lifecycleScope.launch {
+                responseProfile.collectLatest { profileState ->
+                    when (profileState) {
+                        is UiState.Success -> {
+                            println("SUKSES COY")
+                            val profileResponse = profileState.data
+                            if (profileResponse.userName.isNotEmpty()) {
+                                findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
+                            } else {
+                                context?.let {
+                                    CustomSnackbar.showSnackBar(
+                                        it,
+                                        binding.root,
+                                        "Gagal Kirim Profile"
+                                    )
+                                }
+                            }
+                        }
+
+                        is UiState.Error -> {
+                            val errorMessage = "error: ${profileState.error}"
+                            println("GAGAL COY MAMPUS")
+                            context?.let {
+                                CustomSnackbar.showSnackBar(
+                                    it,
+                                    binding.root,
+                                    errorMessage
+                                )
+                            }
+                            println("HAYO: ${profileState.error}")
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
     }
 
     private fun showAlertDialog() {
@@ -123,7 +163,7 @@ class ProfileFragment : Fragment() {
             cameraLauncher.launch(intent)
         } else {
             activity?.let {
-               requestPermissions(
+                requestPermissions(
                     arrayOf(Manifest.permission.CAMERA),
                     CAMERA_PERMISSION_REQUEST_CODE
                 )
@@ -219,7 +259,11 @@ class ProfileFragment : Fragment() {
                 binding.imageContainer.setImageBitmap(imageBitMap)
                 binding.imageContainer.scaleType = ImageView.ScaleType.CENTER_CROP
 
-                context?.let { saveImageToInternalStorage(it, imageBitMap!!) }
+                context?.let { ctx ->
+                    imageBitMap?.let { bitmap ->
+                        saveImage(ctx, bitmap)
+                    }
+                }
             }
         }
 
@@ -229,6 +273,20 @@ class ProfileFragment : Fragment() {
             val selectedImageUri = data?.data
             binding.imageContainer.setImageURI(selectedImageUri)
             binding.imageContainer.scaleType = ImageView.ScaleType.CENTER_CROP
+
+            lifecycleScope.launch {
+                imageFile = selectedImageUri?.let { uri ->
+                    context?.let { ctx ->
+                        convertFileFromContentUri(
+                            ctx,
+                            uri
+                        )
+                    }
+                }
+                if (imageFile != null) {
+                    binding.imageContainer.load(imageFile)
+                }
+            }
         }
 
     override fun onRequestPermissionsResult(
@@ -267,10 +325,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun saveImageToInternalStorage(context: Context, bitmap: Bitmap): Boolean {
+    private fun saveImage(context: Context, bitmap: Bitmap): Boolean {
         val timeStamp = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date())
         val displayName = "image_$timeStamp.jpg"
-
         val directory = Environment.DIRECTORY_PICTURES
 
         // Buat value yang akan di masukkan ke dalam detail gambar
@@ -285,16 +342,19 @@ class ProfileFragment : Fragment() {
         val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
         return try {
-            val file = File(uri?.path ?: "")
             uri?.let { contentUri ->
+                val file = File(contentUri.path ?: "")
+                imageFile = file
+                println("Value of imageFile: $imageFile")
                 resolver.openOutputStream(contentUri)?.use { outputStream ->
+                    // compress and save bitmap
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     MediaScannerConnection.scanFile(
                         context, arrayOf(file.absolutePath),
                         null
                     ) { _, _ -> }
                     true
-                } ?: false
+                }?: false
             } ?: false
         } catch (e: Exception) {
             e.printStackTrace()
@@ -302,7 +362,26 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun syaratKetentuan() {
+    private fun sendProfileToApi(name: String, imageUri: Uri?) {
+        imageUri?.let { uri ->
+            context?.let { ctx ->
+                val imageFile = convertFileFromContentUri(ctx, uri)
+                val requestFile =
+                    imageFile?.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                val imagePart =
+                    requestFile?.let {
+                        MultipartBody.Part.createFormData(
+                            "file", imageFile.name,
+                            it
+                        )
+                    }
+
+                imagePart?.let { viewModel.fetchProfile(name.toRequestBody(), it) }
+            }
+        }
+    }
+
+    fun termsCo() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language

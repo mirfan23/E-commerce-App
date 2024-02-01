@@ -10,6 +10,5 @@ data class DataLogin (
     var accessToken: String ="",
     var expiresAt: Int = 0,
     var refreshToken: String = "",
-    var userImage: String = "",
     var userName: String =""
 ): Parcelable

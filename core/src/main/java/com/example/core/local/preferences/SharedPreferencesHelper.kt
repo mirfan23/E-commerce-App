@@ -16,9 +16,4 @@ interface SharedPreferencesHelper {
     fun putOnBoardingState(value: Boolean)
     fun getOnBoardingState(): Boolean
     fun clearAllData()
-
-    companion object {
-        private const val SHARED_PREF_FILE = "userPreference"
-        private const val IMAGE_PATH_KEY = "imagePathKey"
-    }
 }

@@ -2,6 +2,7 @@ package com.example.core.utils
 
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProfile
+import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProfileResponse
@@ -33,4 +34,8 @@ object DataMapper {
         userName = data.userName,
         userImage = data.userImage
     )
+
+//    fun SessionData.toUIData = DataSession(
+//
+//    )
 }

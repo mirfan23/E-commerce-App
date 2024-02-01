@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.navigation.fragment.findNavController
+import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentHomeBinding
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_EN
@@ -17,31 +19,12 @@ import com.example.tokopaerbe.helper.checkIf
 import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
-    private val viewModel: SharedPreferencesViewModel by viewModel()
+class HomeFragment : BaseFragment<FragmentHomeBinding,SharedPreferencesViewModel >(FragmentHomeBinding::inflate) {
+    override val viewModel: SharedPreferencesViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+    override fun observeData() {}
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val themeChecker = viewModel.getThemeStatus()
-        val isLanguageIN = context?.let { viewModel.getLanguageStatus() }
-        binding.switchTheme.checkIf(themeChecker)
-        binding.switchLanguage.checkIf(isLanguageIN == LANGUAGE_IN)
-        initView()
-        initListener()
-    }
-
-    private fun initListener() {
+    override fun initListener() {
         //Button Switch Theme for Change Theme
         binding.switchTheme.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -80,11 +63,11 @@ class HomeFragment : Fragment() {
         }
         //Button Log Out
         binding.buttonLogout.setOnClickListener {
-            context?.let { it1 -> CustomSnackbar.showSnackBar(it1, binding.root, "ini Snack Bar") }
+            findNavController().navigate(R.id.action_dashboardFragment_to_loginFragment)
         }
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.buttonLogout.text = getString(R.string.logout)
         binding.tvLight.text = getString(R.string.light)
         binding.tvDark.text = getString(R.string.dark)

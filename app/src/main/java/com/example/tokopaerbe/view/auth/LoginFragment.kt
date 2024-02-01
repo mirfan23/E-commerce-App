@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.UiState
 import com.example.core.remote.data.LoginRequest
 import com.example.tokopaerbe.R
@@ -21,37 +22,23 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    private val viewModel: PreLoginViewModel by viewModel()
+class LoginFragment :
+    BaseFragment<FragmentLoginBinding, PreLoginViewModel>(FragmentLoginBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
-        return binding.root
+    override fun initView() = with(binding) {
+
+        toolbar.title = getString(R.string.login)
+        buttonLogin.text = getString(R.string.login)
+        another.text = getString(R.string.another2)
+        buttonRegister.text = getString(R.string.register)
+        emailEditText.hint = getString(R.string.email)
+        passwordEditText.hint = getString(R.string.password)
+        termsCo()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
-        tColor()
-        initView()
-        initObserver()
-    }
-
-    private fun initView() {
-        binding.toolbar.title = getString(R.string.login)
-        binding.buttonLogin.text = getString(R.string.login)
-        binding.another.text = getString(R.string.another2)
-        binding.buttonRegister.text = getString(R.string.register)
-        binding.emailEditText.hint = getString(R.string.email)
-        binding.passwordEditText.hint = getString(R.string.password)
-    }
-
-    private fun setOnClickListener() {
-        binding.let {
+    override fun initListener() = with(binding) {
+        let {
             it.buttonLogin.setOnClickListener {
                 val email = binding.emailEditText.text.toString().trim()
                 val password = binding.passwordEditText.text.toString().trim()
@@ -77,31 +64,39 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun initObserver() = with(viewModel) {
-        lifecycleScope.launch {
-            responseLogin.collectLatest { loginState ->
-                when (loginState) {
-                    is UiState.Success -> {
-                        val loginResponse = loginState.data
-                        if (loginResponse.accessToken.isNotEmpty()) {
-                            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                        } else {
+    override fun observeData() {
+        with(viewModel) {
+            lifecycleScope.launch {
+                responseLogin.collectLatest { loginState ->
+                    when (loginState) {
+                        is UiState.Success -> {
+                            val loginResponse = loginState.data
+                            if (loginResponse.accessToken.isNotEmpty()) {
+                                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                            } else {
+                                context?.let {
+                                    CustomSnackbar.showSnackBar(
+                                        it,
+                                        binding.root,
+                                        "Gagal Login"
+                                    )
+                                }
+                            }
+                        }
+
+                        is UiState.Error -> {
+                            val errorMessage = "error: ${loginState.error}"
                             context?.let {
                                 CustomSnackbar.showSnackBar(
                                     it,
                                     binding.root,
-                                    "Gagal Login"
+                                    errorMessage
                                 )
                             }
                         }
-                    }
 
-                    is UiState.Error -> {
-                        val errorMessage = "error: ${loginState.error}"
-                        context?.let { CustomSnackbar.showSnackBar(it, binding.root, errorMessage) }
+                        else -> {}
                     }
-
-                    else -> {}
                 }
             }
         }
@@ -148,7 +143,7 @@ class LoginFragment : Fragment() {
         binding.passwordtextInputLayout.isErrorEnabled = false
     }
 
-    fun tColor() {
+    private fun termsCo() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language

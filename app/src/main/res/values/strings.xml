@@ -5,9 +5,9 @@
     <string name="user_image">user image</string>
     <string name="username">John Doe</string>
     <string name="menu_cart_title">Cart</string>
-    <string name="menu_notification_title">Notfication</string>
+    <string name="menu_notification_title">Notification</string>
     <string name="another">or Log In with</string>
-    <string name="another2">or Regsiter with</string>
+    <string name="another2">or Register with</string>
     <string name="term_condition_register"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
     <string name="term_condition_login"><![CDATA[With the registration here, you agree to the Terms & Conditions as well as the Privacy Policy of TokoPhincon.]]></string>
     <string name="email">Email</string>
@@ -22,7 +22,7 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="join_now">Join Now</string>
-    <string name="profile">Profil</string>
+    <string name="profile">Profile</string>
     <string name="name">Name</string>
     <string name="logout">Log Out</string>
     <string name="en">EN</string>
