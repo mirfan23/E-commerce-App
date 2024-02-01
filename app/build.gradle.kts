@@ -63,10 +63,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
-    //koin
-    implementation("io.insert-koin:koin-core:3.5.3")
-    implementation ("io.insert-koin:koin-android:3.5.3")
-
     //glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt ("com.github.bumptech.glide:compiler:4.4.0")
@@ -76,6 +72,9 @@ dependencies {
 
     //Shimmer Effect
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
+    //window
+    implementation("androidx.window:window:1.2.0")
 
     //testing
     testImplementation("junit:junit:4.13.2")

@@ -32,9 +32,9 @@ class RemoteDataSource(private val apiEndPoint: ApiEndPoint) {
     }
 
     suspend fun fetchUploadProfile(
-        username: RequestBody,
+        userName: RequestBody,
         userImage: MultipartBody.Part
     ): ProfileResponse {
-        return safeApiCall { apiEndPoint.fetchProfile(username, userImage) }
+        return safeApiCall { apiEndPoint.fetchProfile(userName, userImage) }
     }
 }

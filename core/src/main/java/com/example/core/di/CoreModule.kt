@@ -41,11 +41,11 @@ object CoreModule : BaseModules {
 
     val dataSourceModule = module {
         single { RemoteDataSource(get()) }
-        single { LocalDataSource() }
+        single { LocalDataSource(get()) }
     }
 
     val repositoryModule = module {
-        single<AuthRepository> { AuthRepositoryImpl(get()) }
+        single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     }
 
     val useCaseModule = module {

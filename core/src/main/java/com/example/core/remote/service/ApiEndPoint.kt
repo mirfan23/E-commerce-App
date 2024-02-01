@@ -27,7 +27,7 @@ interface ApiEndPoint {
     @POST("profile")
     @Multipart
     suspend fun fetchProfile(
-        @Part username: RequestBody,
-        @Part userImage: MultipartBody.Part
+        @Part ("userName") userName : RequestBody,
+        @Part userImage : MultipartBody.Part
     ) : ProfileResponse
 }

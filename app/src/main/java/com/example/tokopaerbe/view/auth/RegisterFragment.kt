@@ -9,39 +9,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.UiState
+import com.example.core.domain.model.oError
+import com.example.core.domain.model.onSuccess
 import com.example.tokopaerbe.R
 import com.example.core.remote.data.RegisterRequest
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : Fragment() {
-
-    private lateinit var binding: FragmentRegisterBinding
-    private val viewModel: PreLoginViewModel by viewModel()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
-        tColor()
-        initView()
-        initObserver()
-    }
-
-    private fun initView() {
+class RegisterFragment :
+    BaseFragment<FragmentRegisterBinding, PreLoginViewModel>(FragmentRegisterBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
+    override fun initView() {
         binding.toolbar.title = getString(R.string.register)
         binding.emailEditText.hint = getString(R.string.email)
         binding.emailTextInputLayout.helperText = getString(R.string.example_email)
@@ -50,10 +37,10 @@ class RegisterFragment : Fragment() {
         binding.buttonRegister.text = getString(R.string.register)
         binding.another.text = getString(R.string.another)
         binding.buttonLogin.text = getString(R.string.login)
-
+        termsCo()
     }
 
-    private fun setOnClickListener() {
+    override fun initListener() {
         binding.let {
             /**
              * Button for Register to Login
@@ -98,20 +85,23 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun initObserver() = with(viewModel) {
-        lifecycleScope.launch {
-            response.collectLatest { registerState ->
-                when (registerState) {
-                    is UiState.Success -> {
+    override fun observeData() {
+        with(viewModel) {
+            lifecycleScope.launch {
+                response.collectLatest { registerState ->
+                    registerState.onSuccess { token ->
+                        viewModel.saveSession(token)
                         findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                    }.oError { error ->
+                        val errorMessage = "error: ${error}"
+                        context?.let {
+                            CustomSnackbar.showSnackBar(
+                                it,
+                                binding.root,
+                                errorMessage
+                            )
+                        }
                     }
-
-                    is UiState.Error -> {
-                        val errorMessage = "error: ${registerState.error}"
-                        context?.let { CustomSnackbar.showSnackBar(it, binding.root, errorMessage) }
-                    }
-
-                    else -> {}
                 }
             }
         }
@@ -160,7 +150,7 @@ class RegisterFragment : Fragment() {
     }
 
 
-    fun tColor() {
+    fun termsCo() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language

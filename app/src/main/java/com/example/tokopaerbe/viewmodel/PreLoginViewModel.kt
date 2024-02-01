@@ -6,10 +6,8 @@ import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.model.UiState
-import com.example.core.domain.usecase.AuthInteractor
 import com.example.core.domain.usecase.AuthUseCase
 import com.example.core.remote.data.LoginRequest
-import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RegisterRequest
 import com.example.core.utils.asMutableStateFLow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +34,8 @@ class PreLoginViewModel(private val useCase: AuthUseCase) :
     /**
      * profile
      */
-    private val _responseProfile: MutableStateFlow<UiState<DataProfile>> = MutableStateFlow(UiState.Empty)
+    private val _responseProfile: MutableStateFlow<UiState<DataProfile>> =
+        MutableStateFlow(UiState.Empty)
     val responseProfile = _responseProfile.asStateFlow()
 
     fun fetchRegister(requestRegister: RegisterRequest) {
@@ -47,6 +46,7 @@ class PreLoginViewModel(private val useCase: AuthUseCase) :
         }
     }
 
+
     fun fetchLogin(requestLogin: LoginRequest) {
         viewModelScope.launch {
             _responseLogin.asMutableStateFLow {
@@ -55,11 +55,17 @@ class PreLoginViewModel(private val useCase: AuthUseCase) :
         }
     }
 
-    fun fetchProfile(username: RequestBody, userImage: MultipartBody.Part) {
+    fun fetchProfile(userName: RequestBody, userImage: MultipartBody.Part) {
+        println("Masuk ViewModel")
         viewModelScope.launch {
             _responseProfile.asMutableStateFLow {
-                useCase.uploadProfile(username = username, userImage = userImage)
+                useCase.uploadProfile(userName = userName, userImage = userImage)
             }
         }
+    }
+
+    fun saveSession(dataToken: DataToken) {
+        useCase.saveAccessToken(dataToken.accessToken)
+        useCase.saveRefreshToken(dataToken.refreshToken)
     }
 }
