@@ -14,5 +14,7 @@ interface AuthUseCase {
     suspend fun uploadProfile(userName: RequestBody, userImage: MultipartBody.Part): DataProfile
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)
+
+
 //    suspend fun sessionData(): DataSession
 }

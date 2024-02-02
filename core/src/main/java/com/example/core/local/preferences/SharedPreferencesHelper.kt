@@ -15,5 +15,7 @@ interface SharedPreferencesHelper {
     fun getRefreshToken(): String?
     fun putOnBoardingState(value: Boolean)
     fun getOnBoardingState(): Boolean
+    fun putProfileName(value: String)
+    fun getProfileName(): String?
     fun clearAllData()
 }

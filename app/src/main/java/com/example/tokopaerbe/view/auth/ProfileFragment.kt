@@ -349,7 +349,6 @@ class ProfileFragment :
                         )
                     }
 
-
                 imagePart?.let { imagepart ->
                     viewModel.fetchProfile(
                         name.toRequestBody("text/plain".toMediaType()),

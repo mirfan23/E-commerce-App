@@ -1,10 +1,6 @@
 package com.example.tokopaerbe.view.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.fragment.findNavController
@@ -13,9 +9,6 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentHomeBinding
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_EN
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_IN
-import com.example.tokopaerbe.helper.Constant.LANGUAGE_KEY
-import com.example.tokopaerbe.helper.CustomSnackbar
-import com.example.tokopaerbe.helper.checkIf
 import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,SharedPreferencesViewModel
         }
         //Button Log Out
         binding.buttonLogout.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_loginFragment)
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.findNavController()?.navigate(R.id.action_dashboardFragment_to_loginFragment)
         }
     }
 

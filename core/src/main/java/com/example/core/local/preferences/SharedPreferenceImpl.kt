@@ -11,6 +11,7 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         private const val KEY_ON_BOARDING_STATE = "on_boarding_state"
         private const val LANGUAGE_STATUS= "language_status"
         private const val THEME_STATUS= "theme_status"
+        private const val PROFILE_KEY = "profile_key"
     }
 
     override fun putThemeStatus(value: Boolean) {
@@ -51,6 +52,14 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
 
     override fun getOnBoardingState(): Boolean {
         return sharedPreferences.getBoolean(KEY_ON_BOARDING_STATE, false)
+    }
+
+    override fun putProfileName(value: String) {
+        return sharedPreferences.edit().putString(PROFILE_KEY, value).apply()
+    }
+
+    override fun getProfileName(): String? {
+        return sharedPreferences.getString(PROFILE_KEY, null)
     }
 
     override fun clearAllData() {
