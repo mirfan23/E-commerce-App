@@ -18,11 +18,16 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.catnip.core.base.BaseFragment
-import com.example.core.domain.model.UiState
+import com.example.core.domain.state.oError
+import com.example.core.domain.state.onCreated
+import com.example.core.domain.state.onSuccess
+import com.example.core.domain.state.onValue
+import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentProfileBinding
 import com.example.tokopaerbe.helper.Constant.ALERT_MESSAGE
@@ -66,11 +71,12 @@ class ProfileFragment :
     }
 
     override fun initListener() = with(binding) {
-        //add image container
+        nameEditText.doOnTextChanged { text, _, before, _ ->
+            viewModel.validateProfileName(text.toString())
+        }
         imageContainer.setOnClickListener {
             showAlertDialog()
         }
-        //button finish
         buttonFinish.setOnClickListener {
             if (currentImageUri != null) {
                 currentImageUri?.let {
@@ -82,38 +88,38 @@ class ProfileFragment :
 
     override fun observeData() {
         with(viewModel) {
-            lifecycleScope.launch {
-                responseProfile.collectLatest { profileState ->
-                    when (profileState) {
-                        is UiState.Success -> {
-                            val profileResponse = profileState.data
-                            if (profileResponse.userName.isNotEmpty()) {
-                                findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
-                            } else {
-                                context?.let {
-                                    CustomSnackbar.showSnackBar(
-                                        it,
-                                        binding.root,
-                                        "Gagal Kirim Profile"
-                                    )
-                                }
-                            }
-                        }
-
-                        is UiState.Error -> {
-                            val errorMessage = "error: ${profileState.error}"
-                            context?.let {
-                                CustomSnackbar.showSnackBar(
-                                    it,
-                                    binding.root,
-                                    errorMessage
-                                )
-                            }
-                        }
-
-                        else -> {}
+            responseProfile.launchAndCollectIn(viewLifecycleOwner) { profileState ->
+                profileState.onSuccess { data ->
+                    viewModel.saveProfileName(data)
+                    println("MASUK: $data")
+                    findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
+                }.oError {
+                    context?.let {
+                        CustomSnackbar.showSnackBar(
+                            it,
+                            binding.root,
+                            "Gagal Kirim Profile"
+                        )
                     }
                 }
+            }
+            validateProfileName.launchAndCollectIn(viewLifecycleOwner){state ->
+                state.onCreated {}
+                    .onValue {isValid->
+                        binding.run {
+                            nameTextInput.isErrorEnabled = isValid.not()
+//                            if (isValid) {
+//                                if (currentImageUri != null) {
+//                                    currentImageUri?.let {
+//                                        sendProfileToApi(binding.nameEditText.text.toString(), currentImageUri)
+//                                    }
+//                                }
+//                            }
+                            if (isValid) {
+                                nameTextInput.error = null
+                            } else nameTextInput.error = "Name Can Not be Null"
+                        }
+                    }
             }
         }
     }

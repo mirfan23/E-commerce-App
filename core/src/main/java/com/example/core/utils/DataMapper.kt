@@ -4,6 +4,7 @@ import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
+import com.example.core.domain.state.SplashState
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RefreshTokenResponse
@@ -35,13 +36,37 @@ object DataMapper {
         userImage = data.userImage
     )
 
-//    fun SessionData.toUIData = DataSession(
-//
-//    )
-
     fun DataLogin.toDataToken() = DataToken(
         accessToken = accessToken,
         refreshToken = refreshToken,
         expiresAt = expiresAt
     )
+
+    fun DataLogin.toProfileName() = DataProfile(
+        userName = userName,
+    )
+
+    fun Triple<String, String, Boolean>.toUIData() = DataSession(
+        name = this.first,
+        accessToken = this.second,
+        onBoardingState = this.third
+    )
+
+    fun DataSession.toSplashState() = when {
+        this.name.isEmpty() && this.accessToken.isNullOrEmpty().not() -> {
+            SplashState.Profile
+        }
+
+        this.name.isNullOrEmpty().not() && this.accessToken.isNullOrEmpty().not() -> {
+            SplashState.Dashboard
+        }
+
+        this.onBoardingState -> {
+            SplashState.Login
+        }
+
+        else -> {
+            SplashState.OnBoarding
+        }
+    }
 }

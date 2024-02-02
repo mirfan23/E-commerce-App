@@ -1,6 +1,5 @@
 package com.example.core.local.preferences
 
-import android.content.Context
 import android.content.SharedPreferences
 
 class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : SharedPreferencesHelper {
@@ -26,24 +25,24 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         sharedPreferences.edit().putString(LANGUAGE_STATUS, value).apply()
     }
 
-    override fun getLanguageStatus(): String? {
-        return sharedPreferences.getString(LANGUAGE_STATUS, null)
+    override fun getLanguageStatus(): String {
+        return sharedPreferences.getString(LANGUAGE_STATUS, "").toString()
     }
 
     override fun putAccessToken(value: String) {
         sharedPreferences.edit().putString(KEY_ACCESS_TOKEN, value).apply()
     }
 
-    override fun getAccessToken(): String? {
-        return sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
+    override fun getAccessToken(): String {
+        return sharedPreferences.getString(KEY_ACCESS_TOKEN, "").toString()
     }
 
     override fun putRefreshToken(value: String) {
         sharedPreferences.edit().putString(KEY_REFRESH_TOKEN, value).apply()
     }
 
-    override fun getRefreshToken(): String? {
-        return sharedPreferences.getString(KEY_REFRESH_TOKEN, null)
+    override fun getRefreshToken(): String {
+        return sharedPreferences.getString(KEY_REFRESH_TOKEN, "").toString()
     }
 
     override fun putOnBoardingState(value: Boolean) {
@@ -58,12 +57,17 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         return sharedPreferences.edit().putString(PROFILE_KEY, value).apply()
     }
 
-    override fun getProfileName(): String? {
-        return sharedPreferences.getString(PROFILE_KEY, null)
+    override fun getProfileName(): String {
+        return sharedPreferences.getString(PROFILE_KEY, "").toString()
     }
 
-    override fun clearAllData() {
-        sharedPreferences.edit().clear().apply()
+    override fun clearAllSession() {
+        sharedPreferences.edit().apply{
+            remove(KEY_ACCESS_TOKEN)
+            remove(KEY_REFRESH_TOKEN)
+            remove(PROFILE_KEY)
+            apply()
+        }
     }
 
 }

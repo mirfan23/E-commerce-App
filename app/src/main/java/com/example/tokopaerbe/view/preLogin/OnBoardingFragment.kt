@@ -8,12 +8,12 @@ import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.OnboardingAdapter
 import com.example.tokopaerbe.databinding.FragmentOnBoardingBinding
-import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
+import com.example.tokopaerbe.viewmodel.DashBoardViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OnBoardingFragment : BaseFragment<FragmentOnBoardingBinding, SharedPreferencesViewModel>(FragmentOnBoardingBinding::inflate) {
-    override val viewModel: SharedPreferencesViewModel by viewModel()
+class OnBoardingFragment : BaseFragment<FragmentOnBoardingBinding, DashBoardViewModel>(FragmentOnBoardingBinding::inflate) {
+    override val viewModel: DashBoardViewModel by viewModel()
 
     override fun observeData() {}
 

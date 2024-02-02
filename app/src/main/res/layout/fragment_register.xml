@@ -53,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 tools:hint="@string/email" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -74,8 +75,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                tools:hint="@string/password"
-                android:inputType="textEmailAddress" />
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                tools:hint="@string/password" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -113,10 +115,10 @@
             android:layout_marginRight="115dp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_horizontal|center_vertical"
-            tools:text="@string/another"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_register" />
+            app:layout_constraintTop_toBottomOf="@+id/button_register"
+            tools:text="@string/another" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="0dp"

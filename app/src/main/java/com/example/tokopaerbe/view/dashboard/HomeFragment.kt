@@ -5,17 +5,25 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
+import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentHomeBinding
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_EN
 import com.example.tokopaerbe.helper.Constant.LANGUAGE_IN
-import com.example.tokopaerbe.viewmodel.SharedPreferencesViewModel
+import com.example.tokopaerbe.helper.checkIf
+import com.example.tokopaerbe.viewmodel.DashBoardViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : BaseFragment<FragmentHomeBinding,SharedPreferencesViewModel >(FragmentHomeBinding::inflate) {
-    override val viewModel: SharedPreferencesViewModel by viewModel()
+class HomeFragment : BaseFragment<FragmentHomeBinding,DashBoardViewModel >(FragmentHomeBinding::inflate) {
+    override val viewModel: DashBoardViewModel by viewModel()
 
-    override fun observeData() {}
+    override fun observeData() {
+        viewModel.run {
+            theme.launchAndCollectIn(viewLifecycleOwner) {
+                binding.switchTheme.checkIf(it)
+            }
+        }
+    }
 
     override fun initListener() {
         //Button Switch Theme for Change Theme
@@ -56,6 +64,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,SharedPreferencesViewModel
         }
         //Button Log Out
         binding.buttonLogout.setOnClickListener {
+            viewModel.clearAllSession()
             activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.findNavController()?.navigate(R.id.action_dashboardFragment_to_loginFragment)
         }
     }
@@ -65,5 +74,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,SharedPreferencesViewModel
         binding.tvLight.text = getString(R.string.light)
         binding.tvDark.text = getString(R.string.dark)
 
+        viewModel.getThemeStatus()
     }
 }
