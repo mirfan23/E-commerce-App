@@ -14,15 +14,17 @@ object ValidationHelper {
         val isValid = this?.let {it.length >= 8}
         /**
          * akan digunakan kembali
+         *
+         * if (password.none { it.isUpperCase() }) {
+         *             showError("Password setidaknya terdapat satu huruf kapital")
+         *             return false
+         *         }
+         *         if (password.none { !it.isLetterOrDigit() }) {
+         *             showError("Password harus mengandung setidaknya satu karakter khusus")
+         *             return false
+         *         }
          */
-//        if (password.none { it.isUpperCase() }) {
-//            showError("Password setidaknya terdapat satu huruf kapital")
-//            return false
-//        }
-//        if (password.none { !it.isLetterOrDigit() }) {
-//            showError("Password harus mengandung setidaknya satu karakter khusus")
-//            return false
-//        }
+
          return isValid == true
     }
 
