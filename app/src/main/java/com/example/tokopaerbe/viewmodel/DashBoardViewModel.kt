@@ -1,25 +1,16 @@
 package com.example.tokopaerbe.viewmodel
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.state.SplashState
-import com.example.core.domain.usecase.AuthUseCase
+import com.example.core.domain.usecase.AppUseCase
 import com.example.core.utils.DataMapper.toSplashState
 import com.example.tokopaerbe.helper.Constant
-import com.example.tokopaerbe.view.dashboard.HomeFragment
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DashBoardViewModel(private val useCase: AuthUseCase) : ViewModel() {
+class DashBoardViewModel(private val useCase: AppUseCase) : ViewModel() {
     private  val _theme = MutableStateFlow(false)
     val theme = _theme.asStateFlow()
 

@@ -6,6 +6,7 @@ import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RegisterResponse
 import com.example.core.remote.RemoteDataSource
+import com.example.core.remote.data.ProductResponse
 import com.example.core.utils.safeDataCall
 import com.example.core.remote.data.RegisterRequest
 import okhttp3.MultipartBody
@@ -21,7 +22,6 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource, private val local
         remote.fetchRegister(request)
     }
 
-
     override suspend fun fetchUploadProfile(
         userName: RequestBody,
         userImage: MultipartBody.Part
@@ -29,9 +29,7 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource, private val local
         remote.fetchUploadProfile(userName, userImage)
     }
 
-    override suspend fun dataSession(name: String, accessToken: String, onBoardingState: Boolean) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun dataSession(name: String, accessToken: String, onBoardingState: Boolean) {}
 
     override fun getProfileName(): String = local.getProfileName().toString()
 

@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.method.LinkMovementMethod
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,6 +26,7 @@ import coil.load
 import com.catnip.core.base.BaseFragment
 import com.example.core.domain.state.oError
 import com.example.core.domain.state.onCreated
+import com.example.core.domain.state.onLoading
 import com.example.core.domain.state.onSuccess
 import com.example.core.domain.state.onValue
 import com.example.core.utils.launchAndCollectIn
@@ -91,7 +93,8 @@ class ProfileFragment :
             responseProfile.launchAndCollectIn(viewLifecycleOwner) { profileState ->
                 profileState.onSuccess { data ->
                     viewModel.saveProfileName(data)
-                    println("MASUK: $data")
+                    binding.loadingOverlay.visibility = View.GONE
+                    binding.lottieLoading.visibility = View.GONE
                     findNavController().navigate(R.id.action_profileFragment_to_dashboardFragment)
                 }.oError {
                     context?.let {
@@ -101,6 +104,9 @@ class ProfileFragment :
                             "Gagal Kirim Profile"
                         )
                     }
+                }.onLoading {
+                    binding.loadingOverlay.visibility = View.VISIBLE
+                    binding.lottieLoading.visibility = View.VISIBLE
                 }
             }
             validateProfileName.launchAndCollectIn(viewLifecycleOwner){state ->
@@ -108,13 +114,6 @@ class ProfileFragment :
                     .onValue {isValid->
                         binding.run {
                             nameTextInput.isErrorEnabled = isValid.not()
-//                            if (isValid) {
-//                                if (currentImageUri != null) {
-//                                    currentImageUri?.let {
-//                                        sendProfileToApi(binding.nameEditText.text.toString(), currentImageUri)
-//                                    }
-//                                }
-//                            }
                             if (isValid) {
                                 nameTextInput.error = null
                             } else nameTextInput.error = "Name Can Not be Null"

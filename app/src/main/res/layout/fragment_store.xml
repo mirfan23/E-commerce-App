@@ -24,8 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_search"
-                android:fontFamily="@font/poppins_regular"
                 android:drawablePadding="10dp"
+                android:fontFamily="@font/poppins_regular"
                 android:shadowRadius="50" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -33,17 +33,24 @@
             android:id="@+id/filter_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_below="@id/search_bar">
+            android:layout_below="@id/search_bar"
+            android:layout_marginHorizontal="8dp">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/btn_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/filter"
                 android:fontFamily="@font/poppins_medium"
                 app:chipIcon="@drawable/ic_filter"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/filter" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_change_view"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.chip.Chip
@@ -51,6 +58,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 app:checkedIcon="@drawable/ic_grid"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@android:color/transparent"
@@ -70,6 +78,23 @@
             android:layout_alignParentBottom="true"
             tools:listitem="@layout/store_card_view" />
     </RelativeLayout>
+
+    <View
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_animation" />
 
     <com.example.tokopaerbe.helper.ErrorCustomView
         android:id="@+id/error_view"
