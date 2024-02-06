@@ -1,6 +1,5 @@
 package com.example.core.local.preferences
 
-import android.content.Context
 import android.content.SharedPreferences
 
 class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : SharedPreferencesHelper {
@@ -11,6 +10,7 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         private const val KEY_ON_BOARDING_STATE = "on_boarding_state"
         private const val LANGUAGE_STATUS= "language_status"
         private const val THEME_STATUS= "theme_status"
+        private const val PROFILE_KEY = "profile_key"
     }
 
     override fun putThemeStatus(value: Boolean) {
@@ -25,24 +25,24 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         sharedPreferences.edit().putString(LANGUAGE_STATUS, value).apply()
     }
 
-    override fun getLanguageStatus(): String? {
-        return sharedPreferences.getString(LANGUAGE_STATUS, null)
+    override fun getLanguageStatus(): String {
+        return sharedPreferences.getString(LANGUAGE_STATUS, "").toString()
     }
 
     override fun putAccessToken(value: String) {
         sharedPreferences.edit().putString(KEY_ACCESS_TOKEN, value).apply()
     }
 
-    override fun getAccessToken(): String? {
-        return sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
+    override fun getAccessToken(): String {
+        return sharedPreferences.getString(KEY_ACCESS_TOKEN, "").toString()
     }
 
     override fun putRefreshToken(value: String) {
         sharedPreferences.edit().putString(KEY_REFRESH_TOKEN, value).apply()
     }
 
-    override fun getRefreshToken(): String? {
-        return sharedPreferences.getString(KEY_REFRESH_TOKEN, null)
+    override fun getRefreshToken(): String {
+        return sharedPreferences.getString(KEY_REFRESH_TOKEN, "").toString()
     }
 
     override fun putOnBoardingState(value: Boolean) {
@@ -53,8 +53,21 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         return sharedPreferences.getBoolean(KEY_ON_BOARDING_STATE, false)
     }
 
-    override fun clearAllData() {
-        sharedPreferences.edit().clear().apply()
+    override fun putProfileName(value: String) {
+        return sharedPreferences.edit().putString(PROFILE_KEY, value).apply()
+    }
+
+    override fun getProfileName(): String {
+        return sharedPreferences.getString(PROFILE_KEY, "").toString()
+    }
+
+    override fun clearAllSession() {
+        sharedPreferences.edit().apply{
+            remove(KEY_ACCESS_TOKEN)
+            remove(KEY_REFRESH_TOKEN)
+            remove(PROFILE_KEY)
+            apply()
+        }
     }
 
 }

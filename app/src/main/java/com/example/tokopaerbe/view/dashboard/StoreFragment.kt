@@ -1,13 +1,9 @@
 package com.example.tokopaerbe.view.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.GridViewAdapter
 import com.example.tokopaerbe.adapter.ListViewAdapter
@@ -15,10 +11,12 @@ import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.FragmentStoreBinding
 import com.example.tokopaerbe.helper.SpaceItemDecoration
 import com.example.tokopaerbe.helper.visibleIf
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.google.android.material.chip.Chip
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class StoreFragment : Fragment() {
-    private lateinit var binding: FragmentStoreBinding
+class StoreFragment : BaseFragment<FragmentStoreBinding, PreLoginViewModel>(FragmentStoreBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
     private lateinit var gridViewAdapter: GridViewAdapter
     private lateinit var listViewAdapter: ListViewAdapter
@@ -27,19 +25,11 @@ class StoreFragment : Fragment() {
     private lateinit var buttonView: Chip
     private lateinit var buttonFilter: Chip
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentStoreBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+    override fun observeData() {}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initView()
+    override fun initView() {
+        binding.btnFilter.text = getString(R.string.filter)
+        binding.searchBar.hint = getString(R.string.search)
 
         if (true) {
             binding.errorView.visibleIf(false)
@@ -88,7 +78,9 @@ class StoreFragment : Fragment() {
         val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
 
         recyclerView.addItemDecoration(SpaceItemDecoration(spaceInPixels))
+    }
 
+    override fun initListener() {
         buttonView.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 switchToListView()
@@ -101,11 +93,6 @@ class StoreFragment : Fragment() {
             val modal = BottomSheetFragment()
             childFragmentManager.let { modal.show(it, BottomSheetFragment.TAG) }
         }
-    }
-
-    private fun initView() {
-        binding.btnFilter.text = getString(R.string.filter)
-        binding.searchBar.hint = getString(R.string.search)
     }
 
     private fun switchToGridView() {

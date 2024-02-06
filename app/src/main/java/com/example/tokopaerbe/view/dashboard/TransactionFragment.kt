@@ -1,21 +1,17 @@
 package com.example.tokopaerbe.view.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.databinding.FragmentTransactionBinding
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TransactionFragment : Fragment() {
-    private lateinit var binding: FragmentTransactionBinding
+class TransactionFragment : BaseFragment<FragmentTransactionBinding, PreLoginViewModel>(FragmentTransactionBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
+    override fun initView() {}
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentTransactionBinding.inflate(inflater, container, false)
+    override fun initListener() {}
 
-        return binding.root
-    }
+    override fun observeData() {}
+
+
 }

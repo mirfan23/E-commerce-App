@@ -48,4 +48,5 @@
     <string name="btn_show_product">Tampilkan Produk</string>
     <string name="items">barang</string>
     <string name="inValidEmail">Email Tidak Valid</string>
+    <string name="register_validation">Tolong Isi Email dan Password</string>
 </resources>

@@ -1,28 +1,20 @@
 package com.example.tokopaerbe.view.auth
 
-import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
-import com.example.core.domain.model.UiState
-import com.example.core.domain.model.oError
-import com.example.core.domain.model.onSuccess
+import com.example.core.domain.state.oError
+import com.example.core.domain.state.onCreated
+import com.example.core.domain.state.onSuccess
+import com.example.core.domain.state.onValue
 import com.example.tokopaerbe.R
 import com.example.core.remote.data.RegisterRequest
+import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.databinding.FragmentRegisterBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment :
@@ -40,115 +32,96 @@ class RegisterFragment :
         termsCo()
     }
 
-    override fun initListener() {
-        binding.let {
-            /**
-             * Button for Register to Login
-             */
-            it.buttonLogin.setOnClickListener {
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+    override fun initListener() = with(binding) {
+        emailEditText.doOnTextChanged { text, _, before, _ ->
+            viewModel.validateRegisterEmail(text.toString())
+        }
+        passowrdEditText.doOnTextChanged { text, _, before, _ ->
+            viewModel.validateRegisterPassword(text.toString())
+        }
+        buttonLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+        buttonRegister.setOnClickListener {
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passowrdEditText.text.toString().trim()
+
+            if (emailTextInputLayout.isErrorEnabled.not() && passwordTextInputLayout.isErrorEnabled.not()) {
+                viewModel.validateRegisterField(email, password)
             }
-            /**
-             * Button for Register to Profile
-             */
-
-            it.buttonRegister.setOnClickListener {
-                val email = binding.emailEditText.text.toString().trim()
-                val password = binding.passowrdEditText.text.toString().trim()
-
-                if (isValidEmail(email) && isValidPassword(password)) {
-                    val request = RegisterRequest(
-                        email = email,
-                        password = password,
-                        firebaseToken = ""
-                    )
-                    viewModel.fetchRegister(request)
-                } else {
-                    context?.let { it1 ->
-                        CustomSnackbar.showSnackBar(
-                            it1,
-                            binding.root,
-                            "Tolong Isi Email dan Passowrd"
-                        )
-                    }
-                }
-
-            }
-            /**
-             * Button for Password Check
-             * akan digunakan kembali
-             */
-//            it.passowrdEditText.addTextChangedListener(TextWatcherConfigure(1) { password ->
-//                isValidPassword(password)
-//            })
-
         }
     }
 
     override fun observeData() {
         with(viewModel) {
-            lifecycleScope.launch {
-                response.collectLatest { registerState ->
-                    registerState.onSuccess { token ->
-                        viewModel.saveSession(token)
-                        findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
-                    }.oError { error ->
-                        val errorMessage = "error: ${error}"
-                        context?.let {
-                            CustomSnackbar.showSnackBar(
-                                it,
-                                binding.root,
-                                errorMessage
-                            )
-                        }
+            response.launchAndCollectIn(viewLifecycleOwner) { registerState ->
+                registerState.onSuccess { token ->
+                    viewModel.saveSession(token)
+                    findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                }.oError { error ->
+                    val errorMessage = "error: ${error}"
+                    context?.let {
+                        CustomSnackbar.showSnackBar(
+                            it,
+                            binding.root,
+                            errorMessage
+                        )
                     }
                 }
             }
+            validateRegisterEmail.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated {}
+                    .onValue { isValid ->
+                        binding.run {
+                            emailTextInputLayout.isErrorEnabled = isValid.not()
+                            if (isValid) {
+                                emailTextInputLayout.error = null
+                            } else emailTextInputLayout.error = "Email is invalid"
+                        }
+                    }
+            }
+            validateRegisterPassword.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated {}
+                    .onValue { isValid ->
+                        binding.run {
+                            passwordTextInputLayout.isErrorEnabled = isValid.not()
+                            if (isValid) {
+                                passwordTextInputLayout.error = null
+                            } else passwordTextInputLayout.error = "Password is invalid"
+                        }
+                    }
+            }
+            validateRegisterField.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated {}
+                    .onValue { isPass ->
+                        binding.run {
+                            emailTextInputLayout.isErrorEnabled = isPass.not()
+                            passwordTextInputLayout.isErrorEnabled = isPass.not()
+                            if (isPass) {
+                                val email = binding.emailEditText.text.toString().trim()
+                                val password = binding.passowrdEditText.text.toString().trim()
+                                val request = RegisterRequest(
+                                    email = email,
+                                    password = password,
+                                    firebaseToken = ""
+                                )
+                                viewModel.fetchRegister(request)
+                            } else {
+                                emailTextInputLayout.error = "email is required"
+                                emailTextInputLayout.error = "password is required"
+                                context?.let { it1 ->
+                                    CustomSnackbar.showSnackBar(
+                                        it1,
+                                        binding.root,
+                                        getString(R.string.register_validation)
+                                    )
+                                }
+                            }
+                        }
+                    }
+            }
         }
     }
-
-    private fun isValidEmail(email: String): Boolean {
-        val emailPattern = Patterns.EMAIL_ADDRESS
-
-        if (emailPattern.matcher(email).matches() || email.length <= 2) {
-            binding.emailTextInputLayout.isErrorEnabled = false
-        } else {
-            binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
-        }
-
-        return true
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val minLength = 8
-        if (password.length < minLength) {
-            showError("Password Minimal $minLength")
-            return true
-        }
-        /** akan dipakai kembali
-         * if (password.none { it.isUpperCase() }) {
-         *             showError("Password setidaknya terdapat satu huruf kapital")
-         *             return false
-         *         }
-         *         if (password.none { !it.isLetterOrDigit() }) {
-         *             showError("Password harus mengandung setidaknya satu karakter khusus")
-         *             return false
-         *         }
-         */
-
-        clearError()
-        return true
-    }
-
-    private fun showError(errorMessage: String) {
-        binding.passwordTextInputLayout.isErrorEnabled = true
-        binding.passwordTextInputLayout.error = errorMessage
-    }
-
-    private fun clearError() {
-        binding.passwordTextInputLayout.isErrorEnabled = false
-    }
-
 
     fun termsCo() {
         val sk = binding.syaratKetentuan

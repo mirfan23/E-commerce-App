@@ -1,25 +1,22 @@
 package com.example.tokopaerbe.view.auth
 
-import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Patterns
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
-import com.example.core.domain.model.UiState
+import com.example.core.domain.state.oError
+import com.example.core.domain.state.onCreated
+import com.example.core.domain.state.onSuccess
+import com.example.core.domain.state.onValue
 import com.example.core.remote.data.LoginRequest
+import com.example.core.utils.DataMapper.toDataToken
+import com.example.core.utils.DataMapper.toProfileName
+import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.helper.TextWatcherConfigure
 import com.example.tokopaerbe.databinding.FragmentLoginBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment :
@@ -38,108 +35,103 @@ class LoginFragment :
     }
 
     override fun initListener() = with(binding) {
-        let {
-            it.buttonLogin.setOnClickListener {
-                val email = binding.emailEditText.text.toString().trim()
-                val password = binding.passwordEditText.text.toString().trim()
+        emailEditText.doOnTextChanged { text, _, before, _ ->
+            viewModel.validateLoginEmail(text.toString())
+        }
+        passwordEditText.doOnTextChanged { text, _, before, _ ->
+           viewModel.validateLoginPassword(text.toString())
+        }
+        buttonRegister.setOnClickListener{
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+        buttonLogin.setOnClickListener {
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
 
-                if (validateEmail(email) && isValidPassword(password)) {
-                    val request = LoginRequest(
-                        email = email,
-                        password = password,
-                        firebaseToken = ""
-                    )
-                    viewModel.fetchLogin(request)
-                }
+            if (emailTextInputLayout.isErrorEnabled.not() && passwordtextInputLayout.isErrorEnabled.not()) {
+
+                viewModel.validateLoginField(email, password)
+
             }
-            it.buttonRegister.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-            }
-            it.emailEditText.addTextChangedListener(TextWatcherConfigure(1) { email ->
-                validateEmail(email)
-            })
-            it.passwordEditText.addTextChangedListener(TextWatcherConfigure(1) { password ->
-                isValidPassword(password)
-            })
         }
     }
 
     override fun observeData() {
         with(viewModel) {
-            lifecycleScope.launch {
-                responseLogin.collectLatest { loginState ->
-                    when (loginState) {
-                        is UiState.Success -> {
-                            val loginResponse = loginState.data
-                            if (loginResponse.accessToken.isNotEmpty()) {
-                                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                            }
-                        }
-
-                        is UiState.Error -> {
-                            val errorMessage = "error: ${loginState.error}"
-                            context?.let {
-                                CustomSnackbar.showSnackBar(
-                                    it,
-                                    binding.root,
-                                    errorMessage
-                                )
-                            }
-                        }
-
-                        else -> {}
+            responseLogin.launchAndCollectIn(viewLifecycleOwner) { loginState ->
+                loginState.onSuccess { data ->
+                    viewModel.saveProfileName(data.toProfileName())
+                    viewModel.saveSession(data.toDataToken())
+                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                }.oError { error ->
+                    val errorMessage = "error: ${error}"
+                    context?.let {
+                        CustomSnackbar.showSnackBar(
+                            it,
+                            binding.root,
+                            errorMessage
+                        )
                     }
                 }
             }
+            validateLoginEmail.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated {}
+                    .onValue { isValid ->
+                        binding.run {
+                            emailTextInputLayout.isErrorEnabled = isValid.not()
+                            if (isValid) {
+                                emailTextInputLayout.error = null
+                            } else emailTextInputLayout.error = "Email is required"
+                        }
+                    }
+            }
+            validateLoginPassword.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated {}
+                    .onValue { isValid ->
+                        binding.run {
+                            passwordtextInputLayout.isErrorEnabled = isValid.not()
+                            if (isValid) {
+                                passwordtextInputLayout.error = null
+                            } else passwordtextInputLayout.error = "Password is required"
+                        }
+                    }
+            }
+            validateLoginField.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated {}
+                    .onValue { isPass ->
+                        binding.run {
+                            emailTextInputLayout.isErrorEnabled = isPass.not()
+                            passwordtextInputLayout.isErrorEnabled = isPass.not()
+                            if (isPass) {
+                                val email = binding.emailEditText.text.toString().trim()
+                                val password = binding.passwordEditText.text.toString().trim()
+                                val request = LoginRequest(
+                                    email = email,
+                                    password = password,
+                                    firebaseToken = ""
+                                )
+                                viewModel.fetchLogin(request)
+                            } else {
+                                emailTextInputLayout.error = "email is required"
+                                emailTextInputLayout.error = "Password is required"
+                                context?.let { it1 ->
+                                    CustomSnackbar.showSnackBar(
+                                        it1,
+                                        binding.root,
+                                        getString(R.string.register_validation)
+                                    )
+                                }
+                            }
+                        }
+                    }
+            }
         }
-    }
-
-    private fun validateEmail(email: String): Boolean {
-        val emailPattern = Patterns.EMAIL_ADDRESS
-
-        if (emailPattern.matcher(email).matches() || email.length <= 2) {
-            binding.emailTextInputLayout.isErrorEnabled = false
-        } else {
-            binding.emailTextInputLayout.error = getString(R.string.inValidEmail)
-        }
-        return true
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val minLength = 8
-        if (password.length < minLength) {
-            showError("Password Minimal $minLength")
-            return true
-        }
-        /**
-         * akan digunakan kembali
-         */
-//        if (password.none { it.isUpperCase() }) {
-//            showError("Password setidaknya terdapat satu huruf kapital")
-//            return false
-//        }
-//        if (password.none { !it.isLetterOrDigit() }) {
-//            showError("Password harus mengandung setidaknya satu karakter khusus")
-//            return false
-//        }
-        clearError()
-        return true
-    }
-
-    private fun showError(errorMessage: String) {
-        binding.passwordtextInputLayout.isErrorEnabled = true
-        binding.passwordtextInputLayout.error = errorMessage
-    }
-
-    private fun clearError() {
-        binding.passwordtextInputLayout.isErrorEnabled = false
     }
 
     private fun termsCo() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language
-        println("")
         sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
     }

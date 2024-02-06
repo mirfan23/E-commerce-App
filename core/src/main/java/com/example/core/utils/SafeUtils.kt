@@ -1,12 +1,18 @@
 package com.example.core.utils
 
-import com.example.core.domain.model.UiState
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.core.domain.state.UiState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
@@ -60,6 +66,18 @@ suspend fun <T> safeDataCall(
             dataCall()
         } catch (e: Exception) {
             throw e
+        }
+    }
+}
+
+inline fun <T> Flow<T>.launchAndCollectIn(
+    owner: LifecycleOwner,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+    crossinline action: suspend CoroutineScope.(T) -> Unit
+) = owner.lifecycleScope.launch {
+    owner.repeatOnLifecycle(minActiveState) {
+        collect {
+            action(it)
         }
     }
 }

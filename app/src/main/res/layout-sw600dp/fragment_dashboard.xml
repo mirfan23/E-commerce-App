@@ -30,6 +30,7 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_toEndOf="@id/bottom_navbar"
         android:layout_below="@+id/appbar"
         android:background="@color/neutral" />
 
@@ -45,8 +46,8 @@
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
         android:layout_toEndOf="@id/bottom_navbar"
         android:background="@color/neutral" />
 

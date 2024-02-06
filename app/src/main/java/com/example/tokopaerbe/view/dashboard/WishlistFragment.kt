@@ -1,42 +1,31 @@
 package com.example.tokopaerbe.view.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.WishlistGridAdapter
 import com.example.tokopaerbe.adapter.WishlistListAdapter
 import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.FragmentWishlistBinding
 import com.example.tokopaerbe.helper.SpaceItemDecoration
+import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.google.android.material.chip.Chip
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WishlistFragment : Fragment() {
-    private lateinit var binding: FragmentWishlistBinding
+class WishlistFragment : BaseFragment<FragmentWishlistBinding, PreLoginViewModel>(FragmentWishlistBinding::inflate) {
+    override val viewModel: PreLoginViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
     private lateinit var wishlistListAdapter: WishlistListAdapter
     private lateinit var wishlistGridAdapter: WishlistGridAdapter
-    private lateinit var listView: ArrayList<com.example.core.remote.data.DummyGrid>
-    private lateinit var gridList: ArrayList<com.example.core.remote.data.DummyGrid>
+    private lateinit var listView: ArrayList<DummyGrid>
+    private lateinit var gridList: ArrayList<DummyGrid>
     private lateinit var button: Chip
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun observeData() {}
 
-        binding = FragmentWishlistBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initView() {
         recyclerView = binding.rvListView
         button = binding.btnChangeView
         listView = ArrayList()
@@ -75,6 +64,10 @@ class WishlistFragment : Fragment() {
 
         recyclerView.addItemDecoration(SpaceItemDecoration(spaceInPixels))
 
+        binding.tvAmount.text = getString(R.string.items)
+    }
+
+    override fun initListener() {
         button.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 switchToGridView()
@@ -82,7 +75,6 @@ class WishlistFragment : Fragment() {
                 switchToListView()
             }
         }
-        binding.tvAmount.text = getString(R.string.items)
     }
 
     private fun switchToGridView() {
