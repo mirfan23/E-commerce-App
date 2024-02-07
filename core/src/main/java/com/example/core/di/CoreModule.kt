@@ -1,6 +1,7 @@
 package com.example.core.di
 
 import android.content.Context
+import androidx.room.Room
 import com.catnip.core.base.BaseModules
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core.domain.repository.AuthRepository
@@ -10,6 +11,8 @@ import com.example.core.domain.repository.ProductRepositoryImpl
 import com.example.core.domain.usecase.AppInteractor
 import com.example.core.domain.usecase.AppUseCase
 import com.example.core.local.LocalDataSource
+import com.example.core.local.PagingDataSource
+import com.example.core.local.database.Database
 import com.example.core.local.preferences.SharedPreferenceImpl
 import com.example.core.local.preferences.SharedPreferenceImpl.Companion.PREFS_NAME
 import com.example.core.local.preferences.SharedPreferencesHelper
@@ -44,6 +47,15 @@ object CoreModule : BaseModules {
     val dataSourceModule = module {
         single { RemoteDataSource(get()) }
         single { LocalDataSource(get()) }
+        single { PagingDataSource(get(), get()) }
+    }
+
+    val database = module {
+        single { Room.databaseBuilder(androidContext(), Database::class.java, "app_database")
+            .fallbackToDestructiveMigration()
+            .build()
+        }
+        single { get<Database>().appDao() }
     }
 
     val authRepositoryModule = module {
@@ -51,7 +63,7 @@ object CoreModule : BaseModules {
     }
 
     val productRepositoryModule = module {
-        single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
+        single<ProductRepository> { ProductRepositoryImpl(get(), get(), get()) }
     }
 
     val useCaseModule = module {
@@ -65,7 +77,8 @@ object CoreModule : BaseModules {
             dataSourceModule,
             authRepositoryModule,
             useCaseModule,
-            productRepositoryModule
+            productRepositoryModule,
+            database
         )
 
 
