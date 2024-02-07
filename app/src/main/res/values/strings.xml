@@ -48,4 +48,5 @@
     <string name="items">items</string>
     <string name="inValidEmail">Email Is Not Valid</string>
     <string name="register_validation">Please fill Email and Password</string>
+    <string name="sale">Sale %1$s</string>
 </resources>

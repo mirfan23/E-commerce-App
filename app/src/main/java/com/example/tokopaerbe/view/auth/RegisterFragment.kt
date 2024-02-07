@@ -1,11 +1,13 @@
 package com.example.tokopaerbe.view.auth
 
 import android.text.method.LinkMovementMethod
+import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import com.catnip.core.base.BaseFragment
 import com.example.core.domain.state.oError
 import com.example.core.domain.state.onCreated
+import com.example.core.domain.state.onLoading
 import com.example.core.domain.state.onSuccess
 import com.example.core.domain.state.onValue
 import com.example.tokopaerbe.R
@@ -16,6 +18,7 @@ import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.HttpException
 
 class RegisterFragment :
     BaseFragment<FragmentRegisterBinding, PreLoginViewModel>(FragmentRegisterBinding::inflate) {
@@ -57,9 +60,19 @@ class RegisterFragment :
             response.launchAndCollectIn(viewLifecycleOwner) { registerState ->
                 registerState.onSuccess { token ->
                     viewModel.saveSession(token)
+                    binding.loadingOverlay.visibility = View.GONE
+                    binding.lottieLoading.visibility = View.GONE
                     findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
                 }.oError { error ->
-                    val errorMessage = "error: ${error}"
+                    binding.loadingOverlay.visibility = View.GONE
+                    binding.lottieLoading.visibility = View.GONE
+                    val errorMessage = when (error) {
+                        is HttpException -> {
+                            val errorBody = error.response()?.errorBody()?.string()
+                            "$errorBody"
+                        }
+                        else -> "${error.message}"
+                    }
                     context?.let {
                         CustomSnackbar.showSnackBar(
                             it,
@@ -67,6 +80,9 @@ class RegisterFragment :
                             errorMessage
                         )
                     }
+                }.onLoading {
+                    binding.loadingOverlay.visibility = View.VISIBLE
+                    binding.lottieLoading.visibility = View.VISIBLE
                 }
             }
             validateRegisterEmail.launchAndCollectIn(viewLifecycleOwner) { state ->
@@ -131,3 +147,4 @@ class RegisterFragment :
         sk.movementMethod = LinkMovementMethod.getInstance()
     }
 }
+

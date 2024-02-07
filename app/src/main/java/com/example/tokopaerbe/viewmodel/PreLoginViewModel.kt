@@ -7,7 +7,7 @@ import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.state.FlowState
 import com.example.core.domain.state.UiState
-import com.example.core.domain.usecase.AuthUseCase
+import com.example.core.domain.usecase.AppUseCase
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.RegisterRequest
 import com.example.core.utils.asMutableStateFLow
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class PreLoginViewModel(private val useCase: AuthUseCase) :
+class PreLoginViewModel(private val useCase: AppUseCase) :
     ViewModel() {
     private val _response: MutableStateFlow<UiState<DataToken>> =
         MutableStateFlow(UiState.Empty)
@@ -86,7 +86,6 @@ class PreLoginViewModel(private val useCase: AuthUseCase) :
     }
 
     fun fetchProfile(userName: RequestBody, userImage: MultipartBody.Part) {
-        println("Masuk ViewModel")
         viewModelScope.launch {
             _responseProfile.asMutableStateFLow {
                 useCase.uploadProfile(userName = userName, userImage = userImage)

@@ -22,8 +22,8 @@
 
         <Button
             android:id="@+id/buttonJoin"
-            android:layout_width="380dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="112dp"

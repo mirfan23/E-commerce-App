@@ -22,7 +22,7 @@ android {
         /**
          * another endpoint
          *
-         * buildConfigField("String", "BASE_URL", "\"http://192.168.88.123:5000/\"")
+         * buildConfigField("String", "BASE_URL", "\"http://192.168.0.102:5000/\"")
          */
         buildConfigField("String", "API_KEY", "\"6f8856ed-9189-488f-9011-0ff4b6c08edc\"")
     }
@@ -52,10 +52,10 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
 
     //retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    api("com.squareup.retrofit2:retrofit:2.9.0")
+    api("com.squareup.retrofit2:converter-gson:2.9.0")
+    api("com.squareup.okhttp3:okhttp:4.9.0")
+    api("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     //chucker
     debugImplementation("com.github.chuckerteam.chucker:library:3.5.2")
@@ -74,6 +74,7 @@ dependencies {
     //room
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-paging:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
     //lifecycle
@@ -92,6 +93,9 @@ dependencies {
     //coroutines
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //paging
+    implementation("androidx.paging:paging-runtime:3.0.0")
 
     //firebase
 //    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))

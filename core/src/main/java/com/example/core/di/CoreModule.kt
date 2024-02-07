@@ -5,8 +5,10 @@ import com.catnip.core.base.BaseModules
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.core.domain.repository.AuthRepository
 import com.example.core.domain.repository.AuthRepositoryImpl
-import com.example.core.domain.usecase.AuthInteractor
-import com.example.core.domain.usecase.AuthUseCase
+import com.example.core.domain.repository.ProductRepository
+import com.example.core.domain.repository.ProductRepositoryImpl
+import com.example.core.domain.usecase.AppInteractor
+import com.example.core.domain.usecase.AppUseCase
 import com.example.core.local.LocalDataSource
 import com.example.core.local.preferences.SharedPreferenceImpl
 import com.example.core.local.preferences.SharedPreferenceImpl.Companion.PREFS_NAME
@@ -44,16 +46,27 @@ object CoreModule : BaseModules {
         single { LocalDataSource(get()) }
     }
 
-    val repositoryModule = module {
+    val authRepositoryModule = module {
         single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     }
 
+    val productRepositoryModule = module {
+        single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
+    }
+
     val useCaseModule = module {
-        single<AuthUseCase> { AuthInteractor(get(), get()) }
+        single<AppUseCase> { AppInteractor(get(), get(), get()) }
     }
 
     override fun getModules(): List<Module> =
-        listOf(sharedPrefModule, networkModule, dataSourceModule, repositoryModule, useCaseModule)
+        listOf(
+            sharedPrefModule,
+            networkModule,
+            dataSourceModule,
+            authRepositoryModule,
+            useCaseModule,
+            productRepositoryModule
+        )
 
 
 }

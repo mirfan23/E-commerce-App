@@ -1,11 +1,13 @@
 package com.example.core.utils
 
 import com.example.core.domain.model.DataLogin
+import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.state.SplashState
 import com.example.core.remote.data.LoginResponse
+import com.example.core.remote.data.ProductResponse
 import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RefreshTokenResponse
 import com.example.core.remote.data.RegisterResponse
@@ -35,6 +37,17 @@ object DataMapper {
         userName = data.userName,
         userImage = data.userImage
     )
+
+    fun ProductResponse.ProductData.ProductItem.toUIData() = DataProduct(
+        id = productId,
+        name = productName,
+        image = image,
+        store = store,
+        price = productPrice,
+        rating = productRating,
+        sale = sale
+    )
+    fun ProductResponse.toUIListData() = data.items.map { item -> item.toUIData() }.toList()
 
     fun DataLogin.toDataToken() = DataToken(
         accessToken = accessToken,

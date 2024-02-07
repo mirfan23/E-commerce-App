@@ -30,6 +30,7 @@
                 android:layout_marginHorizontal="8dp"
                 android:fontFamily="@font/poppins_regular"
                 android:lineSpacingExtra="-2sp"
+                android:maxLines="2"
                 tools:Text="Lenovo Legion 7 16 I7 11800 16GB 1TB SSD RTX3070 8GB" />
 
             <TextView
@@ -50,8 +51,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
                     android:src="@drawable/ic_account" />
 
                 <TextView
@@ -72,18 +73,42 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="2dp"
-                    android:textSize="12sp"
-                    tools:text="5.0 | Terjual 10" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_star" />
+
+                    <TextView
+                        android:id="@+id/tv_rating_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="2dp"
+                        android:textSize="12sp"
+                        tools:text="5.0" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="1dp"
+                        android:layout_height="15dp"
+                        android:layout_marginHorizontal="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btn_change_view"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_sale_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="2dp"
+                        android:textSize="12sp"
+                        tools:text="Terjual 10" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

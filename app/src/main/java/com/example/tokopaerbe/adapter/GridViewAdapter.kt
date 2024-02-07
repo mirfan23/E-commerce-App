@@ -7,16 +7,31 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core.remote.data.DummyGrid
+import coil.load
+import com.bumptech.glide.Glide
+import com.example.core.domain.model.DataProduct
+import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.StoreCardViewBinding
+import com.example.tokopaerbe.helper.currency
 
-class GridViewAdapter(private val gridList: ArrayList<DummyGrid>, private val context: Context) :
+class GridViewAdapter(private val context: Context) :
     RecyclerView.Adapter<GridViewAdapter.GridViewHolder>() {
-    inner class GridViewHolder(val binding: StoreCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    private var gridList: List<DataProduct> = emptyList()
+
+    fun setGridList(list: List<DataProduct>) {
+        gridList = list
+        notifyDataSetChanged()
+    }
+
+    inner class GridViewHolder(val binding: StoreCardViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val gridImage: ImageView = binding.imgThumbnail
         val gridTitle: TextView = binding.tvItemName
         val gridPrice: TextView = binding.tvPrice
         val gridUser: TextView = binding.tvUploader
+        val gridRating: TextView = binding.tvRatingItem
+        val gridSale: TextView = binding.tvSaleItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
@@ -26,12 +41,17 @@ class GridViewAdapter(private val gridList: ArrayList<DummyGrid>, private val co
     }
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-        holder.gridImage.setImageResource(gridList[position].imageRes)
-        holder.gridTitle.text = gridList[position].title
-        holder.gridPrice.text = gridList[position].price
-        holder.gridUser.text = gridList[position].user
+        val data = gridList[position]
+        with(holder) {
+            gridImage.load(data.image)
+            gridTitle.text = data.name
+            gridPrice.text = currency(data.price)
+            gridUser.text = data.store
+            gridRating.text = data.rating.toString()
+            gridSale.text = context.getString(R.string.sale, data.sale.toString())
 
-        holder.gridTitle.ellipsize = TextUtils.TruncateAt.END
+            gridTitle.ellipsize = TextUtils.TruncateAt.END
+        }
     }
 
     override fun getItemCount(): Int {

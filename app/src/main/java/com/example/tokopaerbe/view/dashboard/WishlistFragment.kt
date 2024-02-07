@@ -1,5 +1,6 @@
 package com.example.tokopaerbe.view.dashboard
 
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,11 +12,12 @@ import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.FragmentWishlistBinding
 import com.example.tokopaerbe.helper.SpaceItemDecoration
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import com.example.tokopaerbe.viewmodel.WishlistViewModel
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WishlistFragment : BaseFragment<FragmentWishlistBinding, PreLoginViewModel>(FragmentWishlistBinding::inflate) {
-    override val viewModel: PreLoginViewModel by viewModel()
+class WishlistFragment : BaseFragment<FragmentWishlistBinding, WishlistViewModel>(FragmentWishlistBinding::inflate) {
+    override val viewModel: WishlistViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
     private lateinit var wishlistListAdapter: WishlistListAdapter
     private lateinit var wishlistGridAdapter: WishlistGridAdapter
@@ -70,8 +72,10 @@ class WishlistFragment : BaseFragment<FragmentWishlistBinding, PreLoginViewModel
     override fun initListener() {
         button.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
+                binding.btnChangeView.chipIcon = context?.let{ AppCompatResources.getDrawable(it, R.drawable.ic_list) }
                 switchToGridView()
             } else {
+                binding.btnChangeView.chipIcon = context?.let{ AppCompatResources.getDrawable(it, R.drawable.ic_grid) }
                 switchToListView()
             }
         }

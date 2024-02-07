@@ -66,7 +66,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewMo
         with(viewModel) {
             name.launchAndCollectIn(viewLifecycleOwner) {
                 binding.toolbar.title = it
-                println("MASUK: $name")
             }
         }
 

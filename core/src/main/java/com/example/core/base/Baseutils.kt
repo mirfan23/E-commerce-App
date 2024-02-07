@@ -13,6 +13,13 @@ interface BaseModules {
     fun getModules() : List<Module>
 }
 
+interface BaseFeatureModule {
+    fun repository(): Module
+    fun useCase(): Module
+    fun viewModel(): Module
+    fun getModules(): List<Module>
+}
+
 abstract class BaseFragment<B: ViewBinding, VM: ViewModel>(
     val bindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> B
 ) : Fragment() {
