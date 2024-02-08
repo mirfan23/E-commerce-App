@@ -60,6 +60,23 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewMo
                 }
             }
         }
+
+        toolbar.setOnMenuItemClickListener{menuItem ->
+            when(menuItem.itemId) {
+                R.id.cart_menu -> {
+                    findNavController().navigate(R.id.action_dashboardFragment_to_cartFragment)
+
+                    true
+                }
+                R.id.notif_menu -> {
+                    findNavController().navigate(R.id.action_dashboardFragment_to_detailFragment)
+
+                    true
+                }
+                else -> false
+            }
+
+        }
     }
 
     override fun observeData() {

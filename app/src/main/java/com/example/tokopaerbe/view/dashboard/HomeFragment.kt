@@ -45,18 +45,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,DashBoardViewModel >(Fragm
             val lang: String
             when (isChecked) {
                 true -> {
-                    AppCompatDelegate.setApplicationLocales(
-                        LocaleListCompat.forLanguageTags(LANGUAGE_IN)
-                    )
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(LANGUAGE_IN))
                     lang = LANGUAGE_IN
                 }
 
                 false -> {
-                    AppCompatDelegate.setApplicationLocales(
-                        LocaleListCompat.forLanguageTags(
-                            LANGUAGE_EN
-                        )
-                    )
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(LANGUAGE_EN))
                     lang = LANGUAGE_EN
                 }
             }

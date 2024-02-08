@@ -1,12 +1,15 @@
 package com.example.core.domain.usecase
 
+import androidx.paging.PagingData
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
+import com.example.core.domain.state.UiState
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.RegisterRequest
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -23,6 +26,8 @@ interface AppUseCase {
         limitItem: Int? = null,
         page: Int? = null
     ): List<DataProduct>
+
+    suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>>
 
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)

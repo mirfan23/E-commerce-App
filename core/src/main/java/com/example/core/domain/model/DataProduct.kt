@@ -7,11 +7,11 @@ import kotlinx.parcelize.Parcelize
 @Keep
 @Parcelize
 data class DataProduct(
-    var id: String = "",
-    var name: String = "",
-    var price: Int = 0,
+    var productId: String = "",
+    var productName: String = "",
+    var productPrice: Int = 0,
     var image: String = "",
-    var rating: Double = 0.0,
+    var productRating: Double = 0.0,
     var sale: Int = 0,
     var store: String = ""
 ): Parcelable

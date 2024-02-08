@@ -72,9 +72,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
     //room
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    implementation("androidx.room:room-paging:2.6.1")
+    api("androidx.room:room-runtime:2.6.1")
+    api("androidx.room:room-ktx:2.6.1")
+    api("androidx.room:room-paging:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
     //lifecycle
@@ -95,7 +95,7 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     //paging
-    implementation("androidx.paging:paging-runtime:3.0.0")
+    api("androidx.paging:paging-runtime:3.2.1")
 
     //firebase
 //    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))

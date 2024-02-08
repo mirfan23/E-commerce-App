@@ -1,5 +1,7 @@
 package com.example.core.domain.usecase
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
@@ -7,6 +9,7 @@ import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.repository.AuthRepository
 import com.example.core.domain.repository.ProductRepository
+import com.example.core.domain.state.UiState
 import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.LoginRequest
 import com.example.core.utils.DataMapper.toUIData
@@ -14,6 +17,10 @@ import com.example.core.remote.data.RegisterRequest
 import com.example.core.utils.DataMapper.toUIListData
 import com.example.core.utils.safeDataCall
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -69,6 +76,13 @@ class AppInteractor(
             limitItem,
             page
         ).toUIListData()
+    }
+
+    override suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>> = safeDataCall {
+        productRepo.fetchProductLocal().map { data ->
+            val mapped = data.map { entity -> entity.toUIData() }
+            UiState.Success(mapped)
+        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
     }
 
 

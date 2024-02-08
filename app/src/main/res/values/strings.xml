@@ -49,4 +49,10 @@
     <string name="inValidEmail">Email Is Not Valid</string>
     <string name="register_validation">Please fill Email and Password</string>
     <string name="sale">Sale %1$s</string>
+    <string name="detail_product">Product Detail</string>
+    <string name="product_price">Rp23.499.000</string>
+    <string name="choose_variant">Choose Variant</string>
+    <string name="product_desc">Product Description</string>
+    <string name="user_review">User Review</string>
+    <string name="see_all">See All Review</string>
 </resources>

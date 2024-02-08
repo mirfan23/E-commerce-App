@@ -20,6 +20,6 @@ data class ProductEntity(
     val productRating: Double = 0.0,
     @ColumnInfo(name = "sale")
     val  sale: Int = 0,
-    @ColumnInfo(name = "productRating")
+    @ColumnInfo(name = "store")
     val store: String = "",
 )
