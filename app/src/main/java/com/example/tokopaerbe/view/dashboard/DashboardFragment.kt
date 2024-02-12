@@ -69,7 +69,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewMo
                     true
                 }
                 R.id.notif_menu -> {
-                    findNavController().navigate(R.id.action_dashboardFragment_to_detailFragment)
+//                    findNavController().navigate(R.id.action_dashboardFragment_to_detailFragment)
 
                     true
                 }

@@ -1,5 +1,7 @@
 package com.example.core.utils
 
+import com.example.core.domain.model.DataDetailProduct
+import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
@@ -7,6 +9,7 @@ import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.state.SplashState
 import com.example.core.local.entity.ProductEntity
+import com.example.core.remote.data.DetailProductResponse
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProductResponse
 import com.example.core.remote.data.ProfileResponse
@@ -48,18 +51,30 @@ object DataMapper {
         store = store,
         sale = sale
     )
+
     fun ProductResponse.toLocalListData() = data.items.map { item -> item.toLocalData() }.toList()
 
-    fun ProductResponse.ProductData.ProductItem.toUIData() = DataProduct(
+    fun DetailProductResponse.ProductData.toUIData() = DataDetailProduct(
+        brand = brand,
+        description = description,
+        image = image,
         productId = productId,
         productName = productName,
         productPrice = productPrice,
         productRating = productRating,
-        image = image,
-        store = store,
-        sale = sale
+        productVariant = productVariant.map { variant -> variant.toUIVariantData() },
+        sale = sale,
+        stock = stock,
+        totalRating = totalRating,
+        totalReview = totalReview,
+        totalSatisfaction = totalSatisfaction
     )
-    fun ProductResponse.toUIListData() = data.items.map { item -> item.toUIData() }.toList()
+
+    fun DetailProductResponse.ProductData.ProductVariant.toUIVariantData() = DataDetailVariantProduct(
+        variantName = variantName,
+        variantPrice = variantPrice
+    )
+
     fun DataLogin.toDataToken() = DataToken(
         accessToken = accessToken,
         refreshToken = refreshToken,
@@ -85,7 +100,6 @@ object DataMapper {
         accessToken = this.second,
         onBoardingState = this.third
     )
-
 
 
     fun DataSession.toSplashState() = when {

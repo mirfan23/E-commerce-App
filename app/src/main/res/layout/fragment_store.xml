@@ -10,6 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+<!--        <include layout="@layout/store_shimmer_grid"/>-->
+<!--        <include layout="@layout/store_shimmer_list"/>-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_bar"
             android:layout_width="match_parent"

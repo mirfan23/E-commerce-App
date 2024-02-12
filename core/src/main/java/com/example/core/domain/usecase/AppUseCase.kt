@@ -1,6 +1,7 @@
 package com.example.core.domain.usecase
 
 import androidx.paging.PagingData
+import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
@@ -17,18 +18,8 @@ interface AppUseCase {
     suspend fun login(request: LoginRequest): DataLogin
     suspend fun register(request: RegisterRequest): DataToken
     suspend fun uploadProfile(userName: RequestBody, userImage: MultipartBody.Part): DataProfile
-    suspend fun getProduct(
-        search: String? = null,
-        brand: String? = null,
-        lowestPrice: Int? = null,
-        highestPrice: Int? = null,
-        sort: String? = null,
-        limitItem: Int? = null,
-        page: Int? = null
-    ): List<DataProduct>
-
     suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>>
-
+    suspend fun fetchDetailProduct(productId: String): DataDetailProduct
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)

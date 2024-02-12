@@ -52,9 +52,7 @@ class LoginFragment :
             val password = binding.passwordEditText.text.toString().trim()
 
             if (emailTextInputLayout.isErrorEnabled.not() && passwordtextInputLayout.isErrorEnabled.not()) {
-
                 viewModel.validateLoginField(email, password)
-
             }
         }
     }
