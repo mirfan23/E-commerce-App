@@ -5,6 +5,7 @@ import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
+import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.state.UiState
@@ -20,6 +21,7 @@ interface AppUseCase {
     suspend fun uploadProfile(userName: RequestBody, userImage: MultipartBody.Part): DataProfile
     suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>>
     suspend fun fetchDetailProduct(productId: String): DataDetailProduct
+    suspend fun fetchProductReview(productId: String): List<DataReviewProduct>
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)

@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.ProductEntity
 import com.example.core.local.entity.RemoteKeys
 
@@ -27,4 +28,13 @@ interface Dao {
 
     @Query("DELETE FROM remote_key")
     suspend fun deleteAllKey()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCart(cart: List<CartEntity>)
+
+    @Query("SELECT * FROM cart_table")
+    fun retrieveAllCart(): List<CartEntity>
+
+    @Query("DELETE FROM cart_table")
+    suspend fun deleteAllCart()
 }

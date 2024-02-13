@@ -5,6 +5,7 @@ import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
+import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.state.SplashState
@@ -12,9 +13,11 @@ import com.example.core.local.entity.ProductEntity
 import com.example.core.remote.data.DetailProductResponse
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProductResponse
+import com.example.core.remote.data.ProductReviewResponse
 import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RefreshTokenResponse
 import com.example.core.remote.data.RegisterResponse
+import com.example.core.utils.DataMapper.toUIListData
 
 object DataMapper {
 
@@ -70,9 +73,20 @@ object DataMapper {
         totalSatisfaction = totalSatisfaction
     )
 
-    fun DetailProductResponse.ProductData.ProductVariant.toUIVariantData() = DataDetailVariantProduct(
+    private fun DetailProductResponse.ProductData.ProductVariant.toUIVariantData() = DataDetailVariantProduct(
         variantName = variantName,
         variantPrice = variantPrice
+    )
+
+    fun List<ProductReviewResponse.ProductReviewData>.toUIListData() = map { data ->
+        data.toUIData()
+    }.toList()
+
+    fun ProductReviewResponse.ProductReviewData.toUIData() = DataReviewProduct(
+        userImage = userImage,
+        userName = userName,
+        userRating = userRating,
+        userReview = userReview
     )
 
     fun DataLogin.toDataToken() = DataToken(

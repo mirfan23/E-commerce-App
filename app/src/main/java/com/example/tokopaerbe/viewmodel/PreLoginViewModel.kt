@@ -80,6 +80,7 @@ class PreLoginViewModel(private val useCase: AppUseCase) :
     fun fetchLogin(requestLogin: LoginRequest) {
         viewModelScope.launch {
             _responseLogin.asMutableStateFLow {
+                println("MASUK VIEWMODEL: $requestLogin")
                 useCase.login(request = requestLogin)
             }
         }
@@ -128,6 +129,14 @@ class PreLoginViewModel(private val useCase: AppUseCase) :
 
     fun validateRegisterField(email: String, password: String) {
         _validateRegisterField.update { FlowState.FlowValue(email.validateRequired() && password.validateRequired()) }
+    }
+
+    fun resetValidateLoginField() {
+        _validateLoginField.update { FlowState.FlowCreated }
+    }
+
+    fun resetValidateRegisterField() {
+        _validateLoginField.update { FlowState.FlowCreated }
     }
 
 }

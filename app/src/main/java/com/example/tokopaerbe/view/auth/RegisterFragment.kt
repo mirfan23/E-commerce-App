@@ -84,6 +84,7 @@ class RegisterFragment :
                     binding.loadingOverlay.visibility = View.VISIBLE
                     binding.lottieLoading.visibility = View.VISIBLE
                 }
+                resetValidateRegisterField()
             }
             validateRegisterEmail.launchAndCollectIn(viewLifecycleOwner) { state ->
                 state.onCreated {}

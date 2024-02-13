@@ -16,6 +16,7 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
     private val _responseDetail: MutableStateFlow<UiState<DataDetailProduct>> =
         MutableStateFlow(UiState.Empty)
     val responseDetail = _responseDetail.asStateFlow()
+
     fun fetchProduct() = runBlocking { useCase.fetchProduct() }
 
     fun fetchDetail(productId: String) {

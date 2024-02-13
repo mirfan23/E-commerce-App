@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.example.core.local.entity.ProductEntity
 import com.example.core.remote.data.DetailProductResponse
 import com.example.core.remote.data.ProductResponse
+import com.example.core.remote.data.ProductReviewResponse
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
@@ -13,4 +14,8 @@ interface ProductRepository {
     suspend fun fetchDetailProduct(
         id: String? = null
     ): DetailProductResponse
+
+    suspend fun fetchProductReview(
+        id: String? = null
+    ): ProductReviewResponse
 }

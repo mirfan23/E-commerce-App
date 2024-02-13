@@ -6,6 +6,7 @@ import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
+import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.repository.AuthRepository
@@ -15,6 +16,7 @@ import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.LoginRequest
 import com.example.core.utils.DataMapper.toUIData
 import com.example.core.remote.data.RegisterRequest
+import com.example.core.utils.DataMapper.toUIListData
 import com.example.core.utils.safeDataCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -33,6 +35,7 @@ class AppInteractor(
 
     override suspend fun login(request: LoginRequest): DataLogin =
         safeDataCall {
+            println("MASUK Interactor: $request")
             repository.fetchLogin(request).toUIData()
         }
 
@@ -66,8 +69,14 @@ class AppInteractor(
 
     override suspend fun fetchDetailProduct(
         productId: String
-    ): DataDetailProduct = safeDataCall{
+    ): DataDetailProduct = safeDataCall {
         productRepo.fetchDetailProduct(productId).data.toUIData()
+    }
+
+    override suspend fun fetchProductReview(
+        productId: String
+    ): List<DataReviewProduct> = safeDataCall {
+        productRepo.fetchProductReview(productId).data.toUIListData()
     }
 
     override fun saveAccessToken(string: String) {

@@ -4,6 +4,7 @@ import com.example.core.remote.data.DetailProductResponse
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProductResponse
+import com.example.core.remote.data.ProductReviewResponse
 import com.example.core.remote.data.ProfileResponse
 import com.example.core.remote.data.RefreshTokenRequest
 import com.example.core.remote.data.RefreshTokenResponse
@@ -51,4 +52,9 @@ interface ApiEndPoint {
     suspend fun fetchDetailProduct(
         @Path("id") id: String? = null
     ): DetailProductResponse
+
+    @GET("review/{id}")
+    suspend fun fetchReviewProduct(
+        @Path("id") id: String? = null
+    ): ProductReviewResponse
 }

@@ -40,9 +40,11 @@ class LoginFragment :
     override fun initListener() = with(binding) {
         emailEditText.doOnTextChanged { text, _, before, _ ->
             viewModel.validateLoginEmail(text.toString())
+            enableLoginButtonIfValid()
         }
         passwordEditText.doOnTextChanged { text, _, before, _ ->
             viewModel.validateLoginPassword(text.toString())
+            enableLoginButtonIfValid()
         }
         buttonRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -53,6 +55,8 @@ class LoginFragment :
 
             if (emailTextInputLayout.isErrorEnabled.not() && passwordtextInputLayout.isErrorEnabled.not()) {
                 viewModel.validateLoginField(email, password)
+                println("MASUK: CLICK COY")
+                println("MASUK: $email $password")
             }
         }
     }
@@ -63,12 +67,10 @@ class LoginFragment :
                 loginState.onSuccess { data ->
                     saveProfileName(data.toProfileName())
                     saveSession(data.toDataToken())
-                    binding.loadingOverlay.visibility = View.GONE
-                    binding.lottieLoading.visibility = View.GONE
+                    setLoadingState(false)
                     findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                 }.oError { error ->
-                    binding.loadingOverlay.visibility = View.GONE
-                    binding.lottieLoading.visibility = View.GONE
+                    setLoadingState(false)
                     val errorMessage = when (error) {
                         is HttpException -> {
                             val errorBody = error.response()?.errorBody()?.string()
@@ -76,6 +78,7 @@ class LoginFragment :
                         }
                         else -> "${error.message}"
                     }
+                    println("MASUK: $errorMessage")
                     context?.let {
                         CustomSnackbar.showSnackBar(
                             it,
@@ -84,9 +87,9 @@ class LoginFragment :
                         )
                     }
                 }.onLoading {
-                    binding.loadingOverlay.visibility = View.VISIBLE
-                    binding.lottieLoading.visibility = View.VISIBLE
+                    setLoadingState(true)
                 }
+                resetValidateLoginField()
             }
             validateLoginEmail.launchAndCollectIn(viewLifecycleOwner) { state ->
                 state.onCreated {}
@@ -148,6 +151,18 @@ class LoginFragment :
         val defaultLocale = resources.configuration.locales[0].language
         sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun enableLoginButtonIfValid() {
+        binding.buttonLogin.isEnabled =
+            binding.emailTextInputLayout.error.isNullOrEmpty() && binding.passwordtextInputLayout.error.isNullOrEmpty()
+    }
+    private fun setLoadingState(loading: Boolean) {
+        with(binding) {
+            loadingOverlay.visibility = if (loading) View.VISIBLE else View.GONE
+            lottieLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            buttonLogin.isEnabled = loading
+        }
     }
 }
 

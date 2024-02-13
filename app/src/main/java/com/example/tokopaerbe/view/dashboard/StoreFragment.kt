@@ -27,6 +27,7 @@ import com.example.tokopaerbe.helper.visibleIf
 import com.example.tokopaerbe.view.others.BottomSheetFragment
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,17 +49,23 @@ class StoreFragment :
         }
     }
     private var pagingData : PagingData<DataProduct>? = null
-    private lateinit var shimmerGrid: ShimmerFrameLayout
-    private lateinit var shimmerList: ShimmerFrameLayout
 
     override fun observeData() {
         with(viewModel) {
             fetchProduct().launchAndCollectIn(viewLifecycleOwner){productState ->
                 this.launch {
                     productState.onSuccess { data ->
+                        binding.gridShimmerStore.apply {
+                            stopShimmer()
+                            visibleIf(false)
+                        }
                         pagingData = data
                         gridAdapter.submitData(viewLifecycleOwner.lifecycle, data)
                     }.oError { error ->
+                        binding.gridShimmerStore.apply {
+                            stopShimmer()
+                            visibleIf(false)
+                        }
                         val errorMessage = when (error) {
                             is HttpException -> {
                                 val errorBody = error.response()?.errorBody()?.string()
@@ -73,7 +80,12 @@ class StoreFragment :
                                 errorMessage
                             )
                         }
-                    }.onLoading {}
+                    }.onLoading {
+                        binding.gridShimmerStore.apply {
+                            visibleIf(true)
+                            startShimmer()
+                        }
+                    }
                 }
             }
         }
@@ -85,14 +97,18 @@ class StoreFragment :
                 productState.onSuccess { data ->
                     pagingData = data
                     listAdapter.submitData(viewLifecycleOwner.lifecycle, data)
+                    println("MASUK: $data")
                 }.oError { error ->
                     val errorMessage = when (error) {
                         is HttpException -> {
                             val errorBody = error.response()?.errorBody()?.string()
                             "$errorBody"
+
                         }
                         else -> "${error.message}"
+
                     }
+                    println("MASUK: $errorMessage")
                     context?.let {
                         CustomSnackbar.showSnackBar(
                             it,
@@ -122,6 +138,9 @@ class StoreFragment :
         }
         val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
         binding.rvGridItem.addItemDecoration(SpaceItemDecoration(spaceInPixels))
+        binding.listShimmerStore.apply {
+            visibleIf(false)
+        }
     }
 
     override fun initListener() {
