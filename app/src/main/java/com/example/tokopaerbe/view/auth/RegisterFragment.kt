@@ -93,7 +93,7 @@ class RegisterFragment :
                             emailTextInputLayout.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 emailTextInputLayout.error = null
-                            } else emailTextInputLayout.error = "Email is invalid"
+                            } else emailTextInputLayout.error = getString(R.string.email_is_invalid)
                         }
                     }
             }
@@ -104,7 +104,8 @@ class RegisterFragment :
                             passwordTextInputLayout.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 passwordTextInputLayout.error = null
-                            } else passwordTextInputLayout.error = "Password is invalid"
+                            } else passwordTextInputLayout.error =
+                                getString(R.string.password_is_invalid)
                         }
                     }
             }
@@ -124,8 +125,8 @@ class RegisterFragment :
                                 )
                                 viewModel.fetchRegister(request)
                             } else {
-                                emailTextInputLayout.error = "email is required"
-                                emailTextInputLayout.error = "password is required"
+                                emailTextInputLayout.error = getString(R.string.email_is_required)
+                                emailTextInputLayout.error = getString(R.string.password_is_required)
                                 context?.let { it1 ->
                                     CustomSnackbar.showSnackBar(
                                         it1,

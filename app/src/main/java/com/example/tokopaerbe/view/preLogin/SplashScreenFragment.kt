@@ -126,20 +126,4 @@ class SplashScreenFragment :
         animatorSet.duration = ANIMATION_DELAY
         animatorSet.start()
     }
-
-//    private fun navigate() {
-//        val skip = context?.let { viewModel.getOnBoardingState() }
-//
-//        if (skip == true) {
-//            Handler(Looper.getMainLooper()).postDelayed(
-//                { findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment) },
-//                ANIMATION_DELAY
-//            )
-//        } else {
-//            Handler(Looper.getMainLooper()).postDelayed(
-//                { findNavController().navigate(R.id.action_splashScreenFragment_to_onBoardingFragment) },
-//                ANIMATION_DELAY
-//            )
-//        }
-//    }
 }

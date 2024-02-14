@@ -3,74 +3,70 @@ package com.example.tokopaerbe.view.dashboard
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.catnip.core.base.BaseFragment
+import com.example.core.domain.model.DataWishList
+import com.example.core.domain.state.onSuccess
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.WishlistGridAdapter
 import com.example.tokopaerbe.adapter.WishlistListAdapter
-import com.example.core.remote.data.DummyGrid
+import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.databinding.FragmentWishlistBinding
 import com.example.tokopaerbe.helper.SpaceItemDecoration
-import com.example.tokopaerbe.viewmodel.PreLoginViewModel
-import com.example.tokopaerbe.viewmodel.WishlistViewModel
-import com.google.android.material.chip.Chip
+import com.example.tokopaerbe.viewmodel.StoreViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WishlistFragment : BaseFragment<FragmentWishlistBinding, WishlistViewModel>(FragmentWishlistBinding::inflate) {
-    override val viewModel: WishlistViewModel by viewModel()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var wishlistListAdapter: WishlistListAdapter
-    private lateinit var wishlistGridAdapter: WishlistGridAdapter
-    private lateinit var listView: ArrayList<DummyGrid>
-    private lateinit var gridList: ArrayList<DummyGrid>
-    private lateinit var button: Chip
+class WishlistFragment : BaseFragment<FragmentWishlistBinding, StoreViewModel>(FragmentWishlistBinding::inflate) {
+    override val viewModel: StoreViewModel by viewModel()
+    private var dataWishList: List<DataWishList>? = null
+    private val wishlistAdapter by lazy {
+        WishlistListAdapter {
+            dataWishList
+        }
+    }
+    private val wishlistAdapterGrid by lazy {
+        WishlistGridAdapter {
+            dataWishList
+        }
+    }
 
-    override fun observeData() {}
+    override fun observeData() {
+        with(viewModel){
+            fetchWishList().launchAndCollectIn(viewLifecycleOwner){ wishListState ->
+                this.launch {
+                    wishListState.onSuccess { data ->
+                        dataWishList = data
+                        wishlistAdapter.submitList(data)
+                    }
+                }
+            }
+        }
+    }
+    private fun observeDataGrid() {
+        with(viewModel){
+            fetchWishList().launchAndCollectIn(viewLifecycleOwner){ wishListState ->
+                this.launch {
+                    wishListState.onSuccess { data ->
+                        dataWishList = data
+                        wishlistAdapterGrid.submitList(data)
+                    }
+                }
+            }
+        }
+    }
 
     override fun initView() {
-        recyclerView = binding.rvListView
-        button = binding.btnChangeView
-        listView = ArrayList()
-        gridList = ArrayList()
+        switchToListView()
 
-        val layoutManager = LinearLayoutManager(context)
-
-        recyclerView.layoutManager = layoutManager
-
-        wishlistListAdapter = WishlistListAdapter(listView, requireContext())
-        wishlistGridAdapter = WishlistGridAdapter(gridList, requireContext())
-
-        recyclerView.adapter = wishlistListAdapter
-
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-        listView.add(DummyGrid(R.drawable.thumbnail_store, getString(R.string.item_name), "Rp. 20.000.000", "User"))
-
-        gridList.addAll(listView)
-
-        wishlistListAdapter.notifyDataSetChanged()
+        viewModel.fetchWishList()
 
         val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
-
-        recyclerView.addItemDecoration(SpaceItemDecoration(spaceInPixels))
-
+        binding.rvListView.addItemDecoration(SpaceItemDecoration(spaceInPixels))
         binding.tvAmount.text = getString(R.string.items)
     }
 
     override fun initListener() {
-        button.setOnCheckedChangeListener { _, isChecked ->
+        binding.btnChangeView.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.btnChangeView.chipIcon = context?.let{ AppCompatResources.getDrawable(it, R.drawable.ic_list) }
                 switchToGridView()
@@ -82,19 +78,20 @@ class WishlistFragment : BaseFragment<FragmentWishlistBinding, WishlistViewModel
     }
 
     private fun switchToGridView() {
-        recyclerView.apply {
+        observeDataGrid()
+        binding.rvListView.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = wishlistGridAdapter
+            adapter = wishlistAdapterGrid
         }
-        button.isChecked = true
+        binding.btnChangeView.isChecked = true
     }
 
     private fun switchToListView() {
-        recyclerView.apply {
+        binding.rvListView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = wishlistListAdapter
+            adapter = wishlistAdapter
         }
 
-        button.isChecked= false
+        binding.btnChangeView.isChecked= false
     }
 }

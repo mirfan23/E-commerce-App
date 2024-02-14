@@ -46,7 +46,7 @@ object CoreModule : BaseModules {
 
     val dataSourceModule = module {
         single { RemoteDataSource(get()) }
-        single { LocalDataSource(get()) }
+        single { LocalDataSource(get(), get()) }
         single { PagingDataSource(get(), get()) }
     }
 

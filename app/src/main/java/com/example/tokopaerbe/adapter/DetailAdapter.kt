@@ -38,5 +38,4 @@ class DetailAdapter(private val imageList: List<String>) : RecyclerView.Adapter<
     override fun getItemCount(): Int {
         return imageList.size
     }
-
 }

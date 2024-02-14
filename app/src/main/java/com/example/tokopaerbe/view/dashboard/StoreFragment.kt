@@ -1,10 +1,7 @@
-
 package com.example.tokopaerbe.view.dashboard
 
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,17 +16,12 @@ import com.example.tokopaerbe.adapter.GridViewAdapter
 import com.example.tokopaerbe.adapter.ListViewAdapter
 import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.databinding.FragmentStoreBinding
-import com.example.tokopaerbe.databinding.StoreShimmerGridBinding
-import com.example.tokopaerbe.databinding.StoreShimmerListBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SpaceItemDecoration
 import com.example.tokopaerbe.helper.visibleIf
 import com.example.tokopaerbe.view.others.BottomSheetFragment
 import com.example.tokopaerbe.viewmodel.StoreViewModel
-import com.facebook.shimmer.ShimmerFrameLayout
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
 
@@ -97,7 +89,6 @@ class StoreFragment :
                 productState.onSuccess { data ->
                     pagingData = data
                     listAdapter.submitData(viewLifecycleOwner.lifecycle, data)
-                    println("MASUK: $data")
                 }.oError { error ->
                     val errorMessage = when (error) {
                         is HttpException -> {
@@ -106,9 +97,7 @@ class StoreFragment :
 
                         }
                         else -> "${error.message}"
-
                     }
-                    println("MASUK: $errorMessage")
                     context?.let {
                         CustomSnackbar.showSnackBar(
                             it,

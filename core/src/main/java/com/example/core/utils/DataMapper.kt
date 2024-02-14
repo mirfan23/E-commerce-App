@@ -1,5 +1,6 @@
 package com.example.core.utils
 
+import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataLogin
@@ -8,8 +9,11 @@ import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
+import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.SplashState
+import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.ProductEntity
+import com.example.core.local.entity.WishListEntity
 import com.example.core.remote.data.DetailProductResponse
 import com.example.core.remote.data.LoginResponse
 import com.example.core.remote.data.ProductResponse
@@ -73,10 +77,11 @@ object DataMapper {
         totalSatisfaction = totalSatisfaction
     )
 
-    private fun DetailProductResponse.ProductData.ProductVariant.toUIVariantData() = DataDetailVariantProduct(
-        variantName = variantName,
-        variantPrice = variantPrice
-    )
+    private fun DetailProductResponse.ProductData.ProductVariant.toUIVariantData() =
+        DataDetailVariantProduct(
+            variantName = variantName,
+            variantPrice = variantPrice
+        )
 
     fun List<ProductReviewResponse.ProductReviewData>.toUIListData() = map { data ->
         data.toUIData()
@@ -103,6 +108,46 @@ object DataMapper {
         image = image,
         store = store,
         sale = sale
+    )
+
+    fun CartEntity.toUIData() = DataCart(
+        productId = productId,
+        image = image,
+        variant = variant,
+        productName = productName,
+        productPrice = productPrice,
+        stock = stock,
+        quantity = quantity
+    )
+
+    fun DataCart.toEntity() = CartEntity(
+        productId = productId,
+        image = image,
+        variant = variant,
+        productName = productName,
+        productPrice = productPrice,
+        stock = stock,
+        quantity = quantity
+    )
+
+    fun WishListEntity.toUIData() = DataWishList(
+        productId = productId,
+        productName = productName,
+        productPrice = productPrice,
+        productRating = productRating,
+        image = image,
+        sale = sale,
+        store = store
+    )
+
+    fun DataWishList.toEntity() = WishListEntity(
+        productId = productId,
+        productName = productName,
+        productPrice = productPrice,
+        productRating = productRating,
+        image = image,
+        sale = sale,
+        store = store
     )
 
     fun DataLogin.toProfileName() = DataProfile(

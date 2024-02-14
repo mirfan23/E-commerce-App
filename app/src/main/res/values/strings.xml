@@ -33,7 +33,7 @@
     <string name="store">Store</string>
     <string name="wishlist">Wishlist</string>
     <string name="transaction">Transaction</string>
-    <string name="cart">+ Cart</string>
+    <string name="add_cart">+ Cart</string>
     <string name="search">Search</string>
     <string name="example_email">Example: test@gmail.com</string>
     <string name="reset">Reset</string>
@@ -63,4 +63,14 @@
     <string name="cart_title">Cart</string>
     <string name="select_all">Select All</string>
     <string name="delete">Delete</string>
+    <string name="total_payment">Total Payment</string>
+    <string name="buy">Buy</string>
+    <string name="email_is_required">Email is required</string>
+    <string name="password_is_required">Password is required</string>
+    <string name="failed_to_send_profile">Failed to Send Profile</string>
+    <string name="name_can_not_be_null">Name Can Not be Null</string>
+    <string name="email_is_invalid">Email is invalid</string>
+    <string name="password_is_invalid">Password is invalid</string>
+    <string name="successful_added_to_cart">Successful Added to Cart</string>
+    <string name="successful_added_to_wishlist">Successful Added to Wishlist</string>
 </resources>

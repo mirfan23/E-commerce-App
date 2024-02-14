@@ -17,9 +17,10 @@
             android:layout_below="@id/filter_container"
             android:visibility="gone">
 
-            <include layout="@layout/store_shimmer_grid"/>
+            <include layout="@layout/store_shimmer_grid" />
 
         </com.facebook.shimmer.ShimmerFrameLayout>
+
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/list_shimmer_store"
             android:layout_width="wrap_content"
@@ -27,7 +28,7 @@
             android:layout_below="@id/filter_container"
             android:visibility="gone">
 
-            <include layout="@layout/store_shimmer_list"/>
+            <include layout="@layout/store_shimmer_list" />
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -68,6 +69,7 @@
                 tools:text="@string/filter" />
 
             <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
                 android:layout_width="1dp"
                 android:layout_height="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -85,8 +87,10 @@
                 app:chipBackgroundColor="@android:color/transparent"
                 app:chipIcon="@drawable/ic_list"
                 app:chipIconEnabled="true"
+                app:chipIconSize="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/divider"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

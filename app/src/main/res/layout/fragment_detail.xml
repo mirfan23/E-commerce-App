@@ -91,16 +91,18 @@
                         tools:Text="Rp23.499.000" />
 
                     <ImageView
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:paddingEnd="10dp"
                         android:src="@drawable/ic_share" />
 
-                    <ImageView
-                        android:layout_width="50dp"
+                    <CheckBox
+                        android:id="@+id/cb_wishlist"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_favorite" />
-
+                        android:button="@drawable/sl_wishlist"
+                        app:buttonTint="?attr/colorControlNormal"/>
                 </LinearLayout>
 
                 <TextView

@@ -15,7 +15,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 
-
 object CustomSnackbar {
 
     @SuppressLint("RestrictedApi")

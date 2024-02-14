@@ -14,7 +14,7 @@ object AppModule : BaseModules {
     val viewModelModule = module {
         viewModel { PreLoginViewModel(get()) }
         viewModel { DashBoardViewModel(get()) }
-        viewModel { StoreViewModel(get()) }
+        viewModel { StoreViewModel(get(), get()) }
         viewModel { WishlistViewModel(get()) }
         viewModel { TransactionViewModel(get()) }
     }

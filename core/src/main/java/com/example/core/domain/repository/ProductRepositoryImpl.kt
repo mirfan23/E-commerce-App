@@ -3,7 +3,9 @@ package com.example.core.domain.repository
 import androidx.paging.PagingData
 import com.example.core.local.LocalDataSource
 import com.example.core.local.PagingDataSource
+import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.ProductEntity
+import com.example.core.local.entity.WishListEntity
 import com.example.core.remote.RemoteDataSource
 import com.example.core.remote.data.DetailProductResponse
 import com.example.core.remote.data.ProductReviewResponse
@@ -28,4 +30,25 @@ class ProductRepositoryImpl(
     override suspend fun fetchProductReview(id: String?): ProductReviewResponse = safeDataCall {
         remote.fetchProductReview(id)
     }
+
+    override suspend fun insertCart(cartEntity: CartEntity) {
+        local.insertCart(cartEntity)
+    }
+
+    override suspend fun deleteCart(cartEntity: CartEntity) {
+        local.deleteCart(cartEntity)
+    }
+
+    override suspend fun fetchCart(): Flow<List<CartEntity>> = safeDataCall {
+        local.fetchCart()
+    }
+
+    override suspend fun insertWishList(wishListEntity: WishListEntity) {
+        local.insertWishList(wishListEntity)
+    }
+
+    override suspend fun fetchWishList(): Flow<List<WishListEntity>> = safeDataCall {
+        local.fetchWishList()
+    }
+
 }

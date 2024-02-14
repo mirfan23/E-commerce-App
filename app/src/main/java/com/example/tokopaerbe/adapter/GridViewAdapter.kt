@@ -17,7 +17,6 @@ class GridViewAdapter(private val action: (DataProduct) -> Unit):
             tvItemName.text = item.productName
             tvPrice.text =currency(item.productPrice)
             tvUploader.text = item.store
-            tvRatingItem.text = item.productRating.toString()
             tvRatingItem.text = root.context.getString(R.string.rating_sold_sale)
                 .replace("%rating%", item.productRating.toString())
                 .replace("%sale%", item.sale.toString())

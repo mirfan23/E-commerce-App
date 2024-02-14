@@ -2,6 +2,7 @@ package com.example.core.domain.usecase
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
@@ -9,6 +10,7 @@ import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
+import com.example.core.domain.model.DataWishList
 import com.example.core.domain.repository.AuthRepository
 import com.example.core.domain.repository.ProductRepository
 import com.example.core.domain.state.UiState
@@ -16,6 +18,7 @@ import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.LoginRequest
 import com.example.core.utils.DataMapper.toUIData
 import com.example.core.remote.data.RegisterRequest
+import com.example.core.utils.DataMapper.toEntity
 import com.example.core.utils.DataMapper.toUIListData
 import com.example.core.utils.safeDataCall
 import kotlinx.coroutines.Dispatchers
@@ -77,6 +80,32 @@ class AppInteractor(
         productId: String
     ): List<DataReviewProduct> = safeDataCall {
         productRepo.fetchProductReview(productId).data.toUIListData()
+    }
+
+    override suspend fun insertCart(productCart: DataCart) {
+        productRepo.insertCart(productCart.toEntity())
+    }
+
+    override suspend fun deleteCart(dataCart: DataCart) {
+        productRepo.deleteCart(dataCart.toEntity())
+    }
+
+    override suspend fun fetchCart(): Flow<UiState<List<DataCart>>> = safeDataCall {
+        productRepo.fetchCart().map { data ->
+            val mapped = data.map { cartEntity -> cartEntity.toUIData() }
+            UiState.Success(mapped)
+        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
+    }
+
+    override suspend fun insertWishList(dataWishList: DataWishList) {
+        productRepo.insertWishList(dataWishList.toEntity())
+    }
+
+    override suspend fun fetchWishList(): Flow<UiState<List<DataWishList>>> = safeDataCall{
+        productRepo.fetchWishList().map { data ->
+            val mapped = data.map { wishListEntity -> wishListEntity.toUIData() }
+            UiState.Success(mapped)
+        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
     }
 
     override fun saveAccessToken(string: String) {

@@ -6,7 +6,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.catnip.core.base.BaseFragment
+import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailVariantProduct
+import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.oError
 import com.example.core.domain.state.onLoading
 import com.example.core.domain.state.onSuccess
@@ -31,6 +33,8 @@ class DetailFragment :
     private lateinit var adapter: DetailAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var tabs: TabLayout
+    private var dataCart: DataCart? = null
+    private var dataWishList: DataWishList? = null
 
     override fun initView() {
         safeArgs.productId.let { productId ->
@@ -52,7 +56,26 @@ class DetailFragment :
             findNavController().popBackStack()
         }
         binding.btnToCart.setOnClickListener {
-            findNavController().navigate(R.id.action_detailFragment_to_cartFragment)
+            dataCart?.let { cart -> viewModel.insertCart(cart) }
+            context?.let { context ->
+                CustomSnackbar.showSnackBar(
+                    context,
+                    binding.root,
+                    getString(R.string.successful_added_to_cart)
+                )
+            }
+        }
+        binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                dataWishList?.let { viewModel.insertWishList(it) }
+                context?.let {context ->
+                    CustomSnackbar.showSnackBar(
+                        context,
+                        binding.root,
+                        getString(R.string.successful_added_to_wishlist)
+                    )
+                }
+            }
         }
     }
 
@@ -63,6 +86,23 @@ class DetailFragment :
                     binding.loadingOverlay.visibility = View.GONE
                     binding.lottieLoading.visibility = View.GONE
                     binding.apply {
+                        dataCart = DataCart(
+                            productId = it.productId,
+                            productName = it.productName,
+                            productPrice = it.productPrice,
+                            image = it.image.first(),
+                            stock = it.stock,
+                            variant = addVariant(it.productPrice, it.productVariant).toString(),
+                            quantity = 1
+                        )
+                        dataWishList = DataWishList(
+                            productId = it.productId,
+                            productName = it.productName,
+                            productPrice = it. productPrice,
+                            image = it.image.first(),
+                            productRating = it.productRating,
+                            sale = it.sale,
+                        )
                         tvDetailPrice.text = currency(it.productPrice)
                         tvDetailItemName.text = it.productName
                         tvDetailDesc.text = it.description
@@ -82,7 +122,10 @@ class DetailFragment :
                                 else -> tabs.isGone = false
                             }
                         }
-                        addVariant(it.productPrice, it.productVariant)
+                        /**
+                         * nanti kode ini dipake lagi klo yang di dataCart udah bener
+                         */
+//                        addVariant(it.productPrice, it.productVariant)
                     }
                 }.oError { error ->
                     binding.loadingOverlay.visibility = View.GONE

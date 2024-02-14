@@ -1,9 +1,10 @@
 package com.example.core.domain.repository
 
 import androidx.paging.PagingData
+import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.ProductEntity
+import com.example.core.local.entity.WishListEntity
 import com.example.core.remote.data.DetailProductResponse
-import com.example.core.remote.data.ProductResponse
 import com.example.core.remote.data.ProductReviewResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,14 @@ interface ProductRepository {
     suspend fun fetchProductReview(
         id: String? = null
     ): ProductReviewResponse
+
+    suspend fun insertCart(cartEntity: CartEntity)
+
+    suspend fun deleteCart(cartEntity: CartEntity)
+
+    suspend fun fetchCart(): Flow<List<CartEntity>>
+
+   suspend fun insertWishList(wishListEntity: WishListEntity)
+
+   suspend fun fetchWishList(): Flow<List<WishListEntity>>
 }

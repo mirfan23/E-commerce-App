@@ -55,8 +55,6 @@ class LoginFragment :
 
             if (emailTextInputLayout.isErrorEnabled.not() && passwordtextInputLayout.isErrorEnabled.not()) {
                 viewModel.validateLoginField(email, password)
-                println("MASUK: CLICK COY")
-                println("MASUK: $email $password")
             }
         }
     }
@@ -78,7 +76,6 @@ class LoginFragment :
                         }
                         else -> "${error.message}"
                     }
-                    println("MASUK: $errorMessage")
                     context?.let {
                         CustomSnackbar.showSnackBar(
                             it,
@@ -98,7 +95,8 @@ class LoginFragment :
                             emailTextInputLayout.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 emailTextInputLayout.error = null
-                            } else emailTextInputLayout.error = "Email is required"
+                            } else emailTextInputLayout.error =
+                                getString(R.string.email_is_required)
                         }
                     }
             }
@@ -109,7 +107,8 @@ class LoginFragment :
                             passwordtextInputLayout.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 passwordtextInputLayout.error = null
-                            } else passwordtextInputLayout.error = "Password is required"
+                            } else passwordtextInputLayout.error =
+                                getString(R.string.password_is_required)
                         }
                     }
             }
@@ -129,8 +128,8 @@ class LoginFragment :
                                 )
                                 viewModel.fetchLogin(request)
                             } else {
-                                emailTextInputLayout.error = "email is required"
-                                emailTextInputLayout.error = "Password is required"
+                                emailTextInputLayout.error = getString(R.string.email_is_required)
+                                emailTextInputLayout.error = getString(R.string.password_is_required)
                                 context?.let { it1 ->
                                     CustomSnackbar.showSnackBar(
                                         it1,
