@@ -7,8 +7,20 @@ import com.example.core.utils.Constant
 
 
 @Entity(tableName = Constant.tableWishListName)
-data class WishListEntity (
+data class WishListEntity(
     @PrimaryKey
     @ColumnInfo(name = "productId")
     val productId: String = "",
+    @ColumnInfo(name = "image")
+    val image: String = "",
+    @ColumnInfo(name = "productName")
+    val productName: String = "",
+    @ColumnInfo(name = "productPrice")
+    val productPrice: Int = 0,
+    @ColumnInfo(name = "productRating")
+    val productRating: Double = 0.0,
+    @ColumnInfo(name = "sale")
+    val sale: Int = 0,
+    @ColumnInfo(name = "store")
+    val store: String = "",
 )

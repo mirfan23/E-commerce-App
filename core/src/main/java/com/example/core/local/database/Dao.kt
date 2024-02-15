@@ -2,11 +2,15 @@ package com.example.core.local.database
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.ProductEntity
 import com.example.core.local.entity.RemoteKeys
+import com.example.core.local.entity.WishListEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface Dao {
@@ -27,4 +31,25 @@ interface Dao {
 
     @Query("DELETE FROM remote_key")
     suspend fun deleteAllKey()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCart(cart: CartEntity)
+
+    @Query("SELECT * FROM cart_table")
+    fun retrieveAllCart(): Flow<List<CartEntity>>
+
+    @Query("DELETE FROM cart_table")
+    suspend fun deleteAllCart()
+
+    @Delete
+    suspend fun deleteCart(cart: CartEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWishList(wishList: WishListEntity)
+
+    @Query("SELECT * FROM wishlist_table")
+    fun retrieveAllWishList(): Flow<List<WishListEntity>>
+
+    @Query("DELETE FROM wishlist_table")
+    suspend fun deleteAllWishList()
 }

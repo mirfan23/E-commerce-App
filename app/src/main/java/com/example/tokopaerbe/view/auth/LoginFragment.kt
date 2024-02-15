@@ -40,9 +40,11 @@ class LoginFragment :
     override fun initListener() = with(binding) {
         emailEditText.doOnTextChanged { text, _, before, _ ->
             viewModel.validateLoginEmail(text.toString())
+            enableLoginButtonIfValid()
         }
         passwordEditText.doOnTextChanged { text, _, before, _ ->
             viewModel.validateLoginPassword(text.toString())
+            enableLoginButtonIfValid()
         }
         buttonRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -52,9 +54,7 @@ class LoginFragment :
             val password = binding.passwordEditText.text.toString().trim()
 
             if (emailTextInputLayout.isErrorEnabled.not() && passwordtextInputLayout.isErrorEnabled.not()) {
-
                 viewModel.validateLoginField(email, password)
-
             }
         }
     }
@@ -65,12 +65,10 @@ class LoginFragment :
                 loginState.onSuccess { data ->
                     saveProfileName(data.toProfileName())
                     saveSession(data.toDataToken())
-                    binding.loadingOverlay.visibility = View.GONE
-                    binding.lottieLoading.visibility = View.GONE
+                    setLoadingState(false)
                     findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                 }.oError { error ->
-                    binding.loadingOverlay.visibility = View.GONE
-                    binding.lottieLoading.visibility = View.GONE
+                    setLoadingState(false)
                     val errorMessage = when (error) {
                         is HttpException -> {
                             val errorBody = error.response()?.errorBody()?.string()
@@ -86,9 +84,9 @@ class LoginFragment :
                         )
                     }
                 }.onLoading {
-                    binding.loadingOverlay.visibility = View.VISIBLE
-                    binding.lottieLoading.visibility = View.VISIBLE
+                    setLoadingState(true)
                 }
+                resetValidateLoginField()
             }
             validateLoginEmail.launchAndCollectIn(viewLifecycleOwner) { state ->
                 state.onCreated {}
@@ -97,7 +95,8 @@ class LoginFragment :
                             emailTextInputLayout.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 emailTextInputLayout.error = null
-                            } else emailTextInputLayout.error = "Email is required"
+                            } else emailTextInputLayout.error =
+                                getString(R.string.email_is_required)
                         }
                     }
             }
@@ -108,7 +107,8 @@ class LoginFragment :
                             passwordtextInputLayout.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 passwordtextInputLayout.error = null
-                            } else passwordtextInputLayout.error = "Password is required"
+                            } else passwordtextInputLayout.error =
+                                getString(R.string.password_is_required)
                         }
                     }
             }
@@ -128,8 +128,8 @@ class LoginFragment :
                                 )
                                 viewModel.fetchLogin(request)
                             } else {
-                                emailTextInputLayout.error = "email is required"
-                                emailTextInputLayout.error = "Password is required"
+                                emailTextInputLayout.error = getString(R.string.email_is_required)
+                                emailTextInputLayout.error = getString(R.string.password_is_required)
                                 context?.let { it1 ->
                                     CustomSnackbar.showSnackBar(
                                         it1,
@@ -150,6 +150,18 @@ class LoginFragment :
         val defaultLocale = resources.configuration.locales[0].language
         sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun enableLoginButtonIfValid() {
+        binding.buttonLogin.isEnabled =
+            binding.emailTextInputLayout.error.isNullOrEmpty() && binding.passwordtextInputLayout.error.isNullOrEmpty()
+    }
+    private fun setLoadingState(loading: Boolean) {
+        with(binding) {
+            loadingOverlay.visibility = if (loading) View.VISIBLE else View.GONE
+            lottieLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            buttonLogin.isEnabled = loading
+        }
     }
 }
 

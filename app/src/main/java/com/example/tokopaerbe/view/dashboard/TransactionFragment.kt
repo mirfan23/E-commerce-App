@@ -2,7 +2,6 @@ package com.example.tokopaerbe.view.dashboard
 
 import com.catnip.core.base.BaseFragment
 import com.example.tokopaerbe.databinding.FragmentTransactionBinding
-import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.example.tokopaerbe.viewmodel.TransactionViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

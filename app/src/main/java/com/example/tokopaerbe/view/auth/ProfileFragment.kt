@@ -101,7 +101,7 @@ class ProfileFragment :
                         CustomSnackbar.showSnackBar(
                             it,
                             binding.root,
-                            "Gagal Kirim Profile"
+                            getString(R.string.failed_to_send_profile)
                         )
                     }
                 }.onLoading {
@@ -116,7 +116,7 @@ class ProfileFragment :
                             nameTextInput.isErrorEnabled = isValid.not()
                             if (isValid) {
                                 nameTextInput.error = null
-                            } else nameTextInput.error = "Name Can Not be Null"
+                            } else nameTextInput.error = getString(R.string.name_can_not_be_null)
                         }
                     }
             }

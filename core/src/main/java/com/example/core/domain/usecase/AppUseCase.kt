@@ -1,11 +1,15 @@
 package com.example.core.domain.usecase
 
 import androidx.paging.PagingData
+import com.example.core.domain.model.DataCart
+import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
+import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
+import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.UiState
 import com.example.core.remote.data.LoginRequest
 import com.example.core.remote.data.RegisterRequest
@@ -17,18 +21,14 @@ interface AppUseCase {
     suspend fun login(request: LoginRequest): DataLogin
     suspend fun register(request: RegisterRequest): DataToken
     suspend fun uploadProfile(userName: RequestBody, userImage: MultipartBody.Part): DataProfile
-    suspend fun getProduct(
-        search: String? = null,
-        brand: String? = null,
-        lowestPrice: Int? = null,
-        highestPrice: Int? = null,
-        sort: String? = null,
-        limitItem: Int? = null,
-        page: Int? = null
-    ): List<DataProduct>
-
     suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>>
-
+    suspend fun fetchDetailProduct(productId: String): DataDetailProduct
+    suspend fun fetchProductReview(productId: String): List<DataReviewProduct>
+    suspend fun insertCart(productCart: DataCart)
+    suspend fun fetchCart(): Flow<UiState<List<DataCart>>>
+    suspend fun deleteCart(dataCart: DataCart)
+    suspend fun insertWishList(dataWishList: DataWishList)
+    suspend fun fetchWishList():Flow<UiState<List<DataWishList>>>
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)

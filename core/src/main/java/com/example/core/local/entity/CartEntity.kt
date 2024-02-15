@@ -7,8 +7,20 @@ import com.example.core.utils.Constant
 
 
 @Entity(tableName = Constant.tableCartName)
-data class CartEntity (
+data class CartEntity(
     @PrimaryKey
     @ColumnInfo(name = "productId")
-    val productId: String = ""
+    val productId: String = "",
+    @ColumnInfo(name = "image")
+    val image: String = "",
+    @ColumnInfo(name = "variant")
+    val variant: String = "",
+    @ColumnInfo(name = "productName")
+    val productName: String = "",
+    @ColumnInfo(name = "productPrice")
+    val productPrice: Int = 0,
+    @ColumnInfo(name = "stock")
+    val stock: Int = 0,
+    @ColumnInfo(name = "quantity")
+    val quantity: Int = 0
 )

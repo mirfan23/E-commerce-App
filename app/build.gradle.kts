@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-//    id("com.google.gms.google-services")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     //lottie
-    implementation ("com.airbnb.android:lottie:3.6.1")
+    implementation("com.airbnb.android:lottie:3.6.1")
 
     //recycleView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
@@ -65,13 +65,13 @@ dependencies {
 
     //glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
-    kapt ("com.github.bumptech.glide:compiler:4.4.0")
+    kapt("com.github.bumptech.glide:compiler:4.4.0")
 
     //Swipe Refresh Layout
-    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     //Shimmer Effect
-    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
     //window
     implementation("androidx.window:window:1.2.0")

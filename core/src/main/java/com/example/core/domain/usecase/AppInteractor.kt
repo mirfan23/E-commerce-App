@@ -2,11 +2,15 @@ package com.example.core.domain.usecase
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.example.core.domain.model.DataCart
+import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
+import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
+import com.example.core.domain.model.DataWishList
 import com.example.core.domain.repository.AuthRepository
 import com.example.core.domain.repository.ProductRepository
 import com.example.core.domain.state.UiState
@@ -14,6 +18,7 @@ import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.LoginRequest
 import com.example.core.utils.DataMapper.toUIData
 import com.example.core.remote.data.RegisterRequest
+import com.example.core.utils.DataMapper.toEntity
 import com.example.core.utils.DataMapper.toUIListData
 import com.example.core.utils.safeDataCall
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +26,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -33,12 +37,13 @@ class AppInteractor(
     AppUseCase {
 
     override suspend fun login(request: LoginRequest): DataLogin =
-        withContext(Dispatchers.IO) {
+        safeDataCall {
+            println("MASUK Interactor: $request")
             repository.fetchLogin(request).toUIData()
         }
 
     override suspend fun register(request: RegisterRequest): DataToken =
-        withContext(Dispatchers.IO) {
+        safeDataCall {
             repository.fetchRegister(request).toUIData()
         }
 
@@ -46,7 +51,7 @@ class AppInteractor(
         userName: RequestBody,
         userImage: MultipartBody.Part
     ): DataProfile =
-        withContext(Dispatchers.IO) {
+        safeDataCall {
             repository.fetchUploadProfile(userName, userImage).toUIData()
         }
 
@@ -58,26 +63,6 @@ class AppInteractor(
         return triple.toUIData()
     }
 
-    override suspend fun getProduct(
-        search: String?,
-        brand: String?,
-        lowestPrice: Int?,
-        highestPrice: Int?,
-        sort: String?,
-        limitItem: Int?,
-        page: Int?
-    ): List<DataProduct> = safeDataCall {
-        productRepo.fetchProduct(
-            search,
-            brand,
-            lowestPrice,
-            highestPrice,
-            sort,
-            limitItem,
-            page
-        ).toUIListData()
-    }
-
     override suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>> = safeDataCall {
         productRepo.fetchProductLocal().map { data ->
             val mapped = data.map { entity -> entity.toUIData() }
@@ -85,6 +70,43 @@ class AppInteractor(
         }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
     }
 
+    override suspend fun fetchDetailProduct(
+        productId: String
+    ): DataDetailProduct = safeDataCall {
+        productRepo.fetchDetailProduct(productId).data.toUIData()
+    }
+
+    override suspend fun fetchProductReview(
+        productId: String
+    ): List<DataReviewProduct> = safeDataCall {
+        productRepo.fetchProductReview(productId).data.toUIListData()
+    }
+
+    override suspend fun insertCart(productCart: DataCart) {
+        productRepo.insertCart(productCart.toEntity())
+    }
+
+    override suspend fun deleteCart(dataCart: DataCart) {
+        productRepo.deleteCart(dataCart.toEntity())
+    }
+
+    override suspend fun fetchCart(): Flow<UiState<List<DataCart>>> = safeDataCall {
+        productRepo.fetchCart().map { data ->
+            val mapped = data.map { cartEntity -> cartEntity.toUIData() }
+            UiState.Success(mapped)
+        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
+    }
+
+    override suspend fun insertWishList(dataWishList: DataWishList) {
+        productRepo.insertWishList(dataWishList.toEntity())
+    }
+
+    override suspend fun fetchWishList(): Flow<UiState<List<DataWishList>>> = safeDataCall{
+        productRepo.fetchWishList().map { data ->
+            val mapped = data.map { wishListEntity -> wishListEntity.toUIData() }
+            UiState.Success(mapped)
+        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
+    }
 
     override fun saveAccessToken(string: String) {
         repository.saveAccessToken(string)

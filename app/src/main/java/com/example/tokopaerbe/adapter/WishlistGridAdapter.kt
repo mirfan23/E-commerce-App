@@ -1,51 +1,29 @@
 package com.example.tokopaerbe.adapter
 
-import android.content.Context
-import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import android.view.View
+import coil.load
+import com.example.core.base.BaseListAdapter
+import com.example.core.domain.model.DataWishList
 import com.example.tokopaerbe.R
-import com.example.core.remote.data.DummyGrid
 import com.example.tokopaerbe.databinding.WishlistCardGridBinding
-import com.google.android.material.button.MaterialButton
+import com.example.tokopaerbe.helper.currency
 
-class WishlistGridAdapter(
-    private val gridView: ArrayList<DummyGrid>,
-    private val context: Context
-) :
-    RecyclerView.Adapter<WishlistGridAdapter.WishGridViewHolder>() {
-
-    class WishGridViewHolder(val binding: WishlistCardGridBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val gridImage: ImageView = binding.imgThumbnail
-        val gridTitle: TextView = binding.tvItemName
-        val gridPrice: TextView = binding.tvPrice
-        val gridUser: TextView = binding.tvUploader
-        val btnCart: MaterialButton = binding.btnAddCart
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishGridViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = WishlistCardGridBinding.inflate(inflater, parent, false)
-        return WishGridViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: WishGridViewHolder, position: Int) {
-        holder.gridImage.setImageResource(gridView[position].imageRes)
-        holder.gridTitle.text = gridView[position].title
-        holder.gridPrice.text = gridView[position].price
-        holder.gridUser.text = gridView[position].user
-
-        holder.gridTitle.ellipsize = TextUtils.TruncateAt.END
-
-        val button = context.getString(R.string.cart)
-        holder.btnCart.text = button
-    }
-
-    override fun getItemCount(): Int {
-        return gridView.size
-    }
+class WishlistGridAdapter(private val action: (DataWishList) -> Unit) :
+    BaseListAdapter<DataWishList, WishlistCardGridBinding>(WishlistCardGridBinding::inflate) {
+    override fun onItemBind(): (DataWishList, WishlistCardGridBinding, View, Int) -> Unit =
+        { item, binding, itemView, _ ->
+            binding.run {
+                btnAddCart.text = root.context.getString(R.string.add_cart)
+                imgThumbnail.load(item.image)
+                tvItemName.text = item.productName
+                tvPrice.text = currency(item.productPrice)
+                tvUploader.text = item.store
+                tvRatingItem.text = root.context.getString(R.string.rating_sold_sale)
+                    .replace("%rating%", item.productRating.toString())
+                    .replace("%sale%", item.sale.toString())
+            }
+            itemView.setOnClickListener {
+                action.invoke(item)
+            }
+        }
 }

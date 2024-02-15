@@ -1,6 +1,5 @@
 package com.example.tokopaerbe.helper
 
-import com.example.tokopaerbe.R
 
 object ValidationHelper {
 

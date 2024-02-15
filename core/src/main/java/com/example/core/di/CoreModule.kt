@@ -46,14 +46,16 @@ object CoreModule : BaseModules {
 
     val dataSourceModule = module {
         single { RemoteDataSource(get()) }
-        single { LocalDataSource(get()) }
+        single { LocalDataSource(get(), get()) }
         single { PagingDataSource(get(), get()) }
     }
 
     val database = module {
-        single { Room.databaseBuilder(androidContext(), Database::class.java, "app_database")
-            .fallbackToDestructiveMigration()
-            .build()
+        single {
+            Room.databaseBuilder(androidContext(), Database::class.java, "app_database")
+                .addMigrations(Database.MIGRATION_1_2)
+                .fallbackToDestructiveMigration()
+                .build()
         }
         single { get<Database>().appDao() }
     }

@@ -1,10 +1,5 @@
 package com.example.tokopaerbe.view.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -15,11 +10,9 @@ import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentDashboardBinding
 import com.example.tokopaerbe.viewmodel.DashBoardViewModel
-import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigationrail.NavigationRailView
-import kotlinx.coroutines.flow.launchIn
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewModel>(FragmentDashboardBinding::inflate) {
@@ -69,7 +62,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewMo
                     true
                 }
                 R.id.notif_menu -> {
-                    findNavController().navigate(R.id.action_dashboardFragment_to_detailFragment)
+                    /**
+                     * nanti dipake lagi
+                     */
+//                    findNavController().navigate(R.id.action_dashboardFragment_to_detailFragment)
 
                     true
                 }
