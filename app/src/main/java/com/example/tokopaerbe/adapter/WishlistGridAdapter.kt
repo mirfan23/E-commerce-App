@@ -8,7 +8,7 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.WishlistCardGridBinding
 import com.example.tokopaerbe.helper.currency
 
-class WishlistGridAdapter(private val action: (DataWishList) -> Unit) :
+class WishlistGridAdapter(private val action: (DataWishList) -> Unit, private val remove: (DataWishList) -> Unit) :
     BaseListAdapter<DataWishList, WishlistCardGridBinding>(WishlistCardGridBinding::inflate) {
     override fun onItemBind(): (DataWishList, WishlistCardGridBinding, View, Int) -> Unit =
         { item, binding, itemView, _ ->
@@ -21,6 +21,9 @@ class WishlistGridAdapter(private val action: (DataWishList) -> Unit) :
                 tvRatingItem.text = root.context.getString(R.string.rating_sold_sale)
                     .replace("%rating%", item.productRating.toString())
                     .replace("%sale%", item.sale.toString())
+                btnDeleteWishlist.setOnClickListener {
+                    remove.invoke(item)
+                }
             }
             itemView.setOnClickListener {
                 action.invoke(item)

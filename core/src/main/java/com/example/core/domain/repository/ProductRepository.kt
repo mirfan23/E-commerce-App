@@ -24,9 +24,11 @@ interface ProductRepository {
 
     suspend fun deleteCart(cartEntity: CartEntity)
 
-    suspend fun fetchCart(): Flow<List<CartEntity>>
+    suspend fun fetchCart(id: String): Flow<List<CartEntity>>
 
    suspend fun insertWishList(wishListEntity: WishListEntity)
 
-   suspend fun fetchWishList(): Flow<List<WishListEntity>>
+   suspend fun fetchWishList(id: String): Flow<List<WishListEntity>>
+
+   suspend fun deleteWishlist(wishListEntity: WishListEntity)
 }

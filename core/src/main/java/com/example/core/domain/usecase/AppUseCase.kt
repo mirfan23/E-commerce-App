@@ -25,10 +25,11 @@ interface AppUseCase {
     suspend fun fetchDetailProduct(productId: String): DataDetailProduct
     suspend fun fetchProductReview(productId: String): List<DataReviewProduct>
     suspend fun insertCart(productCart: DataCart)
-    suspend fun fetchCart(): Flow<UiState<List<DataCart>>>
+    suspend fun fetchCart(id: String): Flow<UiState<List<DataCart>>>
     suspend fun deleteCart(dataCart: DataCart)
     suspend fun insertWishList(dataWishList: DataWishList)
-    suspend fun fetchWishList():Flow<UiState<List<DataWishList>>>
+    suspend fun fetchWishList(id: String):Flow<UiState<List<DataWishList>>>
+    suspend fun deleteWishlist(dataWishList: DataWishList)
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)

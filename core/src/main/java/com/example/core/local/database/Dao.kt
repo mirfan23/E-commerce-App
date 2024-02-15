@@ -35,8 +35,8 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCart(cart: CartEntity)
 
-    @Query("SELECT * FROM cart_table")
-    fun retrieveAllCart(): Flow<List<CartEntity>>
+    @Query("SELECT * FROM cart_table WHERE userId = :id")
+    fun retrieveAllCart(id: String): Flow<List<CartEntity>>
 
     @Query("DELETE FROM cart_table")
     suspend fun deleteAllCart()
@@ -47,9 +47,12 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWishList(wishList: WishListEntity)
 
-    @Query("SELECT * FROM wishlist_table")
-    fun retrieveAllWishList(): Flow<List<WishListEntity>>
+    @Query("SELECT * FROM wishlist_table WHERE userId = :id")
+    fun retrieveAllWishList(id: String): Flow<List<WishListEntity>>
 
     @Query("DELETE FROM wishlist_table")
     suspend fun deleteAllWishList()
+
+    @Delete
+    suspend fun deleteWishlist(wishList: WishListEntity)
 }

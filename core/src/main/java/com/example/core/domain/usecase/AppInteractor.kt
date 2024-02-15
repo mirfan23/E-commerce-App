@@ -38,7 +38,6 @@ class AppInteractor(
 
     override suspend fun login(request: LoginRequest): DataLogin =
         safeDataCall {
-            println("MASUK Interactor: $request")
             repository.fetchLogin(request).toUIData()
         }
 
@@ -90,8 +89,8 @@ class AppInteractor(
         productRepo.deleteCart(dataCart.toEntity())
     }
 
-    override suspend fun fetchCart(): Flow<UiState<List<DataCart>>> = safeDataCall {
-        productRepo.fetchCart().map { data ->
+    override suspend fun fetchCart(id: String): Flow<UiState<List<DataCart>>> = safeDataCall {
+        productRepo.fetchCart(id).map { data ->
             val mapped = data.map { cartEntity -> cartEntity.toUIData() }
             UiState.Success(mapped)
         }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
@@ -101,11 +100,15 @@ class AppInteractor(
         productRepo.insertWishList(dataWishList.toEntity())
     }
 
-    override suspend fun fetchWishList(): Flow<UiState<List<DataWishList>>> = safeDataCall{
-        productRepo.fetchWishList().map { data ->
+    override suspend fun fetchWishList(id: String): Flow<UiState<List<DataWishList>>> = safeDataCall{
+        productRepo.fetchWishList(id).map { data ->
             val mapped = data.map { wishListEntity -> wishListEntity.toUIData() }
             UiState.Success(mapped)
         }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
+    }
+
+    override suspend fun deleteWishlist(dataWishList: DataWishList) {
+        productRepo.deleteWishlist(dataWishList.toEntity())
     }
 
     override fun saveAccessToken(string: String) {

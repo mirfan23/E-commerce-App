@@ -1,5 +1,6 @@
 package com.example.tokopaerbe.view.others
 
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.catnip.core.base.BaseFragment
@@ -25,7 +26,10 @@ class CartFragment :
     private var dataCart: List<DataCart>? = null
     private val cartAdapter by lazy {
         CartAdapter(
-            action = { dataCart },
+            action = {
+                val bundle = bundleOf("productId" to it.productId)
+                findNavController().navigate(R.id.action_cartFragment_to_detailFragment, bundle)
+            },
             remove = { entity -> removeItemFromCart(entity) }
         )
     }

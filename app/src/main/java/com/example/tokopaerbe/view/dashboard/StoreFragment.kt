@@ -31,20 +31,24 @@ class StoreFragment :
     private val listAdapter by lazy {
         ListViewAdapter { data ->
             val bundle = bundleOf("productId" to data.productId)
-            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.findNavController()?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
+                ?.findNavController()
+                ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
         }
     }
     private val gridAdapter by lazy {
-        GridViewAdapter {data ->
+        GridViewAdapter { data ->
             val bundle = bundleOf("productId" to data.productId)
-            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.findNavController()?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
+                ?.findNavController()
+                ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
         }
     }
-    private var pagingData : PagingData<DataProduct>? = null
+    private var pagingData: PagingData<DataProduct>? = null
 
     override fun observeData() {
         with(viewModel) {
-            fetchProduct().launchAndCollectIn(viewLifecycleOwner){productState ->
+            fetchProduct().launchAndCollectIn(viewLifecycleOwner) { productState ->
                 this.launch {
                     productState.onSuccess { data ->
                         binding.gridShimmerStore.apply {
@@ -63,6 +67,7 @@ class StoreFragment :
                                 val errorBody = error.response()?.errorBody()?.string()
                                 "$errorBody"
                             }
+
                             else -> "${error.message}"
                         }
                         context?.let {
@@ -84,7 +89,7 @@ class StoreFragment :
     }
 
     private fun fetchList() {
-        viewModel.fetchProduct().launchAndCollectIn(viewLifecycleOwner){productState ->
+        viewModel.fetchProduct().launchAndCollectIn(viewLifecycleOwner) { productState ->
             this.launch {
                 productState.onSuccess { data ->
                     pagingData = data
@@ -96,6 +101,7 @@ class StoreFragment :
                             "$errorBody"
 
                         }
+
                         else -> "${error.message}"
                     }
                     context?.let {

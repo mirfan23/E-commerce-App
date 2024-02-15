@@ -23,4 +23,6 @@ data class WishListEntity(
     val sale: Int = 0,
     @ColumnInfo(name = "store")
     val store: String = "",
+    @ColumnInfo(name = "userId")
+    val userId: String = ""
 )

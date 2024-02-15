@@ -39,16 +39,20 @@ class ProductRepositoryImpl(
         local.deleteCart(cartEntity)
     }
 
-    override suspend fun fetchCart(): Flow<List<CartEntity>> = safeDataCall {
-        local.fetchCart()
+    override suspend fun fetchCart(id: String): Flow<List<CartEntity>> = safeDataCall {
+        local.fetchCart(id)
     }
 
     override suspend fun insertWishList(wishListEntity: WishListEntity) {
         local.insertWishList(wishListEntity)
     }
 
-    override suspend fun fetchWishList(): Flow<List<WishListEntity>> = safeDataCall {
-        local.fetchWishList()
+    override suspend fun fetchWishList(id: String): Flow<List<WishListEntity>> = safeDataCall {
+        local.fetchWishList(id)
+    }
+
+    override suspend fun deleteWishlist(wishListEntity: WishListEntity) {
+        local.deleteWishlist(wishListEntity)
     }
 
 }

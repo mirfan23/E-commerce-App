@@ -8,6 +8,7 @@ import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.UiState
 import com.example.core.domain.usecase.AppUseCase
 import com.example.core.utils.asMutableStateFLow
+import com.example.tokopaerbe.helper.toBase64
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -29,20 +30,34 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
     }
 
     fun insertCart(dataCart: DataCart) {
-        viewModelScope.launch { useCase.insertCart(dataCart) }
+        val username = useCase.getProfileName()
+        viewModelScope.launch { useCase.insertCart(dataCart.copy(userId = username.toBase64())) }
     }
 
-    fun fetchCart() = runBlocking { useCase.fetchCart() }
+    fun fetchCart() = runBlocking {
+        val username = useCase.getProfileName()
+        useCase.fetchCart(username.toBase64())
+    }
 
     fun insertWishList(dataWishList: DataWishList) {
-        viewModelScope.launch { useCase.insertWishList(dataWishList) }
+        val username = useCase.getProfileName()
+        viewModelScope.launch { useCase.insertWishList(dataWishList.copy(userId = username.toBase64())) }
     }
 
-    fun fetchWishList() = runBlocking { useCase.fetchWishList() }
+    fun fetchWishList() = runBlocking {
+        val username = useCase.getProfileName()
+        useCase.fetchWishList(username.toBase64())
+    }
 
     fun removeCart(dataCart: DataCart) {
         viewModelScope.launch {
             useCase.deleteCart(dataCart)
+        }
+    }
+
+    fun removeWishlist(dataWishList: DataWishList) {
+        viewModelScope.launch {
+            useCase.deleteWishlist(dataWishList)
         }
     }
 }

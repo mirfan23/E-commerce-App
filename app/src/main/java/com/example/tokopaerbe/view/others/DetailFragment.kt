@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.DataCart
+import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.oError
@@ -18,6 +19,7 @@ import com.example.tokopaerbe.adapter.DetailAdapter
 import com.example.tokopaerbe.databinding.FragmentDetailBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.currency
+import com.example.tokopaerbe.helper.visibleIf
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
@@ -35,6 +37,7 @@ class DetailFragment :
     private lateinit var tabs: TabLayout
     private var dataCart: DataCart? = null
     private var dataWishList: DataWishList? = null
+    private val listVariant: ArrayList<DataDetailVariantProduct> = arrayListOf()
 
     override fun initView() {
         safeArgs.productId.let { productId ->
@@ -56,7 +59,16 @@ class DetailFragment :
             findNavController().popBackStack()
         }
         binding.btnToCart.setOnClickListener {
-            dataCart?.let { cart -> viewModel.insertCart(cart) }
+            dataCart?.let { cart ->
+                val id = binding.chipGroupLabelVariant.checkedChipId
+                val chip = binding.chipGroupLabelVariant.findViewById<Chip>(id)
+                val variant = listVariant.filter { variants ->
+                    variants.variantName.equals(
+                        chip.text.toString().trim(), true
+                    )
+                }.first()
+                viewModel.insertCart(cart.copy(productPrice = cart.productPrice + variant.variantPrice, variant = variant.variantName))
+            }
             context?.let { context ->
                 CustomSnackbar.showSnackBar(
                     context,
@@ -68,7 +80,7 @@ class DetailFragment :
         binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 dataWishList?.let { viewModel.insertWishList(it) }
-                context?.let {context ->
+                context?.let { context ->
                     CustomSnackbar.showSnackBar(
                         context,
                         binding.root,
@@ -86,20 +98,22 @@ class DetailFragment :
                     binding.loadingOverlay.visibility = View.GONE
                     binding.lottieLoading.visibility = View.GONE
                     binding.apply {
+                        listVariant.addAll(it.productVariant)
                         dataCart = DataCart(
                             productId = it.productId,
                             productName = it.productName,
                             productPrice = it.productPrice,
                             image = it.image.first(),
                             stock = it.stock,
-                            variant = addVariant(it.productPrice, it.productVariant).toString(),
+                            variant = "",
                             quantity = 1
                         )
                         dataWishList = DataWishList(
                             productId = it.productId,
                             productName = it.productName,
-                            productPrice = it. productPrice,
+                            productPrice = it.productPrice,
                             image = it.image.first(),
+                            store = it.store,
                             productRating = it.productRating,
                             sale = it.sale,
                         )
@@ -122,10 +136,7 @@ class DetailFragment :
                                 else -> tabs.isGone = false
                             }
                         }
-                        /**
-                         * nanti kode ini dipake lagi klo yang di dataCart udah bener
-                         */
-//                        addVariant(it.productPrice, it.productVariant)
+                        addVariant(it.productPrice, it.productVariant)
                     }
                 }.oError { error ->
                     binding.loadingOverlay.visibility = View.GONE

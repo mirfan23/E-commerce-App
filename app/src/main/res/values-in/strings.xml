@@ -74,4 +74,5 @@
     <string name="password_is_invalid">Password is invalid</string>
     <string name="successful_added_to_cart">Successful Added to Cart</string>
     <string name="successful_added_to_wishlist">Successful Added to Wishlist</string>
+    <string name="stock">Stock %stock%</string>
 </resources>

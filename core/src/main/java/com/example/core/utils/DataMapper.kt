@@ -117,7 +117,8 @@ object DataMapper {
         productName = productName,
         productPrice = productPrice,
         stock = stock,
-        quantity = quantity
+        quantity = quantity,
+        userId = userId
     )
 
     fun DataCart.toEntity() = CartEntity(
@@ -127,7 +128,8 @@ object DataMapper {
         productName = productName,
         productPrice = productPrice,
         stock = stock,
-        quantity = quantity
+        quantity = quantity,
+        userId = userId
     )
 
     fun WishListEntity.toUIData() = DataWishList(
@@ -137,7 +139,8 @@ object DataMapper {
         productRating = productRating,
         image = image,
         sale = sale,
-        store = store
+        store = store,
+        userId = userId
     )
 
     fun DataWishList.toEntity() = WishListEntity(
@@ -147,7 +150,8 @@ object DataMapper {
         productRating = productRating,
         image = image,
         sale = sale,
-        store = store
+        store = store,
+        userId = userId
     )
 
     fun DataLogin.toProfileName() = DataProfile(

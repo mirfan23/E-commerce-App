@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.FragmentBottomSheetBinding
+import com.example.tokopaerbe.viewmodel.FilterViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -14,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBottomSheetBinding
+    private val viewModel: FilterViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,6 +28,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        initListener()
     }
 
     private fun initView() {
@@ -38,7 +42,6 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         dialog?.setOnShowListener { it ->
             val d = it as BottomSheetDialog
             val bottomSheet =
@@ -49,6 +52,12 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun initListener() {
+        binding.btnShowProduct.setOnClickListener {
+            val category = binding.category.text
+        }
     }
 
 

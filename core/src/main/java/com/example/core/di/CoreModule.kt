@@ -54,6 +54,7 @@ object CoreModule : BaseModules {
         single {
             Room.databaseBuilder(androidContext(), Database::class.java, "app_database")
                 .addMigrations(Database.MIGRATION_1_2)
+                .addMigrations(Database.MIGRATION_2_3)
                 .fallbackToDestructiveMigration()
                 .build()
         }

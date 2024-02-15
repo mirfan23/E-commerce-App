@@ -10,12 +10,6 @@ class SessionInterceptor( private val prefs: SharedPreferencesHelper) : Intercep
         val request = chain.request()
 
         val response = chain.proceed(request)
-
-//        if (response.code == 401) {
-//            prefs.clearAllData()
-//            navHelper.navigateToProfile()
-//            return reponse
-//        }
         return response
     }
 }

@@ -22,5 +22,7 @@ data class CartEntity(
     @ColumnInfo(name = "stock")
     val stock: Int = 0,
     @ColumnInfo(name = "quantity")
-    val quantity: Int = 0
+    val quantity: Int = 0,
+    @ColumnInfo(name = "userId")
+    val userId: String = ""
 )

@@ -1,5 +1,7 @@
 package com.example.tokopaerbe.helper
 
+import java.util.Base64
+
 object Constant {
     //Profile Fragment
     const val CAMERA_PERMISSION_REQUEST_CODE = 100
@@ -33,3 +35,4 @@ object Constant {
     const val LANGUAGE_EN = "en"
 
 }
+fun String.toBase64() = Base64.getEncoder().encodeToString(this.toByteArray())

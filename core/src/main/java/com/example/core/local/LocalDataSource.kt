@@ -14,7 +14,7 @@ class LocalDataSource(
     suspend fun insertCart(cartEntity: CartEntity) {
         dao.insertCart(cartEntity)
     }
-    fun fetchCart(): Flow<List<CartEntity>> = dao.retrieveAllCart()
+    fun fetchCart(id: String): Flow<List<CartEntity>> = dao.retrieveAllCart(id)
 
     suspend fun deleteCart(cartEntity: CartEntity) {
         dao.deleteCart(cartEntity)
@@ -24,7 +24,11 @@ class LocalDataSource(
         dao.insertWishList(wishListEntity)
     }
 
-    fun fetchWishList(): Flow<List<WishListEntity>> = dao.retrieveAllWishList()
+    fun fetchWishList(id: String): Flow<List<WishListEntity>> = dao.retrieveAllWishList(id)
+
+    suspend fun deleteWishlist(wishListEntity: WishListEntity) {
+        dao.deleteWishlist(wishListEntity)
+    }
 
     fun getOnBoardingState(): Boolean = sharedPreferencesHelper.getOnBoardingState()
 
