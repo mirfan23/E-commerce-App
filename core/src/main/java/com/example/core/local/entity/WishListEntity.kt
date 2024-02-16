@@ -29,5 +29,4 @@ data class WishListEntity(
     val stock: Int = 0,
     @ColumnInfo(name = "variant")
     val variant: String = "",
-
 )

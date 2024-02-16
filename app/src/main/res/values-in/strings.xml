@@ -76,4 +76,9 @@
     <string name="successful_added_to_wishlist">Successful Added to Wishlist</string>
     <string name="stock">Stock %stock%</string>
     <string name="success_delete_from_wishlist">Success Delete from Wishlist</string>
+    <string name="lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\\\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="are_you_sure">Are You sure want to delete this item?</string>
+    <string name="item_will_deleted">Item will deleted from Cart</string>
+    <string name="cancel_btn_cart">Batal</string>
+    <string name="delete_btn_cart">Hapus</string>
 </resources>

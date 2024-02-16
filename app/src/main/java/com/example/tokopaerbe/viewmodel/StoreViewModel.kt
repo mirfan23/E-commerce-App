@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataDetailVariantProduct
+import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.FlowState
 import com.example.core.domain.state.UiState
@@ -35,6 +36,11 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
     private var dataCart: DataCart? = null
     private var dataWishList: DataWishList? = null
 
+    private val _responseReview: MutableStateFlow<UiState<List<DataReviewProduct>>> =
+        MutableStateFlow(UiState.Empty)
+    val responseReview = _responseReview.asStateFlow()
+
+
     fun fetchProduct() = runBlocking { useCase.fetchProduct() }
 
     fun fetchDetail(productId: String) {
@@ -53,11 +59,7 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
                     variant.variantPrice
                 ) ?: 0
             )
-            dataCart?.let {
-                useCase.insertCart(
-                    it.copy(userId = username.toBase64())
-                )
-            }
+                ?.let { useCase.insertCart(it.copy(userId = username.toBase64())) }
         }
     }
 
@@ -86,7 +88,6 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
         viewModelScope.launch {
             dataWishList?.let {
                 useCase.deleteWishlist(it)
-                println("MASUK ANU")
             }
         }
     }
@@ -109,9 +110,11 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
         _totalPrice.update { FlowState.FlowValue(price) }
     }
 
+
     fun setDataCart(data: DataCart) {
         dataCart = data
     }
+
 
     fun setDataWishlist(data: DataWishList) {
         dataWishList = data
@@ -120,6 +123,14 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
     fun removeWishlistWishlist(data: DataWishList) {
         viewModelScope.launch {
             useCase.deleteWishlist(data)
+        }
+    }
+
+    fun fetchReviewProducts(id: String) {
+        viewModelScope.launch {
+            _responseReview.asMutableStateFLow {
+                useCase.fetchProductReview(id)
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.DataCart
-import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.oError
@@ -17,11 +16,10 @@ import com.example.core.domain.state.onSuccess
 import com.example.core.domain.state.onValue
 import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.adapter.DetailAdapter
+import com.example.tokopaerbe.adapter.DetailImageAdapter
 import com.example.tokopaerbe.databinding.FragmentDetailBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.currency
-import com.example.tokopaerbe.helper.visibleIf
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
@@ -34,7 +32,7 @@ class DetailFragment :
     override val viewModel: StoreViewModel by viewModel()
 
     private val safeArgs: DetailFragmentArgs by navArgs()
-    private lateinit var adapter: DetailAdapter
+    private lateinit var adapterImage: DetailImageAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var tabs: TabLayout
     private val listVariant: ArrayList<DataDetailVariantProduct> = arrayListOf()
@@ -66,6 +64,7 @@ class DetailFragment :
                 variants.variantName.equals(chip.text.toString().trim(), true)
             }.first()
             viewModel.insertCart(variant)
+
             context?.let { context ->
                 CustomSnackbar.showSnackBar(
                     context,
@@ -74,7 +73,9 @@ class DetailFragment :
                 )
             }
         }
-        binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
+
+
+    binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.run { insertWishList() }
                 context?.let { context ->
@@ -95,6 +96,10 @@ class DetailFragment :
                 }
             }
             viewModel.putWishlistState(isChecked)
+        }
+        binding.tvSeeAllReview.setOnClickListener {
+            val action = DetailFragmentDirections.actionDetailFragmentToReviewProductFragment(safeArgs.productId)
+            findNavController().navigate(action)
         }
     }
 
@@ -117,6 +122,7 @@ class DetailFragment :
                                 quantity = 1
                             )
                         )
+
                         viewModel.setDataWishlist(
                             DataWishList(
                                 productId = it.productId,
@@ -179,42 +185,42 @@ class DetailFragment :
                 binding.cbWishlist.isChecked = it
             }
             totalPrice.launchAndCollectIn(viewLifecycleOwner) { state ->
-                state.onCreated {}
+                state.onCreated { }
                     .onValue { totalPrice(it) }
             }
         }
     }
 
 
-    private fun setProductImage(imageUrls: List<String>) {
+    private fun setProductImage(image: List<String>) {
         viewPager = binding.vpDetail
         tabs = binding.tlDetail
-        adapter = DetailAdapter(imageUrls)
-        viewPager.adapter = adapter
+        adapterImage = DetailImageAdapter(image)
+        viewPager.adapter = adapterImage
 
         TabLayoutMediator(tabs, viewPager) { _, _ -> }.attach()
     }
 
-    private fun addVariant(
-        defaultPrice: Int,
-        variants: List<DataDetailVariantProduct>
-    ) {
-        var totalVariantPrice = defaultPrice
-        variants.forEachIndexed { index, dataDetailVariantProduct ->
+    private fun addVariant(defaultPrice: Int, variants: List<DataDetailVariantProduct>) {
+        var totalVariantPrice = 0
+        for ((index, variant) in variants.withIndex()) {
             val chip = Chip(context)
-            chip.text = dataDetailVariantProduct.variantName
+            chip.text = variant.variantName
             chip.isCheckable = true
-            chip.isChecked = index == 0
 
-            binding.chipGroupLabelVariant.addView(chip)
-            binding.chipGroupLabelVariant.isSingleSelection = true
+            binding.chipGroupLabelVariant.apply {
+                addView(chip)
+                isSingleSelection = true
+                isSelectionRequired = true
+            }
 
-            val variantPrice = dataDetailVariantProduct.variantPrice
+            if (index == 0) {
+                chip.isChecked = true
+            }
+            val variantPrice = variant.variantPrice
             chip.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    totalVariantPrice += variantPrice
-                } else {
-                    totalVariantPrice -= variantPrice
+                    totalVariantPrice = defaultPrice + variantPrice
                 }
                 viewModel.updateTotalPrice(totalVariantPrice)
             }
@@ -224,4 +230,5 @@ class DetailFragment :
     private fun totalPrice(totalVariantPrice: Int) {
         binding.tvDetailPrice.text = currency(totalVariantPrice)
     }
+
 }

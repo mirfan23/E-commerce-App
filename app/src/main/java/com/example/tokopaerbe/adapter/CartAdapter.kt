@@ -12,8 +12,9 @@ import com.example.tokopaerbe.viewmodel.StoreViewModel
 class CartAdapter(
     private val action: (DataCart) -> Unit,
     private val remove: (DataCart) -> Unit,
-    private val add: (String, Int) -> Unit,
-    private val min: (String, Int) -> Unit
+    private val add: (String, Int ) -> Unit,
+    private val min: (String, Int) -> Unit,
+    private val checkbox: (String, Boolean) -> Unit
 ) :
     BaseListAdapter<DataCart, CartListCardBinding>(CartListCardBinding::inflate) {
     override fun onItemBind(): (DataCart, CartListCardBinding, View, Int) -> Unit =
@@ -40,6 +41,9 @@ class CartAdapter(
                     } else {
                         remove.invoke(item)
                     }
+                }
+                cbCart.setOnCheckedChangeListener{_, isChecked ->
+                    checkbox(item.productId, isChecked)
                 }
             }
             itemView.setOnClickListener {

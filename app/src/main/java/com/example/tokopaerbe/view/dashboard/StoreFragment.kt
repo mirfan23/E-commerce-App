@@ -101,9 +101,7 @@ class StoreFragment :
                         is HttpException -> {
                             val errorBody = error.response()?.errorBody()?.string()
                             "$errorBody"
-
                         }
-
                         else -> "${error.message}"
                     }
                     context?.let {

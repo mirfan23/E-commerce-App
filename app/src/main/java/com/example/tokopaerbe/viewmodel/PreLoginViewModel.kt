@@ -80,7 +80,6 @@ class PreLoginViewModel(private val useCase: AppUseCase) :
     fun fetchLogin(requestLogin: LoginRequest) {
         viewModelScope.launch {
             _responseLogin.asMutableStateFLow {
-                println("MASUK VIEWMODEL: $requestLogin")
                 useCase.login(request = requestLogin)
             }
         }

@@ -1,5 +1,7 @@
 package com.example.tokopaerbe.view.others
 
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.example.tokopaerbe.adapter.CartAdapter
 import com.example.tokopaerbe.databinding.FragmentCartBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SpaceItemDecoration
+import com.example.tokopaerbe.helper.currency
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
@@ -25,6 +28,7 @@ class CartFragment :
     override val viewModel: StoreViewModel by viewModel()
 
     private var dataCart: List<DataCart>? = null
+    private val checkedItems = mutableListOf<String>()
     private val cartAdapter by lazy {
         CartAdapter(
             action = {
@@ -33,9 +37,21 @@ class CartFragment :
             },
             remove = { entity -> removeItemFromCart(entity) },
             add = { id, quantity ->
-                viewModel.updateQuantity(id, quantity + 1) },
+                viewModel.updateQuantity(id, quantity + 1)
+                updateTotalPrice()
+            },
             min = { id, quantity ->
-                viewModel.updateQuantity(id, quantity - 1) }
+                viewModel.updateQuantity(id, quantity - 1)
+                updateTotalPrice()
+            },
+            checkbox = { id, isChecked ->
+                if (isChecked) {
+                    checkedItems.add(id)
+                } else {
+                    checkedItems.remove(id)
+                }
+                updateTotalPrice()
+            }
         )
     }
 
@@ -59,10 +75,9 @@ class CartFragment :
                                 errorMessage
                             )
                         }
-
                     }.onSuccess { data ->
                         dataCart = data
-                        cartAdapter.submitList(data)
+                        cartAdapter.submitList(dataCart)
                     }
                 }
             }
@@ -103,15 +118,26 @@ class CartFragment :
     private fun removeItemFromCart(dataCart: DataCart) {
         context?.let {
             MaterialAlertDialogBuilder(it)
-                .setTitle("Anda yakin akan menghapus?")
-                .setMessage("item akan dihapus dari keranjang")
-                .setNegativeButton("Batal") { dialog, which ->
+                .setTitle(getString(R.string.are_you_sure))
+                .setMessage(getString(R.string.item_will_deleted))
+                .setNegativeButton(getString(R.string.cancel_btn_cart)) { dialog, which ->
                     dialog.dismiss()
                 }
-                .setPositiveButton("Hapus") { dialog, which ->
+                .setPositiveButton(getString(R.string.delete_btn_cart)) { dialog, which ->
                     viewModel.removeCart(dataCart)
                 }
                 .show()
+                .getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(ContextCompat.getColor(it, R.color.error))
         }
+    }
+
+    private fun updateTotalPrice() {
+        var totalHarga = 0
+        dataCart?.forEach { cartItem ->
+            if (checkedItems.contains(cartItem.productId)) {
+                totalHarga += cartItem.productPrice * cartItem.quantity
+            }
+        }
+        binding.tvTotalPrice.text = currency(totalHarga)
     }
 }
