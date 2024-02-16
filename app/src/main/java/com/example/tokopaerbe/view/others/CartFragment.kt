@@ -15,6 +15,7 @@ import com.example.tokopaerbe.databinding.FragmentCartBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SpaceItemDecoration
 import com.example.tokopaerbe.viewmodel.StoreViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
@@ -30,7 +31,11 @@ class CartFragment :
                 val bundle = bundleOf("productId" to it.productId)
                 findNavController().navigate(R.id.action_cartFragment_to_detailFragment, bundle)
             },
-            remove = { entity -> removeItemFromCart(entity) }
+            remove = { entity -> removeItemFromCart(entity) },
+            add = { id, quantity ->
+                viewModel.updateQuantity(id, quantity + 1) },
+            min = { id, quantity ->
+                viewModel.updateQuantity(id, quantity - 1) }
         )
     }
 
@@ -96,6 +101,17 @@ class CartFragment :
     }
 
     private fun removeItemFromCart(dataCart: DataCart) {
-        viewModel.removeCart(dataCart)
+        context?.let {
+            MaterialAlertDialogBuilder(it)
+                .setTitle("Anda yakin akan menghapus?")
+                .setMessage("item akan dihapus dari keranjang")
+                .setNegativeButton("Batal") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Hapus") { dialog, which ->
+                    viewModel.removeCart(dataCart)
+                }
+                .show()
+        }
     }
 }

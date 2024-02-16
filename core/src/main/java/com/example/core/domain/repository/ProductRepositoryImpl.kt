@@ -55,4 +55,14 @@ class ProductRepositoryImpl(
         local.deleteWishlist(wishListEntity)
     }
 
+    override fun putWishlistState(state: Boolean) {
+        local.putWishlistState(state)
+    }
+
+    override fun getWishlistState(): Boolean = local.getWishlistState()
+    override suspend fun updateQuantity(productId: String, quantity: Int) {
+        local.updateQuantity(productId, quantity)
+    }
+
+
 }

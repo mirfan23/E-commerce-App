@@ -31,7 +31,7 @@ class AuthRepositoryImpl(private val remote: RemoteDataSource, private val local
 
     override suspend fun dataSession(name: String, accessToken: String, onBoardingState: Boolean) {}
 
-    override fun getProfileName(): String = local.getProfileName().toString()
+    override fun getProfileName(): String = local.getProfileName()
 
     override fun saveProfileName(string: String) {
         local.saveProfileName(string)

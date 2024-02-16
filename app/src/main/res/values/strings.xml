@@ -71,7 +71,8 @@
     <string name="name_can_not_be_null">Name Can Not be Null</string>
     <string name="email_is_invalid">Email is invalid</string>
     <string name="password_is_invalid">Password is invalid</string>
-    <string name="successful_added_to_cart">Successful Added to Cart</string>
-    <string name="successful_added_to_wishlist">Successful Added to Wishlist</string>
+    <string name="successful_added_to_cart">Success Added to Cart</string>
+    <string name="successful_added_to_wishlist">Success Added to Wishlist</string>
     <string name="stock">Stock %stock%</string>
+    <string name="success_delete_from_wishlist">Success Delete from Wishlist</string>
 </resources>

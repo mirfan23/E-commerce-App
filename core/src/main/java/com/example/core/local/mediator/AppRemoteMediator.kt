@@ -60,7 +60,7 @@ class AppRemoteMediator(
                 val prevKey = if (page == 1) null else - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = responseData.data.items.map {
-                    RemoteKeys(id = it. productId, prevKey = prevKey, nextKey = nextKey)
+                    RemoteKeys(id = it.productId, prevKey = prevKey, nextKey = nextKey)
                 }
                 database.appDao().insertAll(keys)
                 database.appDao().insertProduct(responseData.toLocalListData())

@@ -75,4 +75,5 @@
     <string name="successful_added_to_cart">Successful Added to Cart</string>
     <string name="successful_added_to_wishlist">Successful Added to Wishlist</string>
     <string name="stock">Stock %stock%</string>
+    <string name="success_delete_from_wishlist">Success Delete from Wishlist</string>
 </resources>

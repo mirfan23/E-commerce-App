@@ -4,7 +4,7 @@
         android:topRightRadius="100dp"/>
     <solid android:color="@android:color/transparent"/>
     <stroke
-        android:width="5dp"
+        android:width="1dp"
     android:color="?android:attr/colorControlNormal"/>
     <corners android:bottomRightRadius="100dp"
         android:topRightRadius="100dp"/>

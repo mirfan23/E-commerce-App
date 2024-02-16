@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.ProductEntity
 import com.example.core.local.entity.RemoteKeys
@@ -55,4 +56,7 @@ interface Dao {
 
     @Delete
     suspend fun deleteWishlist(wishList: WishListEntity)
+
+    @Query("UPDATE cart_table SET quantity = :value WHERE productId = :productId")
+    suspend fun updateQuantity(productId: String, value: Int)
 }

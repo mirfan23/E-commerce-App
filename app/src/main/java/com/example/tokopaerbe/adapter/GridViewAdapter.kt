@@ -8,8 +8,9 @@ import com.example.tokopaerbe.R
 import com.example.tokopaerbe.databinding.StoreCardViewBinding
 import com.example.tokopaerbe.helper.currency
 
-class GridViewAdapter(private val action: (DataProduct) -> Unit):
-    BasePagingAdapter<DataProduct, StoreCardViewBinding>(StoreCardViewBinding::inflate) {
+class GridViewAdapter(
+    private val action: (DataProduct) -> Unit
+): BasePagingAdapter<DataProduct, StoreCardViewBinding>(StoreCardViewBinding::inflate) {
     override fun onItemBind(): (DataProduct, StoreCardViewBinding, View, Int) -> Unit = {
             item, binding, itemView, _ ->
         binding.run {

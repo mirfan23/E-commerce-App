@@ -30,6 +30,7 @@ interface AppUseCase {
     suspend fun insertWishList(dataWishList: DataWishList)
     suspend fun fetchWishList(id: String):Flow<UiState<List<DataWishList>>>
     suspend fun deleteWishlist(dataWishList: DataWishList)
+    suspend fun updateQuantity(productId: String, quantity: Int)
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)
@@ -37,6 +38,8 @@ interface AppUseCase {
     fun getProfileName(): String
     fun saveOnBoardingState(value: Boolean)
     fun getOnBoardingState(): Boolean
+    fun putWishlistState(value: Boolean)
+    fun getWishlistState(): Boolean
     fun putThemeStatus(value: Boolean)
     fun getThemeStatus(): Boolean
     fun putLanguageStatus(value: String)

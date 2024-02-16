@@ -9,7 +9,7 @@ import com.example.core.local.entity.ProductEntity
 import com.example.core.local.entity.RemoteKeys
 import com.example.core.local.entity.WishListEntity
 
-@Database(entities = [ProductEntity::class, RemoteKeys::class, WishListEntity::class, CartEntity::class], version = 3)
+@Database(entities = [ProductEntity::class, RemoteKeys::class, WishListEntity::class, CartEntity::class], version = 4)
 abstract class Database: RoomDatabase() {
     abstract fun appDao(): Dao
 
@@ -36,6 +36,12 @@ abstract class Database: RoomDatabase() {
                 db.execSQL("ALTER TABLE cart_table ADD COLUMN userId TEXT DEFAULT '' NOT NULL")
 
                 db.execSQL("ALTER TABLE wishlist_table ADD COLUMN userId TEXT DEFAULT '' NOT NULL")
+            }
+        }
+        val MIGRATION_3_4: Migration = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE wishlist_table ADD COLUMN stock INTEGER DEFAULT 0 NOT NULL")
+                db.execSQL("ALTER TABLE wishlist_table ADD COLUMN variant TEXT DEFAULT '' NOT NULL")
             }
         }
     }

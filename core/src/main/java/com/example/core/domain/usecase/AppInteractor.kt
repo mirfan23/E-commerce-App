@@ -100,15 +100,23 @@ class AppInteractor(
         productRepo.insertWishList(dataWishList.toEntity())
     }
 
-    override suspend fun fetchWishList(id: String): Flow<UiState<List<DataWishList>>> = safeDataCall{
-        productRepo.fetchWishList(id).map { data ->
-            val mapped = data.map { wishListEntity -> wishListEntity.toUIData() }
-            UiState.Success(mapped)
-        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
-    }
+    override suspend fun fetchWishList(id: String): Flow<UiState<List<DataWishList>>> =
+        safeDataCall {
+            productRepo.fetchWishList(id).map { data ->
+                val mapped = data.map { wishListEntity -> wishListEntity.toUIData() }
+                UiState.Success(mapped)
+            }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
+        }
 
     override suspend fun deleteWishlist(dataWishList: DataWishList) {
         productRepo.deleteWishlist(dataWishList.toEntity())
+    }
+
+    override suspend fun updateQuantity(productId: String, quantity: Int) {
+        productRepo.updateQuantity(
+            productId = productId,
+            quantity = quantity
+        )
     }
 
     override fun saveAccessToken(string: String) {
@@ -130,6 +138,11 @@ class AppInteractor(
     }
 
     override fun getOnBoardingState(): Boolean = repository.getOnBoardingState()
+    override fun putWishlistState(value: Boolean) {
+        productRepo.putWishlistState(value)
+    }
+
+    override fun getWishlistState(): Boolean = productRepo.getWishlistState()
 
 
     override fun putThemeStatus(value: Boolean) {

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.DataCart
+import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.onSuccess
 import com.example.tokopaerbe.R
@@ -23,6 +24,7 @@ class WishlistFragment :
     BaseFragment<FragmentWishlistBinding, StoreViewModel>(FragmentWishlistBinding::inflate) {
     override val viewModel: StoreViewModel by viewModel()
     private var dataWishList: List<DataWishList>? = null
+    private val listVariant: ArrayList<DataDetailVariantProduct> = arrayListOf()
     private val wishlistAdapter by lazy {
         WishlistListAdapter(
             action = {
@@ -31,7 +33,8 @@ class WishlistFragment :
                     ?.findNavController()
                     ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
             },
-            remove = { entity -> removeItemFromWishlist(entity) }
+            remove = { removeItemFromWishlist(it)
+            }
         )
     }
     private val wishlistAdapterGrid by lazy {
@@ -42,7 +45,7 @@ class WishlistFragment :
                     ?.findNavController()
                     ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
             },
-            remove = { entity -> removeItemFromWishlist(entity) }
+            remove = { removeItemFromWishlist(it) }
         )
     }
 
@@ -115,6 +118,6 @@ class WishlistFragment :
     }
 
     private fun removeItemFromWishlist(dataWishList: DataWishList) {
-        viewModel.removeWishlist(dataWishList)
+        viewModel.removeWishlistWishlist(dataWishList)
     }
 }

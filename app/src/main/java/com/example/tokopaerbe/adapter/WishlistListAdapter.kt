@@ -9,8 +9,10 @@ import com.example.tokopaerbe.R.string.*
 import com.example.tokopaerbe.databinding.WishlistCardListBinding
 import com.example.tokopaerbe.helper.currency
 
-class WishlistListAdapter(private val action: (DataWishList) -> Unit, private val remove: (DataWishList) -> Unit) :
-    BaseListAdapter<DataWishList, WishlistCardListBinding>(WishlistCardListBinding::inflate) {
+class WishlistListAdapter(
+    private val action: (DataWishList) -> Unit,
+    private val remove: (DataWishList) -> Unit
+) : BaseListAdapter<DataWishList, WishlistCardListBinding>(WishlistCardListBinding::inflate) {
     override fun onItemBind(): (DataWishList, WishlistCardListBinding, View, Int) -> Unit =
         { item, binding, itemView, _ ->
             binding.run {

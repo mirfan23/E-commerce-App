@@ -140,7 +140,9 @@ object DataMapper {
         image = image,
         sale = sale,
         store = store,
-        userId = userId
+        userId = userId,
+        stock = stock,
+        variant = variant
     )
 
     fun DataWishList.toEntity() = WishListEntity(
@@ -151,7 +153,9 @@ object DataMapper {
         image = image,
         sale = sale,
         store = store,
-        userId = userId
+        userId = userId,
+        stock = stock,
+        variant = variant
     )
 
     fun DataLogin.toProfileName() = DataProfile(

@@ -11,6 +11,7 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
         private const val LANGUAGE_STATUS= "language_status"
         private const val THEME_STATUS= "theme_status"
         private const val PROFILE_KEY = "profile_key"
+        private const val WISHLIST_STATE = "wishlist_state"
     }
 
     override fun putThemeStatus(value: Boolean) {
@@ -59,6 +60,14 @@ class SharedPreferenceImpl(private val sharedPreferences: SharedPreferences) : S
 
     override fun getProfileName(): String {
         return sharedPreferences.getString(PROFILE_KEY, "").toString()
+    }
+
+    override fun putWishlistState(value: Boolean) {
+        sharedPreferences.edit().putBoolean(WISHLIST_STATE, value).apply()
+    }
+
+    override fun getWishlistState(): Boolean {
+        return sharedPreferences.getBoolean(WISHLIST_STATE, false)
     }
 
     override fun clearAllSession() {

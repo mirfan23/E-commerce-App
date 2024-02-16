@@ -3,6 +3,7 @@ package com.example.core.local
 import com.example.core.local.database.Dao
 import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.WishListEntity
+import com.example.core.local.preferences.SharedPreferenceImpl
 import com.example.core.local.preferences.SharedPreferencesHelper
 import kotlinx.coroutines.flow.Flow
 
@@ -36,6 +37,12 @@ class LocalDataSource(
         sharedPreferencesHelper.putOnBoardingState(state)
     }
 
+    fun getWishlistState(): Boolean = sharedPreferencesHelper.getWishlistState()
+
+    fun putWishlistState(state: Boolean) {
+        sharedPreferencesHelper.putWishlistState(state)
+    }
+
     fun saveRefreshToken(token: String) {
         sharedPreferencesHelper.putRefreshToken(token)
     }
@@ -51,4 +58,6 @@ class LocalDataSource(
     }
 
     fun getProfileName(): String = sharedPreferencesHelper.getProfileName()
+
+    suspend fun updateQuantity(productId: String, quantity: Int) = dao.updateQuantity(productId, quantity)
 }

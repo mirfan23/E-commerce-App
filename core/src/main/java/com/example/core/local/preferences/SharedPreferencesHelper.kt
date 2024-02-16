@@ -17,5 +17,7 @@ interface SharedPreferencesHelper {
     fun getOnBoardingState(): Boolean
     fun putProfileName(value: String)
     fun getProfileName(): String
+    fun putWishlistState(value: Boolean)
+    fun getWishlistState(): Boolean
     fun clearAllSession()
 }

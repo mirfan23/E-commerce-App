@@ -34,6 +34,7 @@ class StoreFragment :
             activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
                 ?.findNavController()
                 ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
+            viewModel.getWishlistState()
         }
     }
     private val gridAdapter by lazy {
@@ -42,6 +43,7 @@ class StoreFragment :
             activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
                 ?.findNavController()
                 ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
+            viewModel.getWishlistState()
         }
     }
     private var pagingData: PagingData<DataProduct>? = null
