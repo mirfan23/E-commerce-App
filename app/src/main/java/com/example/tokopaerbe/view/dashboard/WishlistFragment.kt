@@ -9,13 +9,16 @@ import com.catnip.core.base.BaseFragment
 import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataWishList
+import com.example.core.domain.state.oError
 import com.example.core.domain.state.onSuccess
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.WishlistGridAdapter
 import com.example.tokopaerbe.adapter.WishlistListAdapter
 import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.databinding.FragmentWishlistBinding
+import com.example.tokopaerbe.helper.ErrorCustomView
 import com.example.tokopaerbe.helper.SpaceItemDecoration
+import com.example.tokopaerbe.helper.visibleIf
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +36,8 @@ class WishlistFragment :
                     ?.findNavController()
                     ?.navigate(R.id.action_dashboardFragment_to_detailFragment, bundle)
             },
-            remove = { removeItemFromWishlist(it)
+            remove = {
+                removeItemFromWishlist(it)
             }
         )
     }
@@ -56,6 +60,21 @@ class WishlistFragment :
                     wishListState.onSuccess { data ->
                         dataWishList = data
                         wishlistAdapter.submitList(data)
+                        binding.tvAmount.text =
+                            getString(R.string.items).replace("%total%", data.size.toString())
+                        /**
+                         * nanti dipake lagi
+                         */
+//                        if (data.isEmpty()) {
+//                            binding.errorView.visibleIf(true)
+//                            binding.errorView.setErrorMessage(
+//                                title = "Empty",
+//                                description = "Wishlist is Empty",
+//                                action = {
+//                                    findNavController().navigate(R.id.action_wishlistFragment_to_storeFragment)
+//                                }
+//                            )
+//                        }
                     }
                 }
             }
@@ -82,7 +101,6 @@ class WishlistFragment :
 
         val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
         binding.rvListView.addItemDecoration(SpaceItemDecoration(spaceInPixels))
-        binding.tvAmount.text = getString(R.string.items)
     }
 
     override fun initListener() {

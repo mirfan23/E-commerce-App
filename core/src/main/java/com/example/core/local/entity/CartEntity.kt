@@ -8,7 +8,9 @@ import com.example.core.utils.Constant
 
 @Entity(tableName = Constant.tableCartName)
 data class CartEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "cartId")
+    val cartId: Int = 0,
     @ColumnInfo(name = "productId")
     val productId: String = "",
     @ColumnInfo(name = "image")
@@ -24,5 +26,7 @@ data class CartEntity(
     @ColumnInfo(name = "quantity")
     val quantity: Int = 0,
     @ColumnInfo(name = "userId")
-    val userId: String = ""
+    val userId: String = "",
+    @ColumnInfo(name = "isChecked")
+    val isChecked: Boolean = false
 )

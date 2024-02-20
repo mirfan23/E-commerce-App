@@ -137,6 +137,5 @@ class PreLoginViewModel(private val useCase: AppUseCase) :
     fun resetValidateRegisterField() {
         _validateLoginField.update { FlowState.FlowCreated }
     }
-
 }
 

@@ -64,6 +64,14 @@
             android:layout_below="@id/filter_bar"
             tools:listitem="@layout/wishlist_card_list" />
 
+        <com.example.tokopaerbe.helper.ErrorCustomView
+            android:id="@+id/error_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="4dp"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
 </FrameLayout>

@@ -5,7 +5,11 @@ import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.WishListEntity
 import com.example.core.local.preferences.SharedPreferenceImpl
 import com.example.core.local.preferences.SharedPreferencesHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class LocalDataSource(
     private val sharedPreferencesHelper: SharedPreferencesHelper,
@@ -59,5 +63,7 @@ class LocalDataSource(
 
     fun getProfileName(): String = sharedPreferencesHelper.getProfileName()
 
-    suspend fun updateQuantity(productId: String, quantity: Int) = dao.updateQuantity(productId, quantity)
+    suspend fun updateQuantity(cartId: Int, quantity: Int) = dao.updateQuantity(cartId, quantity)
+
+    suspend fun updateCheckCart(cartId: Int, value: Boolean) = dao.updateCheckCart(cartId, value)
 }

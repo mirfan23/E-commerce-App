@@ -27,20 +27,20 @@ class SnK {
 
             val customColor = ContextCompat.getColor(context, R.color.primaryColor)
 
-            val greenClickableSpan = object : ClickableSpan() {
+            val tncClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
                     // Handle click for "Syarat & Ketentuan"
                     openUrl(context, "https://www.youtube.com")
                 }
             }
-            val blueClickableSpan = object : ClickableSpan() {
+            val policyClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
                     // Handle click for "Kebijakan Privasi"
                     openUrl(context, "https://www.bing.com")
                 }
             }
-            spannableString.setSpan(greenClickableSpan, startTnc, endtnc, 0)
-            spannableString.setSpan(blueClickableSpan, startPolicy, endPolicy, 0)
+            spannableString.setSpan(tncClickableSpan, startTnc, endtnc, 0)
+            spannableString.setSpan(policyClickableSpan, startPolicy, endPolicy, 0)
 
             spannableString.setSpan(
                 ForegroundColorSpan(customColor),
@@ -56,7 +56,6 @@ class SnK {
             )
 
             return SpannableString(spannableString)
-
         }
 
         private fun openUrl(context: Context, url: String) {

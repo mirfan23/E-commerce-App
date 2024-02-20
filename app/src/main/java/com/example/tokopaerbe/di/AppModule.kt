@@ -2,7 +2,7 @@ package com.example.tokopaerbe.di
 
 import com.catnip.core.base.BaseModules
 import com.example.tokopaerbe.viewmodel.DashBoardViewModel
-import com.example.tokopaerbe.viewmodel.FilterViewModel
+//import com.example.tokopaerbe.viewmodel.FilterViewModel
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import com.example.tokopaerbe.viewmodel.TransactionViewModel
@@ -18,7 +18,7 @@ object AppModule : BaseModules {
         viewModel { StoreViewModel(get()) }
         viewModel { WishlistViewModel(get()) }
         viewModel { TransactionViewModel(get()) }
-        viewModel { FilterViewModel(get()) }
+//        viewModel { FilterViewModel(get()) }
     }
 
     override fun getModules(): List<Module> = listOf(viewModelModule)

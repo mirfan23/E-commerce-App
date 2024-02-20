@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.catnip.core.base.BaseFragment
+import com.example.core.domain.model.DataFilter
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.state.oError
 import com.example.core.domain.state.onLoading
@@ -26,8 +27,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
 
 class StoreFragment :
-    BaseFragment<FragmentStoreBinding, StoreViewModel>(FragmentStoreBinding::inflate) {
+    BaseFragment<FragmentStoreBinding, StoreViewModel>(FragmentStoreBinding::inflate),
+    BottomSheetFragment.OnFilterFragmentListener {
     override val viewModel: StoreViewModel by viewModel()
+    private var pagingData: PagingData<DataProduct>? = null
     private val listAdapter by lazy {
         ListViewAdapter { data ->
             val bundle = bundleOf("productId" to data.productId)
@@ -46,11 +49,16 @@ class StoreFragment :
             viewModel.getWishlistState()
         }
     }
-    private var pagingData: PagingData<DataProduct>? = null
+    private val filterFragment: BottomSheetFragment by lazy {
+        BottomSheetFragment()
+    }
+
+    private var sort: String? = null
+    private var brand: String? = null
 
     override fun observeData() {
         with(viewModel) {
-            fetchProduct().launchAndCollectIn(viewLifecycleOwner) { productState ->
+            fetchFilteredProduct().launchAndCollectIn(viewLifecycleOwner) { productState ->
                 this.launch {
                     productState.onSuccess { data ->
                         binding.gridShimmerStore.apply {
@@ -91,17 +99,26 @@ class StoreFragment :
     }
 
     private fun fetchList() {
-        viewModel.fetchProduct().launchAndCollectIn(viewLifecycleOwner) { productState ->
+        viewModel.fetchFilteredProduct().launchAndCollectIn(viewLifecycleOwner) { productState ->
             this.launch {
                 productState.onSuccess { data ->
                     pagingData = data
                     listAdapter.submitData(viewLifecycleOwner.lifecycle, data)
+                    if (true) {
+                        binding.errorView.visibleIf(false)
+                        binding.errorView.setErrorMessage(
+                            title = "Error",
+                            description = "error aja ini",
+                            action = {}
+                        )
+                    }
                 }.oError { error ->
                     val errorMessage = when (error) {
                         is HttpException -> {
                             val errorBody = error.response()?.errorBody()?.string()
                             "$errorBody"
                         }
+
                         else -> "${error.message}"
                     }
                     context?.let {
@@ -123,14 +140,6 @@ class StoreFragment :
 
         viewModel.fetchProduct()
 
-        if (true) {
-            binding.errorView.visibleIf(false)
-            binding.errorView.setErrorMessage(
-                title = "Error",
-                description = "error aja ini",
-                action = {}
-            )
-        }
         val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
         binding.rvGridItem.addItemDecoration(SpaceItemDecoration(spaceInPixels))
         binding.listShimmerStore.apply {
@@ -151,8 +160,8 @@ class StoreFragment :
             }
         }
         binding.btnFilter.setOnClickListener {
-            val modal = BottomSheetFragment()
-            childFragmentManager.let { modal.show(it, BottomSheetFragment.TAG) }
+            filterFragment.setFilterListener(this@StoreFragment)
+            filterFragment.show(childFragmentManager, BottomSheetFragment.TAG)
         }
     }
 
@@ -171,5 +180,91 @@ class StoreFragment :
             adapter = listAdapter
         }
         binding.btnChangeView.isChecked = true
+    }
+
+    override fun onFilterApplied(sort: String?, brand: String?) {
+        this.sort = sort
+        this.brand = brand
+        println("MASUK: $sort dan $brand")
+        if (binding.btnChangeView.isChecked) {
+            switchToGridView()
+            viewModel.fetchFilteredProduct(dataFilter = DataFilter(sort = sort, brand = brand)).launchAndCollectIn(viewLifecycleOwner) { filterState ->
+                this.launch {
+                    filterState.onSuccess { data ->
+                        binding.gridShimmerStore.apply {
+                            stopShimmer()
+                            visibleIf(false)
+                        }
+                        pagingData = data
+                        gridAdapter.submitData(viewLifecycleOwner.lifecycle, data)
+                        println("MASUK: $data")
+                    }.oError { error ->
+                        binding.gridShimmerStore.apply {
+                            stopShimmer()
+                            visibleIf(false)
+                        }
+                        val errorMessage = when (error) {
+                            is HttpException -> {
+                                val errorBody = error.response()?.errorBody()?.string()
+                                "$errorBody"
+                            }
+
+                            else -> "${error.message}"
+                        }
+                        context?.let {
+                            CustomSnackbar.showSnackBar(
+                                it,
+                                binding.root,
+                                errorMessage
+                            )
+                        }
+                    }.onLoading {
+                        binding.gridShimmerStore.apply {
+                            visibleIf(true)
+                            startShimmer()
+                        }
+                    }
+                }
+            }
+        } else {
+            viewModel.fetchFilteredProduct(dataFilter = DataFilter(sort = sort, brand = brand)).launchAndCollectIn(viewLifecycleOwner) { filterState ->
+                this.launch {
+                    filterState.onSuccess { data ->
+                        binding.gridShimmerStore.apply {
+                            stopShimmer()
+                            visibleIf(false)
+                        }
+                        pagingData = data
+                        listAdapter.submitData(viewLifecycleOwner.lifecycle, data)
+                        println("MASUK: $data")
+                    }.oError { error ->
+                        binding.gridShimmerStore.apply {
+                            stopShimmer()
+                            visibleIf(false)
+                        }
+                        val errorMessage = when (error) {
+                            is HttpException -> {
+                                val errorBody = error.response()?.errorBody()?.string()
+                                "$errorBody"
+                            }
+
+                            else -> "${error.message}"
+                        }
+                        context?.let {
+                            CustomSnackbar.showSnackBar(
+                                it,
+                                binding.root,
+                                errorMessage
+                            )
+                        }
+                    }.onLoading {
+                        binding.listShimmerStore.apply {
+                            visibleIf(true)
+                            startShimmer()
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -48,23 +48,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/order"
+            android:id="@+id/order_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/filter"
             android:layout_marginStart="24dp"
             android:fontFamily="@font/poppins_semi_bold"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/chip_group_order"
+            app:layout_constraintBottom_toTopOf="@+id/chip_group_sort"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter"
             tools:text="@string/sort" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_order"
+            android:id="@+id/chip_group_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/order"
+            android:layout_below="@id/order_title"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="50dp"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Ulasan"
+                tools:text="@string/review_filter"
                 app:chipCornerRadius="5dp" />
 
             <com.google.android.material.chip.Chip
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Penjualan"
+                tools:text="@string/sales_review"
                 app:chipCornerRadius="5dp" />
 
             <com.google.android.material.chip.Chip
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Harga Terendah"
+                tools:text="@string/lowest_price_filter"
                 app:chipCornerRadius="5dp" />
 
             <com.google.android.material.chip.Chip
@@ -103,16 +103,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Harga Tertinggi"
+                tools:text="@string/highest_price_filter"
                 app:chipCornerRadius="5dp" />
 
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
-            android:id="@+id/category"
+            android:id="@+id/category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/chip_group_order"
+            android:layout_below="@id/chip_group_sort"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_semi_bold"
@@ -122,64 +122,64 @@
             android:id="@+id/chip_group_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/category"
+            android:layout_below="@id/category_title"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             app:singleLine="false">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip1"
+                android:id="@+id/chip_apple"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Apple"
+                tools:text="@string/apple_chip"
                 app:chipCornerRadius="5dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip2"
+                android:id="@+id/chip_asus"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Asus"
+                tools:text="@string/asus_chip"
                 app:chipCornerRadius="5dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip3"
+                android:id="@+id/chip_dell"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Dell"
+                tools:text="@string/dell_chip"
                 app:chipCornerRadius="5dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip4"
+                android:id="@+id/chip_lenovo"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
-                android:text="Lenovo"
+                tools:text="@string/lenovo_chip"
                 app:chipCornerRadius="5dp" />
 
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/price_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/chip_group_category"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_semi_bold"
-            android:text="Harga" />
+            tools:text="@string/price_title" />
 
         <LinearLayout
             android:id="@+id/price_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/price"
+            android:layout_below="@id/price_title"
             android:layout_marginStart="16dp"
             android:weightSum="2">
 
@@ -192,6 +192,7 @@
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_lowest_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
@@ -207,6 +208,7 @@
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_highest_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"

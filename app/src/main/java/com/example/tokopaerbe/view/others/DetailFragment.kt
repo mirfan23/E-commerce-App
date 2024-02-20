@@ -73,9 +73,7 @@ class DetailFragment :
                 )
             }
         }
-
-
-    binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
+        binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.run { insertWishList() }
                 context?.let { context ->
@@ -98,7 +96,8 @@ class DetailFragment :
             viewModel.putWishlistState(isChecked)
         }
         binding.tvSeeAllReview.setOnClickListener {
-            val action = DetailFragmentDirections.actionDetailFragmentToReviewProductFragment(safeArgs.productId)
+            val action =
+                DetailFragmentDirections.actionDetailFragmentToReviewProductFragment(safeArgs.productId)
             findNavController().navigate(action)
         }
     }
@@ -119,7 +118,8 @@ class DetailFragment :
                                 image = it.image.first(),
                                 stock = it.stock,
                                 variant = "",
-                                quantity = 1
+                                quantity = 1,
+                                isChecked = false
                             )
                         )
 
@@ -132,8 +132,8 @@ class DetailFragment :
                                 store = it.store,
                                 productRating = it.productRating,
                                 sale = it.sale,
+                                variant = "",
                                 stock = it.stock,
-                                variant = ""
                             )
                         )
                         tvDetailPrice.text = currency(it.productPrice)
@@ -179,7 +179,6 @@ class DetailFragment :
                     binding.loadingOverlay.visibility = View.VISIBLE
                     binding.lottieLoading.visibility = View.VISIBLE
                 }
-
             }
             wishlist.launchAndCollectIn(viewLifecycleOwner) {
                 binding.cbWishlist.isChecked = it

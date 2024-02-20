@@ -17,6 +17,7 @@ import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
 import com.example.tokopaerbe.adapter.ReviewAdapter
 import com.example.tokopaerbe.databinding.FragmentReviewProductBinding
+import com.example.tokopaerbe.helper.SpaceItemDecoration
 import com.example.tokopaerbe.viewmodel.StoreViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,11 +30,13 @@ class ReviewProductFragment : BaseFragment<FragmentReviewProductBinding, StoreVi
     override fun initView() {
         rvReview = binding.rvReview
         rvReview.setHasFixedSize(true)
-        binding.reviewToolbar.title = "Review"
+        binding.reviewToolbar.title = getString(R.string.review_title)
         safeArgs.productId.let { productId ->
             viewModel.fetchReviewProducts(productId)
         }
         listReview()
+        val spaceInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
+        binding.rvReview.addItemDecoration(SpaceItemDecoration(spaceInPixels))
     }
 
     override fun initListener() {

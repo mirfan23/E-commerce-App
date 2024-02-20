@@ -49,7 +49,7 @@ object DataMapper {
         userImage = data.userImage
     )
 
-    fun ProductResponse.ProductData.ProductItem.toLocalData() = ProductEntity(
+    private fun ProductResponse.ProductData.ProductItem.toLocalData() = ProductEntity(
         productId = productId,
         productName = productName,
         productPrice = productPrice,
@@ -107,7 +107,7 @@ object DataMapper {
         productRating = productRating,
         image = image,
         store = store,
-        sale = sale
+        sale = sale,
     )
 
     fun CartEntity.toUIData() = DataCart(
@@ -118,7 +118,9 @@ object DataMapper {
         productPrice = productPrice,
         stock = stock,
         quantity = quantity,
-        userId = userId
+        userId = userId,
+        cartId = cartId,
+        isChecked = isChecked
     )
 
     fun DataCart.toEntity() = CartEntity(
@@ -129,7 +131,9 @@ object DataMapper {
         productPrice = productPrice,
         stock = stock,
         quantity = quantity,
-        userId = userId
+        userId = userId,
+        cartId = cartId,
+        isChecked = isChecked
     )
 
     fun WishListEntity.toUIData() = DataWishList(
@@ -142,7 +146,9 @@ object DataMapper {
         store = store,
         userId = userId,
         stock = stock,
-        variant = variant
+        variant = variant,
+        wishlistId = wishlistId,
+        wishlist = wishlist
     )
 
     fun DataWishList.toEntity() = WishListEntity(
@@ -155,7 +161,9 @@ object DataMapper {
         store = store,
         userId = userId,
         stock = stock,
-        variant = variant
+        variant = variant,
+        wishlistId = wishlistId,
+        wishlist = wishlist
     )
 
     fun DataLogin.toProfileName() = DataProfile(

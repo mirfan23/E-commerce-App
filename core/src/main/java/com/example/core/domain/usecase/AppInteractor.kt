@@ -3,7 +3,9 @@ package com.example.core.domain.usecase
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.core.domain.model.DataCart
+import com.example.core.domain.model.DataCheckout
 import com.example.core.domain.model.DataDetailProduct
+import com.example.core.domain.model.DataFilter
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
@@ -21,6 +23,7 @@ import com.example.core.remote.data.RegisterRequest
 import com.example.core.utils.DataMapper.toEntity
 import com.example.core.utils.DataMapper.toUIListData
 import com.example.core.utils.safeDataCall
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -62,12 +65,14 @@ class AppInteractor(
         return triple.toUIData()
     }
 
-    override suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>> = safeDataCall {
-        productRepo.fetchProductLocal().map { data ->
-            val mapped = data.map { entity -> entity.toUIData() }
-            UiState.Success(mapped)
-        }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
-    }
+        override suspend fun fetchProduct(dataFilter: DataFilter): Flow<UiState<PagingData<DataProduct>>> = safeDataCall {
+            productRepo.fetchProductLocal(dataFilter).map { data ->
+                val mapped = data.map { entity ->
+                    entity.toUIData()
+                }
+                UiState.Success(mapped)
+            }.flowOn(Dispatchers.IO).catch { throwable -> UiState.Error(throwable) }
+        }
 
     override suspend fun fetchDetailProduct(
         productId: String
@@ -112,9 +117,9 @@ class AppInteractor(
         productRepo.deleteWishlist(dataWishList.toEntity())
     }
 
-    override suspend fun updateQuantity(productId: String, quantity: Int) {
+    override suspend fun updateQuantity(cartId: Int, quantity: Int) {
         productRepo.updateQuantity(
-            productId = productId,
+            cartId = cartId,
             quantity = quantity
         )
     }
@@ -173,5 +178,9 @@ class AppInteractor(
 
     override fun clearAllSession() {
         sharedPreferencesHelper.clearAllSession()
+    }
+
+    override suspend fun updateCheckCart(cartId: Int, value: Boolean) {
+        productRepo.updateCheckCart(cartId, value)
     }
 }

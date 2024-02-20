@@ -2,7 +2,9 @@ package com.example.core.domain.usecase
 
 import androidx.paging.PagingData
 import com.example.core.domain.model.DataCart
+import com.example.core.domain.model.DataCheckout
 import com.example.core.domain.model.DataDetailProduct
+import com.example.core.domain.model.DataFilter
 import com.example.core.domain.model.DataLogin
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
@@ -21,16 +23,17 @@ interface AppUseCase {
     suspend fun login(request: LoginRequest): DataLogin
     suspend fun register(request: RegisterRequest): DataToken
     suspend fun uploadProfile(userName: RequestBody, userImage: MultipartBody.Part): DataProfile
-    suspend fun fetchProduct(): Flow<UiState<PagingData<DataProduct>>>
+    suspend fun fetchProduct(dataFilter: DataFilter = DataFilter()): Flow<UiState<PagingData<DataProduct>>>
     suspend fun fetchDetailProduct(productId: String): DataDetailProduct
     suspend fun fetchProductReview(productId: String): List<DataReviewProduct>
     suspend fun insertCart(productCart: DataCart)
     suspend fun fetchCart(id: String): Flow<UiState<List<DataCart>>>
     suspend fun deleteCart(dataCart: DataCart)
     suspend fun insertWishList(dataWishList: DataWishList)
-    suspend fun fetchWishList(id: String):Flow<UiState<List<DataWishList>>>
+    suspend fun fetchWishList(id: String): Flow<UiState<List<DataWishList>>>
     suspend fun deleteWishlist(dataWishList: DataWishList)
-    suspend fun updateQuantity(productId: String, quantity: Int)
+    suspend fun updateQuantity(cartId: Int, quantity: Int)
+    suspend fun updateCheckCart(cartId: Int, value: Boolean)
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)

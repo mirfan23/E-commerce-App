@@ -12,13 +12,13 @@ import com.example.tokopaerbe.viewmodel.StoreViewModel
 class CartAdapter(
     private val action: (DataCart) -> Unit,
     private val remove: (DataCart) -> Unit,
-    private val add: (String, Int ) -> Unit,
-    private val min: (String, Int) -> Unit,
-    private val checkbox: (String, Boolean) -> Unit
+    private val add: (Int, Int) -> Unit,
+    private val min: (Int, Int) -> Unit,
+    private val checkbox: (Int, Boolean) -> Unit
 ) :
     BaseListAdapter<DataCart, CartListCardBinding>(CartListCardBinding::inflate) {
     override fun onItemBind(): (DataCart, CartListCardBinding, View, Int) -> Unit =
-        { item, binding, itemView, position ->
+        { item, binding, itemView, _ ->
             binding.run {
                 imgThumbnailCart.load(item.image)
                 tvItemName.text = item.productName
@@ -31,23 +31,24 @@ class CartAdapter(
                 }
                 btnAddCart.setOnClickListener {
                     if (item.quantity < item.stock) {
-                        add.invoke(item.productId, item.quantity)
+                        add.invoke(item.cartId, item.quantity)
                     }
                 }
                 btnQuantity.text = item.quantity.toString()
                 btnDecrementCart.setOnClickListener {
                     if (item.quantity > 1) {
-                        min.invoke(item.productId, item.quantity)
+                        min.invoke(item.cartId, item.quantity)
                     } else {
                         remove.invoke(item)
                     }
                 }
-                cbCart.setOnCheckedChangeListener{_, isChecked ->
-                    checkbox(item.productId, isChecked)
+                cbCart.setOnCheckedChangeListener { _, isChecked ->
+                    checkbox(item.cartId, isChecked)
                 }
             }
             itemView.setOnClickListener {
                 action.invoke(item)
             }
         }
+
 }
