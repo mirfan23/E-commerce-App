@@ -1,5 +1,6 @@
 package com.example.tokopaerbe.viewmodel
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -7,9 +8,11 @@ import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataFilter
+import com.example.core.domain.model.DataPayment
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataReviewProduct
 import com.example.core.domain.model.DataWishList
+import com.example.core.domain.repository.FirebaseRepository
 import com.example.core.domain.state.FlowState
 import com.example.core.domain.state.UiState
 import com.example.core.domain.usecase.AppUseCase
@@ -18,12 +21,14 @@ import com.example.tokopaerbe.helper.toBase64
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
+class StoreViewModel(
+    private val useCase: AppUseCase,
+    private val firebaseConfig: FirebaseRepository
+) : ViewModel() {
     private val _responseDetail: MutableStateFlow<UiState<DataDetailProduct>> =
         MutableStateFlow(UiState.Empty)
     val responseDetail = _responseDetail.asStateFlow()
@@ -171,4 +176,15 @@ class StoreViewModel(private val useCase: AppUseCase) : ViewModel() {
 
     fun fetchFilteredProduct(dataFilter: DataFilter = DataFilter()): Flow<UiState<PagingData<DataProduct>>> =
         runBlocking { useCase.fetchProduct(dataFilter) }
+
+    fun logEvent(eventName: String, bundle: Bundle) {
+        firebaseConfig.logEvent(eventName, bundle)
+    }
+
+    fun doPayment() = runBlocking {
+        println("MASUK: VIEWMODEL")
+        useCase.getConfigPayment()
+    }
+
+    fun getConfigStatusUpdate() = runBlocking { useCase.getConfigStatusUpdate() }
 }

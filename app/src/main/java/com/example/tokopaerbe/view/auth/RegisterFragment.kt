@@ -1,5 +1,6 @@
 package com.example.tokopaerbe.view.auth
 
+import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.core.widget.doOnTextChanged
@@ -17,12 +18,14 @@ import com.example.tokopaerbe.databinding.FragmentRegisterBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.SnK
 import com.example.tokopaerbe.viewmodel.PreLoginViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
 
 class RegisterFragment :
     BaseFragment<FragmentRegisterBinding, PreLoginViewModel>(FragmentRegisterBinding::inflate) {
     override val viewModel: PreLoginViewModel by viewModel()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     override fun initView() {
         binding.toolbar.title = getString(R.string.register)
         binding.emailEditText.hint = getString(R.string.email)
@@ -48,6 +51,7 @@ class RegisterFragment :
         buttonRegister.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passowrdEditText.text.toString().trim()
+            analytics(email)
 
             if (emailTextInputLayout.isErrorEnabled.not() && passwordTextInputLayout.isErrorEnabled.not()) {
                 viewModel.validateRegisterField(email, password)
@@ -141,12 +145,24 @@ class RegisterFragment :
         }
     }
 
-    fun termsCo() {
+    private fun termsCo() {
         val sk = binding.syaratKetentuan
         val fullText = getString(R.string.term_condition_login)
         val defaultLocale = resources.configuration.locales[0].language
         sk.text = context?.let { SnK.applyCustomTextColor(defaultLocale, it, fullText) }
         sk.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun analytics(data: String) {
+        val bundle = Bundle()
+        bundle.putString("show_message", data)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, Bundle().apply { putString("screenName", getString(R.string.register)) })
     }
 }
 

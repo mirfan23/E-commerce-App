@@ -3,10 +3,11 @@ package com.example.core.domain.usecase
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.core.domain.model.DataCart
-import com.example.core.domain.model.DataCheckout
 import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataFilter
 import com.example.core.domain.model.DataLogin
+import com.example.core.domain.model.DataPayment
+import com.example.core.domain.model.DataPaymentItem
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataReviewProduct
@@ -14,10 +15,12 @@ import com.example.core.domain.model.DataSession
 import com.example.core.domain.model.DataToken
 import com.example.core.domain.model.DataWishList
 import com.example.core.domain.repository.AuthRepository
+import com.example.core.domain.repository.FirebaseRepository
 import com.example.core.domain.repository.ProductRepository
 import com.example.core.domain.state.UiState
 import com.example.core.local.preferences.SharedPreferencesHelper
 import com.example.core.remote.data.LoginRequest
+import com.example.core.remote.data.PaymentResponse
 import com.example.core.utils.DataMapper.toUIData
 import com.example.core.remote.data.RegisterRequest
 import com.example.core.utils.DataMapper.toEntity
@@ -27,6 +30,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
@@ -35,7 +39,8 @@ import okhttp3.RequestBody
 class AppInteractor(
     private val repository: AuthRepository,
     private val productRepo: ProductRepository,
-    private val sharedPreferencesHelper: SharedPreferencesHelper
+    private val sharedPreferencesHelper: SharedPreferencesHelper,
+    private val firebaseRepository: FirebaseRepository
 ) :
     AppUseCase {
 
@@ -65,7 +70,8 @@ class AppInteractor(
         return triple.toUIData()
     }
 
-        override suspend fun fetchProduct(dataFilter: DataFilter): Flow<UiState<PagingData<DataProduct>>> = safeDataCall {
+    override suspend fun fetchProduct(dataFilter: DataFilter): Flow<UiState<PagingData<DataProduct>>> =
+        safeDataCall {
             productRepo.fetchProductLocal(dataFilter).map { data ->
                 val mapped = data.map { entity ->
                     entity.toUIData()
@@ -123,6 +129,14 @@ class AppInteractor(
             quantity = quantity
         )
     }
+
+    override suspend fun getConfigPayment(): Flow<List<DataPayment>> = flow {
+        val response = Gson().fromJson(firebaseRepository.getConfigPayment(), PaymentResponse::class.java)
+        println("MASUK: USECASE: $response")
+        emit(response.data.map { data -> data.toUIData() }.toList())
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getConfigStatusUpdate(): Flow<Boolean> = firebaseRepository.getConfigStatusUpdate()
 
     override fun saveAccessToken(string: String) {
         repository.saveAccessToken(string)

@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -141,4 +144,9 @@
             android:name="productId"
             app:argType="string"/>
     </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.tokopaerbe.view.others.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
 </navigation>

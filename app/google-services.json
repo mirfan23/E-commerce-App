@@ -23,25 +23,6 @@
           "other_platform_oauth_client": []
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:841222047262:android:9b0099eb31d8af812cd00f",
-        "android_client_info": {
-          "package_name": "com.example.tokopaerbe.core"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCJXn9-G3Oa_-1Nw7FhXLmYN4-kRvvVWHQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
     }
   ],
   "configuration_version": "1"

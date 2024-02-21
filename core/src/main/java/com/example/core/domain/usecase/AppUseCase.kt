@@ -2,10 +2,11 @@ package com.example.core.domain.usecase
 
 import androidx.paging.PagingData
 import com.example.core.domain.model.DataCart
-import com.example.core.domain.model.DataCheckout
 import com.example.core.domain.model.DataDetailProduct
 import com.example.core.domain.model.DataFilter
 import com.example.core.domain.model.DataLogin
+import com.example.core.domain.model.DataPayment
+import com.example.core.domain.model.DataPaymentItem
 import com.example.core.domain.model.DataProduct
 import com.example.core.domain.model.DataProfile
 import com.example.core.domain.model.DataReviewProduct
@@ -34,6 +35,8 @@ interface AppUseCase {
     suspend fun deleteWishlist(dataWishList: DataWishList)
     suspend fun updateQuantity(cartId: Int, quantity: Int)
     suspend fun updateCheckCart(cartId: Int, value: Boolean)
+    suspend fun getConfigStatusUpdate(): Flow<Boolean>
+    suspend fun getConfigPayment(): Flow<List<DataPayment>>
     fun dataSession(): DataSession
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)

@@ -1,6 +1,5 @@
 package com.example.core.domain.model
 
-
 import android.os.Parcelable
 import android.support.annotation.Keep
 import kotlinx.parcelize.Parcelize

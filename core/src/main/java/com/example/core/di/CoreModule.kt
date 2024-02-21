@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.catnip.core.base.BaseModules
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.example.core.R
 import com.example.core.domain.repository.AuthRepository
 import com.example.core.domain.repository.AuthRepositoryImpl
+import com.example.core.domain.repository.FirebaseRepository
+import com.example.core.domain.repository.FirebaseRepositoryImpl
 import com.example.core.domain.repository.ProductRepository
 import com.example.core.domain.repository.ProductRepositoryImpl
 import com.example.core.domain.usecase.AppInteractor
@@ -22,6 +25,12 @@ import com.example.core.remote.interceptor.AuthInterceptor
 import com.example.core.remote.interceptor.SessionInterceptor
 import com.example.core.remote.interceptor.TokenInterceptor
 import com.example.core.remote.service.ApiEndPoint
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -33,6 +42,21 @@ object CoreModule : BaseModules {
         single<SharedPreferencesHelper> {
             SharedPreferenceImpl(get())
         }
+    }
+
+    val firebaseModule = module {
+        single { Firebase.analytics }
+        single {
+            val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+            val configSettings = remoteConfigSettings {
+                minimumFetchIntervalInSeconds = 3600
+            }
+            remoteConfig.setConfigSettingsAsync(configSettings)
+            remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+            remoteConfig
+        }
+        single { Firebase.messaging }
+        single<FirebaseRepository>{ FirebaseRepositoryImpl(get(), get()) }
     }
 
     val networkModule = module {
@@ -73,7 +97,7 @@ object CoreModule : BaseModules {
     }
 
     val useCaseModule = module {
-        single<AppUseCase> { AppInteractor(get(), get(), get()) }
+        single<AppUseCase> { AppInteractor(get(), get(), get(), get()) }
     }
 
     override fun getModules(): List<Module> =
@@ -84,7 +108,8 @@ object CoreModule : BaseModules {
             authRepositoryModule,
             useCaseModule,
             productRepositoryModule,
-            database
+            database,
+            firebaseModule
         )
 
 
