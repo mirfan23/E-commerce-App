@@ -14,7 +14,7 @@ object ProductModule: BaseFeatureModule {
     }
 
     override fun useCase(): Module = module {
-        single<AppUseCase> { AppInteractor(get(), get(), get()) }
+        single<AppUseCase> { AppInteractor(get(), get(), get(), get()) }
     }
     override fun viewModel(): Module = module {}
 

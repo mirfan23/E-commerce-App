@@ -25,4 +25,5 @@ interface AuthRepository {
     fun getAccessToken(): String
     fun saveAccessToken(string: String)
     fun saveRefreshToken(string: String)
+
 }

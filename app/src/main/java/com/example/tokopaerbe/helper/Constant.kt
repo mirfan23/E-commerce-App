@@ -1,5 +1,9 @@
 package com.example.tokopaerbe.helper
 
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import java.util.Base64
+
 object Constant {
     //Profile Fragment
     const val CAMERA_PERMISSION_REQUEST_CODE = 100
@@ -32,4 +36,19 @@ object Constant {
     const val LANGUAGE_IN = "in"
     const val LANGUAGE_EN = "en"
 
+}
+fun String.toBase64() = Base64.getEncoder().encodeToString(this.toByteArray())
+
+fun ChipGroup.getSelectedChip(): String? {
+    val selected = mutableListOf<String>()
+
+    for (i in 0 until childCount) {
+        val chip: Chip = getChildAt(i) as Chip
+
+        if (chip.isChecked) {
+            selected.add(chip.text.toString().lowercase().trim())
+        }
+    }
+
+    return if (selected.isNotEmpty()) selected.joinToString(", ") else null
 }

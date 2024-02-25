@@ -1,10 +1,9 @@
-import com.android.build.api.dsl.BuildFeatures
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -19,7 +18,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
 //        buildConfigField("String", "BASE_URL", "\"http://172.17.20.249:5000/\"")
-        buildConfigField("String", "BASE_URL", "\"http://192.168.0.103:5000/\"")
+        buildConfigField("String", "BASE_URL", "\"http://192.168.0.102:5000/\"")
         buildConfigField("String", "API_KEY", "\"6f8856ed-9189-488f-9011-0ff4b6c08edc\"")
     }
 
@@ -94,10 +93,11 @@ dependencies {
     api("androidx.paging:paging-runtime:3.2.1")
 
     //firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-//    implementation("com.google.firebase:firebase-analytics")
-//    implementation("com.google.firebase:firebase-auth")
-//    implementation("com.google.firebase:firebase-firestore")
+    api(platform("com.google.firebase:firebase-bom:32.7.2"))
+    api("com.google.firebase:firebase-analytics-ktx:21.5.1")
+    api("com.google.firebase:firebase-crashlytics-ndk")
+    api("com.google.firebase:firebase-config-ktx:21.6.1")
+    api("com.google.firebase:firebase-messaging-ktx:23.4.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

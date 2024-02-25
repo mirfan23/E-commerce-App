@@ -13,5 +13,8 @@ data class DataCart (
     var productName: String = "",
     var productPrice: Int = 0,
     var stock: Int = 0,
-    var quantity: Int = 0
+    var quantity: Int = 0,
+    var userId: String = "",
+    var cartId: Int = 0,
+    var isChecked: Boolean = false
 ): Parcelable

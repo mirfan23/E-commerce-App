@@ -3,8 +3,13 @@ package com.example.core.local
 import com.example.core.local.database.Dao
 import com.example.core.local.entity.CartEntity
 import com.example.core.local.entity.WishListEntity
+import com.example.core.local.preferences.SharedPreferenceImpl
 import com.example.core.local.preferences.SharedPreferencesHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class LocalDataSource(
     private val sharedPreferencesHelper: SharedPreferencesHelper,
@@ -14,7 +19,7 @@ class LocalDataSource(
     suspend fun insertCart(cartEntity: CartEntity) {
         dao.insertCart(cartEntity)
     }
-    fun fetchCart(): Flow<List<CartEntity>> = dao.retrieveAllCart()
+    fun fetchCart(id: String): Flow<List<CartEntity>> = dao.retrieveAllCart(id)
 
     suspend fun deleteCart(cartEntity: CartEntity) {
         dao.deleteCart(cartEntity)
@@ -24,12 +29,22 @@ class LocalDataSource(
         dao.insertWishList(wishListEntity)
     }
 
-    fun fetchWishList(): Flow<List<WishListEntity>> = dao.retrieveAllWishList()
+    fun fetchWishList(id: String): Flow<List<WishListEntity>> = dao.retrieveAllWishList(id)
+
+    suspend fun deleteWishlist(wishListEntity: WishListEntity) {
+        dao.deleteWishlist(wishListEntity)
+    }
 
     fun getOnBoardingState(): Boolean = sharedPreferencesHelper.getOnBoardingState()
 
     fun saveOnBoardingState(state: Boolean) {
         sharedPreferencesHelper.putOnBoardingState(state)
+    }
+
+    fun getWishlistState(): Boolean = sharedPreferencesHelper.getWishlistState()
+
+    fun putWishlistState(state: Boolean) {
+        sharedPreferencesHelper.putWishlistState(state)
     }
 
     fun saveRefreshToken(token: String) {
@@ -47,4 +62,8 @@ class LocalDataSource(
     }
 
     fun getProfileName(): String = sharedPreferencesHelper.getProfileName()
+
+    suspend fun updateQuantity(cartId: Int, quantity: Int) = dao.updateQuantity(cartId, quantity)
+
+    suspend fun updateCheckCart(cartId: Int, value: Boolean) = dao.updateCheckCart(cartId, value)
 }

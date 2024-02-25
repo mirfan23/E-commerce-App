@@ -41,13 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-<!--                <androidx.appcompat.widget.AppCompatImageView-->
-<!--                    android:id="@+id/iv_product"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:src="@drawable/thumbnail_store"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_detail"
                     android:layout_width="match_parent"
@@ -179,9 +172,7 @@
                     style="@style/Widget.Material3.ChipGroup"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_detail_variant"
-                    app:singleLine="false">
-
-                </com.google.android.material.chip.ChipGroup>
+                    app:singleLine="false"/>
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/divider_detail_2"

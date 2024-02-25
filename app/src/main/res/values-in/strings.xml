@@ -46,7 +46,7 @@
     <string name="lowest">Terendah</string>
     <string name="highest">Tertinggi</string>
     <string name="btn_show_product">Tampilkan Produk</string>
-    <string name="items">barang</string>
+    <string name="items">%total% barang</string>
     <string name="inValidEmail">Email Tidak Valid</string>
     <string name="register_validation">Tolong Isi Email dan Password</string>
     <string name="sale">Terjual %sale%</string>
@@ -74,4 +74,23 @@
     <string name="password_is_invalid">Password is invalid</string>
     <string name="successful_added_to_cart">Successful Added to Cart</string>
     <string name="successful_added_to_wishlist">Successful Added to Wishlist</string>
+    <string name="stock">Stock %stock%</string>
+    <string name="success_delete_from_wishlist">Success Delete from Wishlist</string>
+    <string name="lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\\\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="are_you_sure">Are You sure want to delete this item?</string>
+    <string name="item_will_deleted">Item will deleted from Cart</string>
+    <string name="cancel_btn_cart">Batal</string>
+    <string name="delete_btn_cart">Hapus</string>
+    <string name="review_filter">Review</string>
+    <string name="sales_review">Sales</string>
+    <string name="lowest_price_filter">Lowest Price</string>
+    <string name="highest_price_filter">Highest Price</string>
+    <string name="apple_chip">Apple</string>
+    <string name="asus_chip">Asus</string>
+    <string name="dell_chip">Dell</string>
+    <string name="price_title">Price</string>
+    <string name="review_title">Review</string>
+    <string name="choose_payment">Choose Payment</string>
+    <string name="payment">Payment</string>
+    <string name="checkout_title">Checkout</string>
 </resources>

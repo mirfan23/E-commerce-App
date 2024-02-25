@@ -10,11 +10,13 @@ import com.example.core.domain.model.DataCart
 import com.example.core.domain.model.DataDetailVariantProduct
 import com.example.core.domain.model.DataWishList
 import com.example.core.domain.state.oError
+import com.example.core.domain.state.onCreated
 import com.example.core.domain.state.onLoading
 import com.example.core.domain.state.onSuccess
+import com.example.core.domain.state.onValue
 import com.example.core.utils.launchAndCollectIn
 import com.example.tokopaerbe.R
-import com.example.tokopaerbe.adapter.DetailAdapter
+import com.example.tokopaerbe.adapter.DetailImageAdapter
 import com.example.tokopaerbe.databinding.FragmentDetailBinding
 import com.example.tokopaerbe.helper.CustomSnackbar
 import com.example.tokopaerbe.helper.currency
@@ -30,16 +32,16 @@ class DetailFragment :
     override val viewModel: StoreViewModel by viewModel()
 
     private val safeArgs: DetailFragmentArgs by navArgs()
-    private lateinit var adapter: DetailAdapter
+    private lateinit var adapterImage: DetailImageAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var tabs: TabLayout
-    private var dataCart: DataCart? = null
-    private var dataWishList: DataWishList? = null
+    private val listVariant: ArrayList<DataDetailVariantProduct> = arrayListOf()
 
     override fun initView() {
         safeArgs.productId.let { productId ->
             viewModel.fetchDetail(productId)
         }
+        viewModel.getWishlistState()
         binding.apply {
             toolbar.title = getString(R.string.detail_product)
             tvDetailVariant.text = getString(R.string.choose_variant)
@@ -56,7 +58,13 @@ class DetailFragment :
             findNavController().popBackStack()
         }
         binding.btnToCart.setOnClickListener {
-            dataCart?.let { cart -> viewModel.insertCart(cart) }
+            val id = binding.chipGroupLabelVariant.checkedChipId
+            val chip = binding.chipGroupLabelVariant.findViewById<Chip>(id)
+            val variant = listVariant.filter { variants ->
+                variants.variantName.equals(chip.text.toString().trim(), true)
+            }.first()
+            viewModel.insertCart(variant)
+
             context?.let { context ->
                 CustomSnackbar.showSnackBar(
                     context,
@@ -67,15 +75,30 @@ class DetailFragment :
         }
         binding.cbWishlist.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                dataWishList?.let { viewModel.insertWishList(it) }
-                context?.let {context ->
+                viewModel.run { insertWishList() }
+                context?.let { context ->
                     CustomSnackbar.showSnackBar(
                         context,
                         binding.root,
                         getString(R.string.successful_added_to_wishlist)
                     )
                 }
+            } else {
+                viewModel.run { removeWishlistDetail() }
+                context?.let { context ->
+                    CustomSnackbar.showSnackBar(
+                        context,
+                        binding.root,
+                        getString(R.string.success_delete_from_wishlist)
+                    )
+                }
             }
+            viewModel.putWishlistState(isChecked)
+        }
+        binding.tvSeeAllReview.setOnClickListener {
+            val action =
+                DetailFragmentDirections.actionDetailFragmentToReviewProductFragment(safeArgs.productId)
+            findNavController().navigate(action)
         }
     }
 
@@ -86,22 +109,32 @@ class DetailFragment :
                     binding.loadingOverlay.visibility = View.GONE
                     binding.lottieLoading.visibility = View.GONE
                     binding.apply {
-                        dataCart = DataCart(
-                            productId = it.productId,
-                            productName = it.productName,
-                            productPrice = it.productPrice,
-                            image = it.image.first(),
-                            stock = it.stock,
-                            variant = addVariant(it.productPrice, it.productVariant).toString(),
-                            quantity = 1
+                        listVariant.addAll(it.productVariant)
+                        viewModel.setDataCart(
+                            DataCart(
+                                productId = it.productId,
+                                productName = it.productName,
+                                productPrice = it.productPrice,
+                                image = it.image.first(),
+                                stock = it.stock,
+                                variant = "",
+                                quantity = 1,
+                                isChecked = false
+                            )
                         )
-                        dataWishList = DataWishList(
-                            productId = it.productId,
-                            productName = it.productName,
-                            productPrice = it. productPrice,
-                            image = it.image.first(),
-                            productRating = it.productRating,
-                            sale = it.sale,
+
+                        viewModel.setDataWishlist(
+                            DataWishList(
+                                productId = it.productId,
+                                productName = it.productName,
+                                productPrice = it.productPrice,
+                                image = it.image.first(),
+                                store = it.store,
+                                productRating = it.productRating,
+                                sale = it.sale,
+                                variant = "",
+                                stock = it.stock,
+                            )
                         )
                         tvDetailPrice.text = currency(it.productPrice)
                         tvDetailItemName.text = it.productName
@@ -122,10 +155,7 @@ class DetailFragment :
                                 else -> tabs.isGone = false
                             }
                         }
-                        /**
-                         * nanti kode ini dipake lagi klo yang di dataCart udah bener
-                         */
-//                        addVariant(it.productPrice, it.productVariant)
+                        addVariant(it.productPrice, it.productVariant)
                     }
                 }.oError { error ->
                     binding.loadingOverlay.visibility = View.GONE
@@ -150,45 +180,54 @@ class DetailFragment :
                     binding.lottieLoading.visibility = View.VISIBLE
                 }
             }
-        }
-    }
-
-
-    private fun setProductImage(imageUrls: List<String>) {
-        viewPager = binding.vpDetail
-        tabs = binding.tlDetail
-        adapter = DetailAdapter(imageUrls)
-        viewPager.adapter = adapter
-
-        TabLayoutMediator(tabs, viewPager) { _, _ -> }.attach()
-    }
-
-    private fun addVariant(
-        defaultPrice: Int,
-        variants: List<DataDetailVariantProduct>
-    ) {
-        var totalPrice = defaultPrice
-        variants.forEachIndexed { index, dataDetailVariantProduct ->
-            val chip = Chip(context)
-            chip.text = dataDetailVariantProduct.variantName
-            chip.isCheckable = true
-            chip.isChecked = index == 0
-            binding.chipGroupLabelVariant.addView(chip)
-            binding.chipGroupLabelVariant.isSingleSelection = true
-
-            val variantPrice = dataDetailVariantProduct.variantPrice
-            chip.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    totalPrice += variantPrice
-                } else {
-                    totalPrice -= variantPrice
-                }
-                updateTotalPrice(totalPrice)
+            wishlist.launchAndCollectIn(viewLifecycleOwner) {
+                binding.cbWishlist.isChecked = it
+            }
+            totalPrice.launchAndCollectIn(viewLifecycleOwner) { state ->
+                state.onCreated { }
+                    .onValue { totalPrice(it) }
             }
         }
     }
 
-    private fun updateTotalPrice(totalPrice: Int) {
-        binding.tvDetailPrice.text = currency(totalPrice)
+
+    private fun setProductImage(image: List<String>) {
+        viewPager = binding.vpDetail
+        tabs = binding.tlDetail
+        adapterImage = DetailImageAdapter(image)
+        viewPager.adapter = adapterImage
+
+        TabLayoutMediator(tabs, viewPager) { _, _ -> }.attach()
     }
+
+    private fun addVariant(defaultPrice: Int, variants: List<DataDetailVariantProduct>) {
+        var totalVariantPrice = 0
+        for ((index, variant) in variants.withIndex()) {
+            val chip = Chip(context)
+            chip.text = variant.variantName
+            chip.isCheckable = true
+
+            binding.chipGroupLabelVariant.apply {
+                addView(chip)
+                isSingleSelection = true
+                isSelectionRequired = true
+            }
+
+            if (index == 0) {
+                chip.isChecked = true
+            }
+            val variantPrice = variant.variantPrice
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    totalVariantPrice = defaultPrice + variantPrice
+                }
+                viewModel.updateTotalPrice(totalVariantPrice)
+            }
+        }
+    }
+
+    private fun totalPrice(totalVariantPrice: Int) {
+        binding.tvDetailPrice.text = currency(totalVariantPrice)
+    }
+
 }

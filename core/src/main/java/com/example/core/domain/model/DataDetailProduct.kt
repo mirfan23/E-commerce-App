@@ -17,6 +17,7 @@ data class DataDetailProduct(
     var productVariant: List<DataDetailVariantProduct> = listOf(),
     var sale: Int = 0,
     var stock: Int = 0,
+    var store: String = "",
     var totalRating: Int = 0,
     var totalReview: Int = 0,
     var totalSatisfaction: Int = 0

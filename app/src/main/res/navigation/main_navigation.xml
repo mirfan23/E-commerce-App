@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -108,6 +111,9 @@
         <action
             android:id="@+id/action_cartFragment_to_checkoutFragment"
             app:destination="@id/checkoutFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -120,10 +126,27 @@
         <action
             android:id="@+id/action_detailFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_reviewProductFragment"
+            app:destination="@id/reviewProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.example.tokopaerbe.view.others.CheckoutFragment"
         android:label="fragment_checkout"
         tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/reviewProductFragment"
+        android:name="com.example.tokopaerbe.view.others.ReviewProductFragment"
+        android:label="fragment_review_product"
+        tools:layout="@layout/fragment_review_product">
+        <argument
+            android:name="productId"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.tokopaerbe.view.others.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
 </navigation>

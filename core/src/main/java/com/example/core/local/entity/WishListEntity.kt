@@ -8,7 +8,9 @@ import com.example.core.utils.Constant
 
 @Entity(tableName = Constant.tableWishListName)
 data class WishListEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "wishlistId")
+    val wishlistId: Int = 0,
     @ColumnInfo(name = "productId")
     val productId: String = "",
     @ColumnInfo(name = "image")
@@ -23,4 +25,12 @@ data class WishListEntity(
     val sale: Int = 0,
     @ColumnInfo(name = "store")
     val store: String = "",
+    @ColumnInfo(name = "userId")
+    val userId: String = "",
+    @ColumnInfo(name = "stock")
+    val stock: Int = 0,
+    @ColumnInfo(name = "variant")
+    val variant: String = "",
+    @ColumnInfo(name = "wishlist")
+    val wishlist: Boolean = false,
 )

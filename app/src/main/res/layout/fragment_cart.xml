@@ -33,15 +33,15 @@
             android:id="@+id/cart_divider_1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/cart_appbar"/>
+            android:layout_below="@id/cart_appbar" />
 
         <LinearLayout
             android:id="@+id/linear_select_all_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/cart_divider_1"
             android:layout_margin="16dp"
-            android:orientation="horizontal"
-            android:layout_below="@id/cart_divider_1">
+            android:orientation="horizontal">
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_select_all"
@@ -52,13 +52,14 @@
                 android:id="@+id/tv_select_all_cart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/poppins_semi_bold"
                 tools:text="Pilih Semua" />
 
-            <TextView
-                android:id="@+id/tv_delete_cart"
+            <Button
+                android:id="@+id/btn_delete_cart"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
@@ -77,15 +78,25 @@
             android:id="@+id/rv_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
+            android:layout_above="@id/cart_divider_3"
             android:layout_below="@id/cart_divider_2"
+            android:layout_marginTop="16dp"
             tools:listitem="@layout/cart_list_card" />
+
+        <com.example.tokopaerbe.helper.ErrorCustomView
+            android:id="@+id/error_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/cart_divider_2"
+            android:visibility="invisible" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/cart_divider_3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_alignTop="@id/layout_total_price"/>
+            android:layout_alignTop="@id/layout_total_price" />
 
         <LinearLayout
             android:id="@+id/layout_total_price"
@@ -93,9 +104,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:padding="16dp"
             android:background="@color/white"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"

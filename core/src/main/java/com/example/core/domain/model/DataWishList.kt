@@ -13,5 +13,10 @@ data class DataWishList(
     var image: String = "",
     var productRating: Double = 0.0,
     var sale: Int = 0,
-    var store: String = ""
+    var store: String = "",
+    var userId: String = "",
+    var variant: String = "",
+    var stock: Int = 0,
+    var wishlistId: Int = 0,
+    var wishlist: Boolean = false
 ): Parcelable

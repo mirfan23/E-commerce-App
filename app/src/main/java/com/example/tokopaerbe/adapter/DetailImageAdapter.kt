@@ -1,13 +1,13 @@
 package com.example.tokopaerbe.adapter
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.tokopaerbe.databinding.ImageContainerDetailBinding
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
-class DetailAdapter(private val imageList: List<String>) : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
+class DetailImageAdapter(private val imageList: List<String>) : RecyclerView.Adapter<DetailImageAdapter.DetailViewHolder>() {
     inner class DetailViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding: ImageContainerDetailBinding = ImageContainerDetailBinding.bind(itemView)
 

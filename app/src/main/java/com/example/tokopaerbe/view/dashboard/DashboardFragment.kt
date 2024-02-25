@@ -65,7 +65,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewMo
                     /**
                      * nanti dipake lagi
                      */
-//                    findNavController().navigate(R.id.action_dashboardFragment_to_detailFragment)
+                    findNavController().navigate(R.id.action_dashboardFragment_to_paymentFragment)
 
                     true
                 }
